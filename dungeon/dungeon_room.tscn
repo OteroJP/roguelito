@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cojufkmft2yab"]
+
+[ext_resource type="Texture2D" uid="uid://bgrfbby3npnja" path="res://dungeon/dungeon_bk.jpg" id="1_uaakf"]
+[ext_resource type="Script" uid="uid://cbn4dyjkx3di8" path="res://dungeon/character_body_2d.gd" id="2_b6sqi"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u316g"]
+radius = 40.0
+height = 120.0
+
+[node name="DungeonRoom" type="Node2D" unique_id=1410852599]
+
+[node name="DungeonBk" type="Sprite2D" parent="." unique_id=248478251]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_uaakf")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=330094688]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1723109934]
+position = Vector2(0, 120)
+script = ExtResource("2_b6sqi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=963284013]
+shape = SubResource("CapsuleShape2D_u316g")
+debug_color = Color(0.95299643, 0, 0.3086719, 0.5803922)
