@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c6a2ffow874yf"]
 
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
-[ext_resource type="PackedScene" uid="uid://0y7udeiiin3i" path="res://ui/card/Card.tscn" id="2_dqr18"]
+[ext_resource type="PackedScene" uid="uid://0y7udeiiin3i" path="res://ui/card_manager/card/Card.tscn" id="2_dqr18"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_u316g"]
 viewport_path = NodePath("SubViewport")
@@ -47,22 +47,22 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer" unique_id=2029723552]
+[node name="HandManager" type="HBoxContainer" parent="HBoxContainer/HBoxContainer" unique_id=2029723552]
 layout_mode = 2
 
-[node name="Card1" parent="HBoxContainer/HBoxContainer/PanelContainer" unique_id=1032387873 instance=ExtResource("2_dqr18")]
+[node name="Card1" parent="HBoxContainer/HBoxContainer/HandManager" unique_id=1032387873 instance=ExtResource("2_dqr18")]
 layout_mode = 2
 
-[node name="Card2" parent="HBoxContainer/HBoxContainer/PanelContainer" unique_id=1357568317 instance=ExtResource("2_dqr18")]
+[node name="Card2" parent="HBoxContainer/HBoxContainer/HandManager" unique_id=1357568317 instance=ExtResource("2_dqr18")]
 layout_mode = 2
 
-[node name="Card3" parent="HBoxContainer/HBoxContainer/PanelContainer" unique_id=1642214391 instance=ExtResource("2_dqr18")]
+[node name="Card3" parent="HBoxContainer/HBoxContainer/HandManager" unique_id=1642214391 instance=ExtResource("2_dqr18")]
 layout_mode = 2
 
-[node name="Card4" parent="HBoxContainer/HBoxContainer/PanelContainer" unique_id=1857090190 instance=ExtResource("2_dqr18")]
+[node name="Card4" parent="HBoxContainer/HBoxContainer/HandManager" unique_id=1857090190 instance=ExtResource("2_dqr18")]
 layout_mode = 2
 
-[node name="Card5" parent="HBoxContainer/HBoxContainer/PanelContainer" unique_id=1378438520 instance=ExtResource("2_dqr18")]
+[node name="Card5" parent="HBoxContainer/HBoxContainer/HandManager" unique_id=1378438520 instance=ExtResource("2_dqr18")]
 layout_mode = 2
 
 [node name="Discard" type="PanelContainer" parent="HBoxContainer/HBoxContainer" unique_id=1389179764]
