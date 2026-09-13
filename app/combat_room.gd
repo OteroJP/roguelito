@@ -19,14 +19,14 @@ func start_combat() -> void:
 		_prepare_end_conditions(),
 		_prepare_phases(),	
 	)
-	while _combat_loop.should_continue():
-		await _combat_loop.run()
+	await _combat_loop.run()
 	
 
 func _prepare_combat() -> void:
 	print("Preparing hero, decks and villain")
 	# get and store the hero 
 	# get and store the villain
+	
 
 
 func _prepare_end_conditions() -> Array[EndCondition]:

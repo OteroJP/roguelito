@@ -1,13 +1,14 @@
 [gd_scene format=3 uid="uid://c6a2ffow874yf"]
 
+[ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://app/combat_room.gd" id="1_06s8x"]
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
-[ext_resource type="PackedScene" uid="uid://0y7udeiiin3i" path="res://ui/card_manager/card/card.tscn" id="2_dqr18"]
+[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/card.tscn" id="2_dqr18"]
 [ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://ui/card_manager.gd" id="2_loxbi"]
 [ext_resource type="Script" uid="uid://n2nbk85mswiu" path="res://ui/deck_manager.gd" id="3_fc3ap"]
 [ext_resource type="Script" uid="uid://bsubx4gjfyxsp" path="res://ui/hand_manager.gd" id="3_t6oic"]
 [ext_resource type="Script" uid="uid://ce1heoychms85" path="res://ui/discard_manager.gd" id="5_h17sc"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_u316g"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
 viewport_path = NodePath("SubViewport")
 
 [node name="Cotnrol" type="Control" unique_id=489232660]
@@ -17,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_06s8x")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=684047473]
 size = Vector2i(1152, 648)
@@ -30,7 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("ViewportTexture_u316g")
+texture = SubResource("ViewportTexture_fc3ap")
 
 [node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=2087657242]
 layout_mode = 1
@@ -44,6 +46,9 @@ grow_vertical = 2
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="PlayingArea" type="MarginContainer" parent="HBoxContainer/Panel" unique_id=855611166]
+layout_mode = 2
 
 [node name="CardManager" type="HBoxContainer" parent="HBoxContainer" unique_id=555773421]
 unique_name_in_owner = true

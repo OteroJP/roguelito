@@ -9,7 +9,7 @@ class_name CardManager extends HBoxContainer
 
 # TODO
 
-func prepare(new_deck: Deck) -> void:
+#func prepare(new_deck: Deck) -> void:
 	
 
 

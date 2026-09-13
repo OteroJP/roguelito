@@ -1,4 +1,4 @@
-class_name CharacterState
+@abstract class_name CharacterState
 extends Resource
 
 var character_name: String
@@ -14,3 +14,7 @@ func _init(_blueprint: CharacterBlueprint) -> void:
 	deck = _blueprint.starting_deck
 	max_health = _blueprint.max_health
 	
+
+
+
+@abstract func create_node() -> Node

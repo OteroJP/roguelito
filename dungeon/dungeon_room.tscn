@@ -22,3 +22,7 @@ script = ExtResource("2_b6sqi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=963284013]
 shape = SubResource("CapsuleShape2D_u316g")
 debug_color = Color(0.95299643, 0, 0.3086719, 0.5803922)
+
+[node name="Label" type="Label" parent="CharacterBody2D" unique_id=370115097]
+offset_right = 40.0
+offset_bottom = 23.0
