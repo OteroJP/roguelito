@@ -26,10 +26,12 @@ theme_override_constants/separation = 0
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Header" unique_id=1714850761]
-custom_minimum_size = Vector2(10, 20)
+custom_minimum_size = Vector2(9, 20)
 layout_mode = 2
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Header" unique_id=1485757824]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(83, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0559491, 0.0559491, 0.055949084, 1)
 theme_override_font_sizes/font_size = 12
@@ -40,12 +42,17 @@ horizontal_alignment = 2
 layout_mode = 2
 
 [node name="Ilustration" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=91382263]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 
 [node name="Type" type="PanelContainer" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=1136416741]
 layout_mode = 2
 
-[node name="EffectText" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1306354511]
+[node name="EffectBackGround" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1306354511]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="Effect" type="RichTextLabel" parent="MarginContainer/VBoxContainer/EffectBackGround" unique_id=2048058424]
+unique_name_in_owner = true
+layout_mode = 2

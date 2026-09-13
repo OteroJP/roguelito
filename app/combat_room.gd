@@ -1,22 +1,21 @@
 class_name CombatRoom extends Node
 
-var _hero
-var _villian
-var _combat_loop
+@export var hero: Resource #: HeroCharacter
+@export var villain: Resource #: VillainCharacter
 
-func _init(
-	villan,
-	hero
-) -> void:
-	_villian = villan
-	_hero = hero
+var _combat_loop: CombatLoop
+
+@onready var _card_manager: CardManager = %CardManager
 
 
 func _ready() -> void:
-	_prepare_combat()
+	_prepare_combat() #await?
+	await start_combat()
+	
+	
+	
+func start_combat() -> void:
 	_combat_loop = CombatLoop.new(
-		_hero,
-		_villian,
 		_prepare_end_conditions(),
 		_prepare_phases(),	
 	)
@@ -26,16 +25,21 @@ func _ready() -> void:
 
 func _prepare_combat() -> void:
 	print("Preparing hero, decks and villain")
+	# get and store the hero 
+	# get and store the villain
 
 
 func _prepare_end_conditions() -> Array[EndCondition]:
-	return []
+	return [
+		VillainDefeated.new(villain),
+		HeroeDefeated.new(hero)
+	]
 	#end_conditions
 	
 	
-func _prepare_phases() -> Array[Loop]:
+func _prepare_phases() -> Array[LoopPhase]:
 	return [
-		UpkeepLoop.new(_villian, _hero),
-		PlayerTurn.new(_villian, _hero),
-		CardsResolution.new(_villian, _hero)
+		UpkeepLoop.new(villain, hero),
+		PlayerTurn.new(villain, hero),
+		#Resolution.new()
 		]

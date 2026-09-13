@@ -1,12 +1,12 @@
-class_name VillianDefeated extends EndCondition
+class_name VillainDefeated extends EndCondition
 
-var _villian
+var _villain
 
 
-func _init(villian_health) -> void:
-	_villian = villian_health
+func _init(villain) -> void:
+	_villain = villain
 
 
 func was_satisfied() -> bool:
 	satisfied.emit(self)
-	return true
+	return true #_villain.health <= 0

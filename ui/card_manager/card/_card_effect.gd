@@ -14,6 +14,7 @@ func _on_discard():
 	pass
 
 
+
 #DamageEffect
 #extends CardEffect
 #var damage: int
