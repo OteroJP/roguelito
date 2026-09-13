@@ -14,6 +14,10 @@ config/name="Roguelito"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameManager="*uid://pq6w8aw27i4k"
+
 [display]
 
 window/stretch/mode="canvas_items"

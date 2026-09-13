@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DamageEffect" format=3 uid="uid://drvksd4uj05kg"]
+
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://ui/card_manager/card/card_effects/damage_effect.gd" id="1_0kah0"]
+
+[resource]
+script = ExtResource("1_0kah0")
+metadata/_custom_type_script = "uid://bdmeoqu23atu8"

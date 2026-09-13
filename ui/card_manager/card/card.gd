@@ -1,15 +1,17 @@
 class_name Card
 extends PanelContainer
 
-signal card_clicked(data: CardData)
+signal card_clicked(card: Card)
 
 const CARD_SCENE: PackedScene = preload("uid://0y7udeiiin3i")
 
 var _data: CardData
-
-@onready var art_frame: TextureRect = %Ilustration
-@onready var name_tag: Label = %Title
-@onready var effect_box: RichTextLabel = %Effect
+@onready var _art_frame: TextureRect = %Ilustration
+@onready var _name_tag: Label = %Title
+@onready var _effect_label: Label = %Effect
+var _bonus_effect_label: Label
+var _symbol_finish: TextureRect
+var _symbol_start: TextureRect
 
 
 static func new_card(data: CardData) -> Card:
@@ -22,8 +24,10 @@ func select_card() -> CardData:
 	return _data
 
 
-func _setup(data: CardData) -> void:
-	_data = data
-	art_frame.texture = data.art
-	name_tag.text = data.name
-	effect_box.text = data.effects_text()
+func _gui_input(event: InputEvent) -> void:
+	if (
+		event is InputEventMouseButton
+	and event.button_index == MOUSE_BUTTON_LEFT
+	and event.is_released()
+	):
+		card_clicked.emit(select_card())

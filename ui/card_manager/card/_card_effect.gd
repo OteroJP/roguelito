@@ -1,16 +1,23 @@
 @abstract class_name CardEffect
 extends Resource
 
-enum Target { NONE, SELF, ENEMY, BOTH, CARD}
+#this is unsuitable to then resolve the actual target
+#split between different subclasses of card effects
+#then ask for class
+enum Target { NONE, VILLAIN, HERO, BOTH, CARD}
 @export var _target: CardEffect.Target
+var character_target: Character
+var card_target: Card
 
-func _on_play():
+func on_play():
 	pass
 
-func _on_resolve():
+
+func on_resolve():
 	pass
 
-func _on_discard():
+
+func on_discard():
 	pass
 
 

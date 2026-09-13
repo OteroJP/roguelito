@@ -1,11 +1,13 @@
-@abstract class_name CardData
+class_name CardData
 extends Resource
 
 
 @export var name: String
+@export_multiline() var effect_text: String
 @export var art: Texture2D
-@export var effect: Array[CardEffect]
-@export var effect_bonus: Array[CardEffect]
+@export var speed: int
+@export var effects: Array[CardEffect]
+@export var bonus_effects: Array[CardEffect]
 
 
 func effects_text() -> String:
