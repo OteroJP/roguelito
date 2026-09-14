@@ -4,8 +4,8 @@ signal all_cards_resolved
 
 var villain: Character
 var hero: Character
-var current_villain_card: Card
-var current_hero_card: Card
+var current_villain_card: CardData
+var current_hero_card: CardData
 var card_resolve_queue: Array[Card]
 
 func _resolve_clash() -> void:
@@ -20,8 +20,8 @@ func _resolve_clash() -> void:
 	all_cards_resolved.emit()
 	
 
-func _sort_cards_by_fastest(card_a: Card, card_b: Card) -> Array[Card]:
-	return [card_a, card_b] if card_a._data.speed > card_b._data.speed else [card_b, card_a]
+func _sort_cards_by_fastest(card_a: CardData, card_b: CardData) -> Array[Card]:
+	return [card_a, card_b] if card_a.speed > card_b.speed else [card_b, card_a]
 
 
 func _resolve_card_effect(effect: CardEffect) -> void:
