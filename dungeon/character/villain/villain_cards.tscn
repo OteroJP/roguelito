@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://cs4gqthniprqk"]
+
+[ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://ui/villain_cards_ui.gd" id="1_bkb4w"]
+[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/card.tscn" id="4_s34mj"]
+
+[node name="VillainCards" type="HBoxContainer" unique_id=1026675182]
+size_flags_horizontal = 3
+script = ExtResource("1_bkb4w")
+
+[node name="DeckContainer" type="MarginContainer" parent="." unique_id=1072764019]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 14
+
+[node name="Deck" type="Label" parent="DeckContainer" unique_id=2138611550]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "6/9"
+
+[node name="HandContainer" type="MarginContainer" parent="." unique_id=718987366]
+custom_minimum_size = Vector2(515, 0)
+layout_mode = 2
+
+[node name="Hand" type="HBoxContainer" parent="HandContainer" unique_id=1578849557]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Card1" parent="HandContainer/Hand" unique_id=1032387873 instance=ExtResource("4_s34mj")]
+layout_mode = 2
+
+[node name="Card2" parent="HandContainer/Hand" unique_id=312660260 instance=ExtResource("4_s34mj")]
+layout_mode = 2
+
+[node name="Card3" parent="HandContainer/Hand" unique_id=1085564551 instance=ExtResource("4_s34mj")]
+visible = false
+layout_mode = 2
+
+[node name="Card4" parent="HandContainer/Hand" unique_id=1593011489 instance=ExtResource("4_s34mj")]
+visible = false
+layout_mode = 2
+
+[node name="Card5" parent="HandContainer/Hand" unique_id=1821203540 instance=ExtResource("4_s34mj")]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="HandContainer" unique_id=1591163742]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -100)
+
+[node name="ConfirmButton" type="Button" parent="HandContainer/Buttons" unique_id=2048344342]
+visible = false
+layout_mode = 2
+text = "CONFIRM"
+
+[node name="CancelButton" type="Button" parent="HandContainer/Buttons" unique_id=1006503502]
+visible = false
+custom_minimum_size = Vector2(82, 0)
+layout_mode = 2
+text = "CANCEL
+"
+
+[node name="DiscardContainer" type="MarginContainer" parent="." unique_id=4977308]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Discard" type="SpinBox" parent="DiscardContainer" unique_id=1792366139]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+suffix = "cards"

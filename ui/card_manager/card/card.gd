@@ -3,7 +3,7 @@ extends PanelContainer
 
 signal card_clicked(card: Card)
 
-const CARD_SCENE: PackedScene = preload("uid://0y7udeiiin3i")
+const CARD_SCENE: PackedScene = preload("uid://ce3fqp227u3vc")
 
 var _data: CardData
 @onready var _art_frame: TextureRect = %Ilustration
@@ -17,6 +17,7 @@ var _symbol_start: TextureRect
 static func new_card(data: CardData) -> Card:
 	var card: Card = CARD_SCENE.instantiate()
 	card._setup(data)
+	card.set_process_input(false)
 	return card
 	
 
@@ -31,3 +32,7 @@ func _gui_input(event: InputEvent) -> void:
 	and event.is_released()
 	):
 		card_clicked.emit(select_card())
+
+
+func match_data(data: CardData) -> bool:
+	return _data == data

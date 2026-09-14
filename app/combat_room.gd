@@ -1,17 +1,21 @@
 class_name CombatRoom extends Node
 
-@export var hero: Resource #: HeroCharacter
-@export var villain: Resource #: VillainCharacter
+@export var villain: Villain 	# Capaz va character aca
+@export var hero: Hero 			# Capaz va character aca
 
 var _combat_loop: CombatLoop
 
-@onready var _card_manager: CardManager = %CardManager
-
+@onready var villain_container: MarginContainer = %InteractiveContainer
 
 func _ready() -> void:
 	_prepare_combat() #await?
-	await start_combat()
 	
+	#Add villain node
+	villain_container.add_child(villain.create_node())
+	
+	#TODO Add heor node
+	
+	await start_combat()
 	
 	
 func start_combat() -> void:
@@ -20,6 +24,7 @@ func start_combat() -> void:
 		_prepare_phases(),	
 	)
 	await _combat_loop.run()
+	_end_combat()
 	
 
 func _prepare_combat() -> void:
@@ -29,9 +34,13 @@ func _prepare_combat() -> void:
 
 
 func _prepare_end_conditions() -> Array[EndCondition]:
+	var villain_defeated = CharacterDefeated.new(villain)
+	var hero_defeated = CharacterDefeated.new(hero)
+	villain_defeated.satisfied.connect(print.bind("Player lost"))
+	villain_defeated.satisfied.connect(print.bind("Hero defeated!"))
 	return [
-		VillainDefeated.new(villain),
-		HeroeDefeated.new(hero)
+		villain_defeated,
+		hero_defeated
 	]
 	#end_conditions
 	
@@ -39,6 +48,10 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 func _prepare_phases() -> Array[LoopPhase]:
 	return [
 		UpkeepLoop.new(villain, hero),
-		PlayerTurn.new(villain, hero),
-		#Resolution.new()
+		PlayerTurn.new(villain),
+		Resolution.new()
 		]
+
+
+func _end_combat() -> void:
+	pass

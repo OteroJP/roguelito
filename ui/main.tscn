@@ -2,11 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://app/combat_room.gd" id="1_06s8x"]
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
-[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/Card.tscn" id="2_dqr18"]
-[ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://ui/card_manager.gd" id="2_loxbi"]
-[ext_resource type="Script" uid="uid://n2nbk85mswiu" path="res://ui/deck_manager.gd" id="3_fc3ap"]
-[ext_resource type="Script" uid="uid://bsubx4gjfyxsp" path="res://ui/hand_manager.gd" id="3_t6oic"]
-[ext_resource type="Script" uid="uid://ce1heoychms85" path="res://ui/discard_manager.gd" id="5_h17sc"]
+[ext_resource type="PackedScene" uid="uid://cs4gqthniprqk" path="res://dungeon/character/villain/villain_cards.tscn" id="3_loxbi"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
 viewport_path = NodePath("SubViewport")
@@ -48,53 +44,16 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="PlayingArea" type="MarginContainer" parent="HBoxContainer/Panel" unique_id=855611166]
+custom_minimum_size = Vector2(180, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="InteractiveContainer" type="MarginContainer" parent="HBoxContainer" unique_id=1834258728]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
 
-[node name="CardManager" type="HBoxContainer" parent="HBoxContainer" unique_id=555773421]
+[node name="CardManager" parent="HBoxContainer/InteractiveContainer" unique_id=1026675182 instance=ExtResource("3_loxbi")]
 unique_name_in_owner = true
 layout_mode = 2
-script = ExtResource("2_loxbi")
-
-[node name="Deck" type="PanelContainer" parent="HBoxContainer/CardManager" unique_id=345718543]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("3_fc3ap")
-
-[node name="Display" type="Label" parent="HBoxContainer/CardManager/Deck" unique_id=876921940]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "6/9"
-
-[node name="Hand" type="HBoxContainer" parent="HBoxContainer/CardManager" unique_id=2029723552]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("3_t6oic")
-
-[node name="Card1" parent="HBoxContainer/CardManager/Hand" unique_id=1032387873 instance=ExtResource("2_dqr18")]
-layout_mode = 2
-
-[node name="Card2" parent="HBoxContainer/CardManager/Hand" unique_id=1357568317 instance=ExtResource("2_dqr18")]
-layout_mode = 2
-
-[node name="Card3" parent="HBoxContainer/CardManager/Hand" unique_id=1642214391 instance=ExtResource("2_dqr18")]
-layout_mode = 2
-
-[node name="Card4" parent="HBoxContainer/CardManager/Hand" unique_id=1857090190 instance=ExtResource("2_dqr18")]
-layout_mode = 2
-
-[node name="Card5" parent="HBoxContainer/CardManager/Hand" unique_id=1378438520 instance=ExtResource("2_dqr18")]
-layout_mode = 2
-
-[node name="Discard" type="PanelContainer" parent="HBoxContainer/CardManager" unique_id=1389179764]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("5_h17sc")
-
-[node name="Counter" type="SpinBox" parent="HBoxContainer/CardManager/Discard" unique_id=1108006283]
-layout_mode = 2
-size_flags_horizontal = 8
-suffix = "cards"

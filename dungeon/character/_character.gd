@@ -3,8 +3,6 @@ extends Resource
 
 @export var character_name: String
 @export var deck: Deck
-@export var discard: Array[CardData]
-@export var hand: Array[CardData]
 @export var max_health: int
 @export var health: int
 

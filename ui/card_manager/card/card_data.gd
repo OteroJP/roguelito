@@ -1,6 +1,7 @@
 class_name CardData
 extends Resource
 
+signal resolved
 
 @export var name: String
 @export_multiline() var effect_text: String
@@ -12,6 +13,6 @@ extends Resource
 
 func effects_text() -> String:
 	var text: String = ""
-	for card_effect in effect:
+	for card_effect in effects:
 		text += card_effect.text() + "\n"
 	return text.strip_edges()

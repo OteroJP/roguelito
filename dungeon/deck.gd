@@ -1,79 +1,120 @@
 class_name Deck
 extends Resource
 
-signal card_drawn(card: CardData)
-
-@export var card_set: Array[CardData] = []
-@export var side_deck: Array[CardData] = []
+signal deck_shuffle(deck_size: int)
+signal cards_moved()
 
 
-var _current_deck: Array[CardData] = []
-var _sorted_cards: Array[CardData] = []
+@export var card_set: Dictionary[CardData, int] = {}
+@export var side_deck: Dictionary[CardData, int] = {}
+@export_range(1,20,1) var max_hand_size: int = 1
+@export_range(0,20,1) var initial_hand_size: int = 1
+
+@export_group("Runtime variables")
+@export var _deck: Array[CardData] = []
+@export var _hand: Array[CardData] = []
+@export var _playing_area: Array[CardData] = []
+@export var _discard_pile: Array[CardData] = []
 
 
-func shuffle_deck() -> void:
-	if _current_deck.is_empty():
-		_current_deck = card_set.duplicate() #shallow copy
-	_sorted_cards = _current_deck
-	_sorted_cards.shuffle() #without controled seed
+
+func prepare() -> void:		
+	_deck.clear()
+	_discard_pile.clear()
+	_hand.clear()
+	for card: CardData in card_set:
+		for copy: int in card_set[card]:
+			_deck.append(card.duplicate(true))
+	_deck.shuffle() #without controled seed
+	for ix in initial_hand_size:
+		_hand.append(_deck.pop_front())
 
 
-func shuffle_in_deck(extra_cards: Array[CardData]) -> void:
-	if extra_cards.all(_is_in_deck):
-		_sorted_cards.append_array(extra_cards)
-		_sorted_cards.shuffle() #without controled seed
+func reshuffle() -> void:
+	add_to_deck(_discard_pile)
+	_discard_pile.clear()
+	_deck.shuffle()
+	cards_moved.emit()
 
 
 func may_draw(amount: int) -> bool:
-	return _sorted_cards.size() > amount
-
-
-func get_from_top(amount: int) -> Array[CardData]:
-	assert(amount > cards_left(), "Draw attempt of %d cards from deck with %d" % [amount, cards_left()])
-	var card: CardData = _sorted_cards.pop_front()
-	card_drawn.emit(card)
-	return card
+	return _deck.size() > amount
 
 
 func draw() -> CardData:
-	assert(_sorted_cards.size() > 0, "Draw attempt on empty deck")
-	var card: CardData = _sorted_cards.pop_front()
-	card_drawn.emit(card)
+	assert(_deck.size() > 0, "Draw attempt on empty _deck")
+	var card: CardData = _deck.pop_front()
+	_hand.append(card)
+	cards_moved.emit()
 	return card
 	
 
+func play(card: CardData) -> void:
+	if card in _hand:
+		_hand.erase(card)
+		_playing_area.append(card)
+		card.resolved.connect(resolve)
+		cards_moved.emit()
+	
+
+func resolve(card: CardData) -> void:
+	if card in _playing_area:
+		card.resolved.disconnect(resolve)
+		_playing_area.erase(card)
+		_discard_pile.append(card)
+		cards_moved.emit()
+
+
+func discard(card: CardData) -> void:
+	if card in _hand:
+		_hand.erase(card)
+		_discard_pile.append(card)
+		cards_moved.emit()
+
+
 func size() -> int:
-	return _current_deck.size()
+	return (
+		_discard_pile.size()
+		+ _hand.size() 
+		+ _deck.size()  
+		)
 
 
-func cards_left() -> int:
-	return _sorted_cards.size()
+func cards_in_deck() -> int:
+	return _deck.size()
 
 
-func display() -> Array[CardData]:
-	return _sorted_cards.duplicate()
+func cards_in_hand() -> int:
+	return _hand.size()
 
 
-func put_on_top(extra_cards: Array[CardData]) -> void:
-	if extra_cards.all(_is_in_deck):
-		extra_cards.append_array(_sorted_cards)
-		_sorted_cards = extra_cards
+func cards_in_discard() -> int:
+	return _discard_pile.size()
+
+
+func display_deck() -> Array[CardData]:
+	return _deck.duplicate(false)
+
+
+func display_hand() -> Array[CardData]:
+	return _hand.duplicate(false)
+
+
+func display_discard_pile() -> Array[CardData]:
+	return _hand.duplicate(false)
+
+
+func put_on_top_deck(extra_cards: Array[CardData]) -> void:
+	extra_cards.append_array(_deck)
+	_deck = extra_cards
 	
 	
-func put_on_bottom(extra_cards: Array[CardData]) -> void:	
-	if extra_cards.all(_is_in_deck):
-		_sorted_cards.append_array(extra_cards)	
+func put_on_bottom_deck(extra_cards: Array[CardData]) -> void:	
+	_deck.append_array(extra_cards)	
 
 
 func add_to_deck(extra_cards: Array[CardData]) -> void:
 	for card: CardData in extra_cards:
-		_current_deck.append(card)
-	shuffle_deck()
-	
-
-func take_card(card: CardData) -> void:
-	return _sorted_cards.erase(card)
-
-
-func _is_in_deck(card: CardData) -> bool:
-	return _current_deck.has(card)
+		_deck.append(card)
+	_deck.shuffle()
+	deck_shuffle.emit(_deck.size())

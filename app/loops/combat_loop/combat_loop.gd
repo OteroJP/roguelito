@@ -27,6 +27,7 @@ func run() -> void:
 	
 
 func _should_end() -> bool:
+	#TODO run report
 	var was_satisfied: Callable = (
 		func(condition: EndCondition): 
 			return condition.was_satisfied()
