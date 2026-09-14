@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://app/combat_room.gd" id="1_06s8x"]
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
-[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/card.tscn" id="2_dqr18"]
+[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/Card.tscn" id="2_dqr18"]
 [ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://ui/card_manager.gd" id="2_loxbi"]
 [ext_resource type="Script" uid="uid://n2nbk85mswiu" path="res://ui/deck_manager.gd" id="3_fc3ap"]
 [ext_resource type="Script" uid="uid://bsubx4gjfyxsp" path="res://ui/hand_manager.gd" id="3_t6oic"]
@@ -11,7 +11,7 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
 viewport_path = NodePath("SubViewport")
 
-[node name="Cotnrol" type="Control" unique_id=489232660]
+[node name="Control" type="Control" unique_id=489232660]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

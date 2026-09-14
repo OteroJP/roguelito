@@ -26,7 +26,6 @@ func _prepare_combat() -> void:
 	print("Preparing hero, decks and villain")
 	# get and store the hero 
 	# get and store the villain
-	
 
 
 func _prepare_end_conditions() -> Array[EndCondition]:
