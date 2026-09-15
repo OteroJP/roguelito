@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Deck" format=3 uid="uid://buuedavgylgmr"]
+
+[ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://ui/card_manager/card/card_data.gd" id="1_dpej3"]
+[ext_resource type="Resource" uid="uid://dws4xsanocot4" path="res://ui/card_manager/card/card_library/villain/villain_damage_3.tres" id="2_vs4gk"]
+[ext_resource type="Script" uid="uid://ba84e8ikj4p01" path="res://dungeon/deck.gd" id="3_wd1rs"]
+
+[resource]
+script = ExtResource("3_wd1rs")
+card_set = Dictionary[ExtResource("1_dpej3"), int]({
+ExtResource("2_vs4gk"): 6
+})
+max_hand_size = 6
+initial_hand_size = 3
+metadata/_custom_type_script = "uid://ba84e8ikj4p01"

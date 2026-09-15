@@ -1,6 +1,8 @@
 @abstract class_name Character
 extends Resource
 
+signal character_stats_changed
+
 @export var character_name: String
 @export var deck: Deck
 @export var max_health: int
@@ -17,3 +19,4 @@ extends Resource
 
 func take_damage(damage: int) -> void:
 	health -= damage
+	character_stats_changed.emit()

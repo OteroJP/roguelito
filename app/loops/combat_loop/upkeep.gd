@@ -12,7 +12,7 @@ func _init(
 
 	
 func run() -> void:
-	await _hero.get_ready() # Hero shows stance
+	#await _hero.get_ready() # Hero shows stance
 	await _hero.play_card() # Hero shows play intent of its card
 	await _villain.draw() # villaino roba 1 carta 
 	if _have_loop_ended.call():

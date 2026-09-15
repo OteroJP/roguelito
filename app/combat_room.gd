@@ -6,13 +6,14 @@ class_name CombatRoom extends Node
 var _combat_loop: CombatLoop
 
 @onready var villain_container: MarginContainer = %InteractiveContainer
+@onready var dungeon: Node2D = %DungeonRoom
 
 func _ready() -> void:
 	_prepare_combat() #await?
 	
 	#Add villain node
 	villain_container.add_child(villain.create_node())
-	
+	dungeon.add_child(hero.create_node())
 	#TODO Add heor node
 	
 	await start_combat()
@@ -47,7 +48,7 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 	
 func _prepare_phases() -> Array[LoopPhase]:
 	return [
-		UpkeepLoop.new(villain, hero),
+		UpkeepLoop.new(hero, villain),
 		PlayerTurn.new(villain),
 		Resolution.new()
 		]

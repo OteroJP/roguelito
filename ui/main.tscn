@@ -2,7 +2,25 @@
 
 [ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://app/combat_room.gd" id="1_06s8x"]
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
+[ext_resource type="Resource" uid="uid://buuedavgylgmr" path="res://dungeon/character/villain/villain_deck.tres" id="2_06s8x"]
+[ext_resource type="Script" uid="uid://c4teak7vu6pqs" path="res://dungeon/character/villain/villain.gd" id="3_04ebt"]
 [ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/card.tscn" id="3_loxbi"]
+[ext_resource type="Resource" uid="uid://bd76ry0mpjv76" path="res://dungeon/character/villain/hero_deck.tres" id="4_ar4ev"]
+[ext_resource type="Script" uid="uid://boop60gqxkjeu" path="res://dungeon/character/hero/hero.gd" id="5_7nk2m"]
+
+[sub_resource type="Resource" id="Resource_loxbi"]
+script = ExtResource("3_04ebt")
+deck = ExtResource("2_06s8x")
+max_health = 40
+health = 30
+metadata/_custom_type_script = "uid://c4teak7vu6pqs"
+
+[sub_resource type="Resource" id="Resource_t6oic"]
+script = ExtResource("5_7nk2m")
+deck = ExtResource("4_ar4ev")
+max_health = 5
+health = 3
+metadata/_custom_type_script = "uid://boop60gqxkjeu"
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
 viewport_path = NodePath("SubViewport")
@@ -15,11 +33,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_06s8x")
+villain = SubResource("Resource_loxbi")
+hero = SubResource("Resource_t6oic")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=684047473]
 size = Vector2i(1152, 648)
 
 [node name="DungeonRoom" parent="SubViewport" unique_id=1410852599 instance=ExtResource("1_r3wx3")]
+unique_name_in_owner = true
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1721460229]
 layout_mode = 1

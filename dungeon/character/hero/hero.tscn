@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://dsakfrfgkdj8u"]
 
-[ext_resource type="Script" uid="uid://dyl7ojhkdl43a" path="res://dungeon/hero/hero_visuals.gd" id="1_fc2uq"]
+[ext_resource type="Script" uid="uid://dyl7ojhkdl43a" path="res://dungeon/character/hero/hero_visuals.gd" id="1_fc2uq"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_ffd3t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nghp0"]
+radius = 82.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjok8"]
 
@@ -12,6 +15,8 @@ bg_color = Color(0.99664944, 0.34226042, 0.32453904, 1)
 script = ExtResource("1_fc2uq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=191043933]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_nghp0")
 
 [node name="Art" type="Sprite2D" parent="." unique_id=2021261964]
 unique_name_in_owner = true
