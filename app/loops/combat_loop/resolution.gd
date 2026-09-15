@@ -1,32 +1,46 @@
 class_name Resolution extends LoopPhase
 
+var _control_node: Control
+
+
+func init(playing_area_container: Control) -> void:
+	_control_node = playing_area_container
+
 
 func run() -> void:
 	# Show Hero card
+	var hero_card: Card = Card.new_card(GameManager.current_hero_card)
+	hero_card.offset_transform_enabled = true
+	hero_card.offset_transform_visual_only = true
+	hero_card.offset_transform_rotation = PI
+	_control_node.add_child(hero_card)
+	await _control_node.get_tree().process_frame 
+	
+	var villain_card: Card = Card.new_card(GameManager.current_villain_card)
+	_control_node.add_child(villain_card)
+	await _control_node.get_tree().process_frame 
+	
 	# check stance and other condicionals.
 	# check pc cards condicionales.
 	# Compare cards speed and execute in order.
-	await prepare_phase()
+	await GameManager.sort_cards()
+	await _control_node.get_tree().process_frame 
+	
 	# Execute faster card. 
 	# WIN-LOSS CHECK
-	await execute_faster_card()
+	await GameManager.execute_faster_card()
 	# Execute slower card. 
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
-	await execute_slower_card()
+		
+	await GameManager.execute_slower_card()
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
 	
-	# Discards cards, if there is more than hand_limit (6) it must discard hand_size - hand_limit.
-
-
-func prepare_phase() -> void:
-	await create_timer(1).timeout
+	await GameManager.end_phase()
+	for child: Control in _control_node.get_children():
+		child.queue_free()
+	await _control_node.get_tree().process_frame 
+	_control_node.hide()
 	
-
-func execute_faster_card() -> void:
-	await get_tree().create_timer(1).timeout
-
-
-func execute_slower_card() -> void:
-	await get_tree().create_timer(1).timeout
+	#TODO Discards cards, if there is more than hand_limit (6) it must discard hand_size - hand_limit.

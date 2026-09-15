@@ -1,11 +1,11 @@
 class_name UpkeepLoop extends LoopPhase
 	
-var _hero
-var _villain
+var _hero: Hero
+var _villain: Villain
 
 func _init(
-	villain_character, 
-	hero_character
+	hero_character: Hero,
+	villain_character: Villain
 	) -> void:
 	_hero = hero_character
 	_villain = villain_character

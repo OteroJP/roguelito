@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://app/combat_room.gd" id="1_06s8x"]
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
-[ext_resource type="PackedScene" uid="uid://cs4gqthniprqk" path="res://dungeon/character/villain/villain_cards.tscn" id="3_loxbi"]
+[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/card.tscn" id="3_loxbi"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
 viewport_path = NodePath("SubViewport")
@@ -43,17 +43,21 @@ self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PlayingArea" type="MarginContainer" parent="HBoxContainer/Panel" unique_id=855611166]
+[node name="PlayingArea" type="VBoxContainer" parent="HBoxContainer/Panel" unique_id=1076703880]
 custom_minimum_size = Vector2(180, 300)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
+[node name="Card2" parent="HBoxContainer/Panel/PlayingArea" unique_id=1032387873 instance=ExtResource("3_loxbi")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_rotation = 3.1415927
+
+[node name="Card3" parent="HBoxContainer/Panel/PlayingArea" unique_id=1174546503 instance=ExtResource("3_loxbi")]
+layout_mode = 2
+
 [node name="InteractiveContainer" type="MarginContainer" parent="HBoxContainer" unique_id=1834258728]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 140)
-layout_mode = 2
-
-[node name="CardManager" parent="HBoxContainer/InteractiveContainer" unique_id=1026675182 instance=ExtResource("3_loxbi")]
-unique_name_in_owner = true
 layout_mode = 2
