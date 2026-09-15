@@ -9,16 +9,22 @@ signal played_card_anim_finished
 
 var _hero: Hero
 
+
+func _ready() -> void:
+	name_label.text = _hero.character_name
+	life_bar.max_value = _hero.max_health
+	life_bar.value = _hero.health
+	
+
 func setup(hero: Hero) -> HeroVisuals:
-	name_label.text = hero.character_name
-	life_bar.max_value = hero.max_health
-	life_bar.value = hero.health
 	_hero = hero
+	_hero.character_stats_changed.connect(update)
 	return self
 
 
 func play_card():
 	_shake_sprite()
+	await get_tree().process_frame 
 	played_card_anim_finished.emit()
 
 

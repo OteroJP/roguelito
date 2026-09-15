@@ -12,8 +12,11 @@ func _ready() -> void:
 	_prepare_combat() #await?
 	
 	#Add villain node
+	villain.prepare_deck()
+	hero.prepare_deck()
 	villain_container.add_child(villain.create_node())
 	dungeon.add_child(hero.create_node())
+	
 	#TODO Add heor node
 	
 	await start_combat()
@@ -47,11 +50,10 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 	
 	
 func _prepare_phases() -> Array[LoopPhase]:
-	return [
-		UpkeepLoop.new(hero, villain),
-		PlayerTurn.new(villain),
-		Resolution.new()
+	var phases: Array[LoopPhase] = [
+		UpkeepLoop.new(hero, villain),PlayerTurn.new(villain),Resolution.new()
 		]
+	return phases
 
 
 func _end_combat() -> void:

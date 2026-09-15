@@ -8,7 +8,7 @@ const CARD_SCENE: PackedScene = preload("uid://ce3fqp227u3vc")
 var _data: CardData
 @onready var _art_frame: TextureRect = %Ilustration
 @onready var _name_tag: Label = %Title
-@onready var _effect_label: Label = %Effect
+@onready var _effect_label: RichTextLabel = %Effect
 var _bonus_effect_label: Label
 var _symbol_finish: TextureRect
 var _symbol_start: TextureRect

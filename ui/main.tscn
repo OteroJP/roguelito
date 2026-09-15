@@ -71,11 +71,13 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Card2" parent="HBoxContainer/Panel/PlayingArea" unique_id=1032387873 instance=ExtResource("3_loxbi")]
+visible = false
 layout_mode = 2
 offset_transform_enabled = true
 offset_transform_rotation = 3.1415927
 
 [node name="Card3" parent="HBoxContainer/Panel/PlayingArea" unique_id=1174546503 instance=ExtResource("3_loxbi")]
+visible = false
 layout_mode = 2
 
 [node name="InteractiveContainer" type="MarginContainer" parent="HBoxContainer" unique_id=1834258728]

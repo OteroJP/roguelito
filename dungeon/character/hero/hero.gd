@@ -9,7 +9,6 @@ const HERO_SCENE: PackedScene = preload("uid://dsakfrfgkdj8u")
 func create_node() -> HeroVisuals:
 	var hero_visuals: HeroVisuals = HERO_SCENE.instantiate() as HeroVisuals
 	_hero_visuals = hero_visuals.setup(self)
-	character_stats_changed.connect(_hero_visuals.update)
 	return _hero_visuals
 
 
@@ -22,6 +21,7 @@ func play_card() -> void:
 	_hero_visuals.play_card()
 	#await _hero_visuals.get_tree().process_frame 
 	await _hero_visuals.played_card_anim_finished
+	pass
 
 
 #TODO? Implement stance selection -> actually, it goes after card resolution

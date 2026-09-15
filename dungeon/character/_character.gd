@@ -17,6 +17,10 @@ signal character_stats_changed
 @abstract func play_card() -> void
 
 
+func prepare_deck() -> void:
+	deck.prepare()
+
+
 func take_damage(damage: int) -> void:
 	health -= damage
 	character_stats_changed.emit()

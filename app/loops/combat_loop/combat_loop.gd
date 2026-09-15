@@ -9,9 +9,13 @@ func _init(
 	end_loop_triggers,
 	loop_phases,
 	) -> void:
-		assert(phases.size()>0 and end_conditions.size()>0
-		, "There should be at least a [CombatPhase] and an [EndCondition]"
+		assert(loop_phases.size()>0
+		, "There should be at least a [CombatPhase]"
 		)
+		assert(end_loop_triggers.size()>0
+		, "There should be at least a [EndCondition]"
+		)
+		 
 		end_conditions = end_loop_triggers
 		phases = loop_phases
 		_current_phase = -1
@@ -23,8 +27,11 @@ func run() -> void:
 	while not _should_end():
 		_current_phase = _current_phase + 1 % phases.size()
 		var phase = phases[_current_phase]
+		print("next phase is starting ", phase.get_script().get_global_name()," ",
+		phases.map(func(x): return x.get_script().get_global_name())
+		)
 		await phase.run()
-	
+	print("While loop ended")
 
 func _should_end() -> bool:
 	#TODO run report
