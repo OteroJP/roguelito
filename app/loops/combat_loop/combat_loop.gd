@@ -25,7 +25,7 @@ func _init(
 
 func run() -> void:
 	while not _should_end():
-		_current_phase = _current_phase + 1 % phases.size()
+		_current_phase = (_current_phase + 1) % phases.size()
 		var phase = phases[_current_phase]
 		print("next phase is starting ", phase.get_script().get_global_name())
 		await phase.run()

@@ -1,7 +1,7 @@
 class_name CardData
 extends Resource
 
-signal resolved
+signal resolved(card: CardData)
 
 @export var name: String
 @export_multiline() var effect_text: String

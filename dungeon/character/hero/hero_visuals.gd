@@ -24,7 +24,7 @@ func setup(hero: Hero) -> HeroVisuals:
 
 func play_card():
 	_shake_sprite()
-	await get_tree().process_frame 
+	await get_tree().create_timer(GameManager.ux_delay).timeout 
 	played_card_anim_finished.emit()
 
 
@@ -42,6 +42,7 @@ func update() -> void:
 func change_stance(card: CardData) -> void:
 	#TODO esto hay que reverlo
 	await get_tree().process_frame 
+
 
 func _shake_sprite() -> void:
 	var original_position: Vector2 = art.position

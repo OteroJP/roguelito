@@ -14,15 +14,18 @@ var _chosen_card: CardData
 @onready var _Discard: SpinBox = %Discard
 @onready var _ConfirmButton: Button = %ConfirmButton
 @onready var _CancelButton: Button = %CancelButton
+@onready var _LifeBar: ProgressBar = %Life
 
+var _villain: Villain
 
 func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
 
 
-func prepare(new_deck: Deck) -> void:
+func prepare(new_deck: Deck, villain: Villain) -> void:
 	_deck = new_deck
 	_deck.cards_moved.connect(_update_counters)
+	_villain = villain
 
 #TODO revisar esto
 func add_to_hand(cards: Array[CardData]) -> void:
@@ -36,10 +39,10 @@ func add_to_hand(cards: Array[CardData]) -> void:
 		card.offset_transform_visual_only = true
 		card_nodes.append(card) 	#TODO: think a zero-copy, statically typed solution bypassing current GDScript limitations
 	
-	await get_tree().process_frame # Wait until the HBoxContainer has arranged its children.
+	await get_tree().create_timer(GameManager.ux_delay).timeout # Wait until the HBoxContainer has arranged its children.
 	var animated_translation: Tween = _translation_tween(card_nodes)
 	await animated_translation.finished
-
+	
 #
 func choose_card() -> CardData:
 	print("Choosing card")
@@ -67,8 +70,10 @@ func remove_from_hand(card_data: CardData) -> void:
 
 func _update_counters() -> void:
 	#TODO animacion de como sube el numero y otras visuales
-	_Discard.range.value  = _deck.cards_in_discard()
-	_Deck.text = "%d / %d" % [_deck.cards_in_deck(), _deck.size()]
+	_Discard.value  = _deck.cards_in_discard()
+	_Deck.text = "%d / %d" % [_deck.cards_in_card_pile(), _deck.size()]
+	_LifeBar.value = _villain.health
+	_LifeBar.max_value = _villain.max_health
 	# update deck label
 
 

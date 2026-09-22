@@ -2,11 +2,13 @@ class_name CombatRoom extends Node
 
 @export var villain: Villain 	# Capaz va character aca
 @export var hero: Hero 			# Capaz va character aca
+@export var ux_delay: float = 0.5
 
 var _combat_loop: CombatLoop
 
 @onready var villain_container: MarginContainer = %InteractiveContainer
 @onready var dungeon: Node2D = %DungeonRoom
+@onready var playing_area: VBoxContainer = %PlayingArea
 
 func _ready() -> void:
 	_prepare_room()
@@ -28,6 +30,9 @@ func _prepare_room() -> void:
 		_prepare_end_conditions(),
 		_prepare_phases(),	
 	)
+	GameManager.hero = hero
+	GameManager.villain = villain
+	GameManager.ux_delay = ux_delay
 
 
 func _end_combat() -> void:
@@ -50,6 +55,6 @@ func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
 		UpkeepLoop.new(hero, villain),
 		PlayerTurn.new(villain),
-		Resolution.new()
+		Resolution.new(playing_area)
 		]
 	return phases

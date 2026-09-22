@@ -2,13 +2,15 @@ class_name Resolution extends LoopPhase
 
 var _control_node: Control
 
-
-func init(playing_area_container: Control) -> void:
+func _init(
+	playing_area_container: Control
+	) -> void:
 	_control_node = playing_area_container
-
+	
 
 func run() -> void:
 	# Show Hero card
+	_control_node.show()
 	var hero_card: Card = Card.new_card(GameManager.current_hero_card)
 	hero_card.offset_transform_enabled = true
 	hero_card.offset_transform_visual_only = true

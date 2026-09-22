@@ -9,6 +9,6 @@ script = ExtResource("3_wd1rs")
 card_set = Dictionary[ExtResource("1_dpej3"), int]({
 ExtResource("2_vs4gk"): 6
 })
-max_hand_size = 6
 initial_hand_size = 3
+max_hand_size = 6
 metadata/_custom_type_script = "uid://ba84e8ikj4p01"

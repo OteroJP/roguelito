@@ -10,15 +10,16 @@
 
 [sub_resource type="Resource" id="Resource_loxbi"]
 script = ExtResource("3_04ebt")
-max_health = 40
-health = 30
+character_name = null
+max_health = 10
+health = 10
 deck = ExtResource("2_06s8x")
 metadata/_custom_type_script = "uid://c4teak7vu6pqs"
 
 [sub_resource type="Resource" id="Resource_t6oic"]
 script = ExtResource("5_7nk2m")
-max_health = 5
-health = 3
+max_health = 20
+health = 20
 deck = ExtResource("4_ar4ev")
 metadata/_custom_type_script = "uid://boop60gqxkjeu"
 
@@ -65,6 +66,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="PlayingArea" type="VBoxContainer" parent="HBoxContainer/Panel" unique_id=1076703880]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 300)
 layout_mode = 2
 size_flags_horizontal = 4

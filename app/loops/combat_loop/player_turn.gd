@@ -1,7 +1,7 @@
 class_name PlayerTurn extends LoopPhase
 
 
-var _villain
+var _villain: Villain
 
 
 func _init(

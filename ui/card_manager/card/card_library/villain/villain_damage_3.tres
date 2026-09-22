@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://ui/card_manager/card/card_data.gd" id="2_0xud8"]
 [ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://ui/card_manager/card/card_effects/damage_effect.gd" id="2_f454k"]
 
-[sub_resource type="Resource" id="Resource_usfpx"]
+[sub_resource type="Resource" id="Resource_f454k"]
 script = ExtResource("2_f454k")
 damage = 3
 _target = 2
@@ -14,5 +14,5 @@ metadata/_custom_type_script = "uid://bdmeoqu23atu8"
 script = ExtResource("2_0xud8")
 name = "Damage 3"
 effect_text = "Deal 3 damage to hero."
-effect = Array[ExtResource("1_imfa5")]([SubResource("Resource_usfpx")])
+effects = Array[ExtResource("1_imfa5")]([SubResource("Resource_f454k")])
 metadata/_custom_type_script = "uid://7h66ml10ba7k"

@@ -32,5 +32,5 @@ func play_card() -> void:
 
 #TODO? Implement stance selection -> actually, it goes after card resolution
 #func get_ready() -> void:
-#	await get_tree().process_frame 
+#	await get_tree().create_timer(GameManager.ux_delay).timeout 
 #	pass

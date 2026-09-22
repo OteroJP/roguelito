@@ -8,13 +8,16 @@ var _VillainCardsUI: VillainCardsUI
 ## structure is awaiting for this method:
 func prepare() -> VillainCardsUI:
 	deck.prepare()
-	_VillainCardsUI = VILLAIN_CARDS.instantiate() as VillainCardsUI	
+	_VillainCardsUI = VILLAIN_CARDS.instantiate() as VillainCardsUI
+	_VillainCardsUI.prepare(deck, self)
+	character_stats_changed.connect(_VillainCardsUI._update_counters)
 	return _VillainCardsUI
 	
 	
 func play_card() -> void: #CardData
 	var card: CardData = await _VillainCardsUI.choose_card()
 	deck.play(card)
+	await _VillainCardsUI.remove_from_hand(card)
 	GameManager.current_villain_card = card #return card
 
 
@@ -26,11 +29,6 @@ func draw() -> void:
 	await _VillainCardsUI.add_to_hand([card_data])
 
 	
-	
 func show_hand() -> void:
 	#TESTING
 	await _VillainCardsUI.add_to_hand(deck.display_hand())
-	
-	
-	
-	

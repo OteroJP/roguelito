@@ -2,21 +2,40 @@
 
 [ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://ui/villain_cards_ui.gd" id="1_bkb4w"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_japx7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htno0"]
+bg_color = Color(0.2503098, 0.0004813075, 0.71974313, 1)
+
 [node name="VillainCards" type="HBoxContainer" unique_id=1026675182]
 size_flags_horizontal = 3
 script = ExtResource("1_bkb4w")
 
-[node name="DeckContainer" type="MarginContainer" parent="." unique_id=1072764019]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1214368987]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeckContainer" type="MarginContainer" parent="VBoxContainer" unique_id=1072764019]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 14
 
-[node name="Deck" type="Label" parent="DeckContainer" unique_id=2138611550]
+[node name="Deck" type="Label" parent="VBoxContainer/DeckContainer" unique_id=2138611550]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 28
 text = "6/9"
+horizontal_alignment = 1
+
+[node name="Life" type="ProgressBar" parent="VBoxContainer" unique_id=356820469]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_styles/background = SubResource("StyleBoxFlat_japx7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_htno0")
+show_percentage = false
 
 [node name="HandContainer" type="MarginContainer" parent="." unique_id=718987366]
 custom_minimum_size = Vector2(515, 0)

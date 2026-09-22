@@ -39,7 +39,7 @@ func reshuffle() -> void:
 
 
 func may_draw(amount: int) -> bool:
-	return _card_pile.size() > amount
+	return _card_pile.size() >= amount
 
 
 func draw() -> CardData:
@@ -68,6 +68,7 @@ func resolve(card: CardData) -> void:
 		card.resolved.disconnect(resolve)
 		_playing_area.erase(card)
 		_discard_pile.append(card)
+		
 		cards_moved.emit()
 
 
@@ -81,6 +82,7 @@ func discard(card: CardData) -> void:
 func size() -> int:
 	return (
 		_discard_pile.size()
+		+ _playing_area.size()
 		+ _hand.size() 
 		+ _card_pile.size()  
 		)

@@ -6,8 +6,10 @@ extends Resource
 #then ask for class
 enum Target { NONE, VILLAIN, HERO, BOTH, CARD}
 @export var _target: CardEffect.Target
+@export_multiline() var effect_text: String = "Lorem ipsum"
 var character_target: Character
 var card_target: Card
+
 
 func on_play():
 	pass
@@ -20,6 +22,9 @@ func on_resolve():
 func on_discard():
 	pass
 
+
+func text() -> String:
+	return effect_text
 
 
 #DamageEffect
