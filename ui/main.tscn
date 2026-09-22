@@ -10,16 +10,16 @@
 
 [sub_resource type="Resource" id="Resource_loxbi"]
 script = ExtResource("3_04ebt")
-deck = ExtResource("2_06s8x")
 max_health = 40
 health = 30
+deck = ExtResource("2_06s8x")
 metadata/_custom_type_script = "uid://c4teak7vu6pqs"
 
 [sub_resource type="Resource" id="Resource_t6oic"]
 script = ExtResource("5_7nk2m")
-deck = ExtResource("4_ar4ev")
 max_health = 5
 health = 3
+deck = ExtResource("4_ar4ev")
 metadata/_custom_type_script = "uid://boop60gqxkjeu"
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]

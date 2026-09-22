@@ -12,6 +12,10 @@ func _init(
 	
 func run() -> void:
 	print("player turn started")
+	await _villain.draw()
+	print("villain drawn")
+	if _have_loop_ended.call():
+		return
 	# Opcional: Before choosing card: spend mana for casting spell.
 	# TODO: Esto de abajo comentado lo implementaremos en otro sprint 
 	#await _villain.activate_ability() 
@@ -22,4 +26,4 @@ func run() -> void:
 	# On card play, check for symbol match:
 		# Add symbols to completed symbols box
 		# Symbol effect resolution (inmediatamente uno de 3 efectos genéricos).
-	phase_ended.emit()	
+	#phase_ended.emit()	

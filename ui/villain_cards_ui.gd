@@ -10,7 +10,7 @@ var _chosen_card: CardData
 @onready var _DiscardContainer: MarginContainer = %DiscardContainer
 
 @onready var _Deck: Label = %Deck
-@onready var _Hand: HBoxContainer = $Hand
+@onready var _Hand: HBoxContainer = %Hand
 @onready var _Discard: SpinBox = %Discard
 @onready var _ConfirmButton: Button = %ConfirmButton
 @onready var _CancelButton: Button = %CancelButton
@@ -30,7 +30,8 @@ func add_to_hand(cards: Array[CardData]) -> void:
 
 	for data: CardData in cards:
 		var card: Card = Card.new_card(data)
-		_Hand.add_child(card)
+		if _Hand:
+			_Hand.add_child(card)
 		card.offset_transform_enabled = true
 		card.offset_transform_visual_only = true
 		card_nodes.append(card) 	#TODO: think a zero-copy, statically typed solution bypassing current GDScript limitations
@@ -41,9 +42,10 @@ func add_to_hand(cards: Array[CardData]) -> void:
 
 #
 func choose_card() -> CardData:
+	print("Choosing card")
 	_set_hand_interactable(true)
 	await _ConfirmButton.pressed
-	var card_selected: CardData= _chosen_card
+	var card_selected: CardData = _chosen_card
 	_cancel_selection()
 	_set_hand_interactable(false)
 	return card_selected

@@ -4,21 +4,16 @@ extends Resource
 signal character_stats_changed
 
 @export var character_name: String
-@export var deck: Deck
 @export var max_health: int
 @export var health: int
+@export var deck: Deck
 
 
-@abstract func create_node() -> Node
+@abstract func prepare() -> Node
 
-
-## Implement as a coroutine because the combat loop
-## structure is awaiting for this method
 @abstract func play_card() -> void
 
-
-func prepare_deck() -> void:
-	deck.prepare()
+@abstract func draw() -> void
 
 
 func take_damage(damage: int) -> void:

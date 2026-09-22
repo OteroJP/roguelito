@@ -1,6 +1,6 @@
 @abstract class_name LoopPhase extends RefCounted
 
-signal phase_ended
+#signal phase_ended
 
 var _have_loop_ended: Callable
 

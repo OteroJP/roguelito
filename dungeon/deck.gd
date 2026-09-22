@@ -6,12 +6,12 @@ signal cards_moved()
 
 
 @export var card_set: Dictionary[CardData, int] = {}
-@export var side_deck: Dictionary[CardData, int] = {}
+@export var side_card_pile: Dictionary[CardData, int] = {}
+@export_range(0,20,1) var initial_hand_size: int = 0
 @export_range(1,20,1) var max_hand_size: int = 1
-@export_range(0,20,1) var initial_hand_size: int = 1
 
 @export_group("Runtime variables")
-@export var _deck: Array[CardData] = []
+@export var _card_pile: Array[CardData] = []
 @export var _hand: Array[CardData] = []
 @export var _playing_area: Array[CardData] = []
 @export var _discard_pile: Array[CardData] = []
@@ -19,35 +19,41 @@ signal cards_moved()
 
 
 func prepare() -> void:		
-	_deck.clear()
+	_card_pile.clear()
 	_discard_pile.clear()
 	_hand.clear()
 	for card: CardData in card_set:
+		print("card: ", card)
 		for copy: int in card_set[card]:
-			_deck.append(card.duplicate(true))
-	_deck.shuffle() #without controled seed
+			_card_pile.append(card.duplicate(true))
+	_card_pile.shuffle() #without controled seed
 	for ix in initial_hand_size:
-		_hand.append(_deck.pop_front())
+		_hand.append(_card_pile.pop_front())
 
 
 func reshuffle() -> void:
-	add_to_deck(_discard_pile)
+	add_to_card_pile(_discard_pile)
 	_discard_pile.clear()
-	_deck.shuffle()
+	_card_pile.shuffle()
 	cards_moved.emit()
 
 
 func may_draw(amount: int) -> bool:
-	return _deck.size() > amount
+	return _card_pile.size() > amount
 
 
 func draw() -> CardData:
-	assert(_deck.size() > 0, "Draw attempt on empty _deck")
-	var card: CardData = _deck.pop_front()
+	assert(_card_pile.size() > 0, "Draw attempt on empty _card_pile")
+	var card: CardData = _card_pile.pop_front()
 	_hand.append(card)
 	cards_moved.emit()
 	return card
-	
+
+
+func pick_random_card() -> CardData:
+	assert(_hand.size() > 0, "Draw attempt on empty _card_pile")
+	return _hand.pick_random()
+
 
 func play(card: CardData) -> void:
 	if card in _hand:
@@ -76,12 +82,12 @@ func size() -> int:
 	return (
 		_discard_pile.size()
 		+ _hand.size() 
-		+ _deck.size()  
+		+ _card_pile.size()  
 		)
 
 
-func cards_in_deck() -> int:
-	return _deck.size()
+func cards_in_card_pile() -> int:
+	return _card_pile.size()
 
 
 func cards_in_hand() -> int:
@@ -92,8 +98,8 @@ func cards_in_discard() -> int:
 	return _discard_pile.size()
 
 
-func display_deck() -> Array[CardData]:
-	return _deck.duplicate(false)
+func display_card_pile() -> Array[CardData]:
+	return _card_pile.duplicate(false)
 
 
 func display_hand() -> Array[CardData]:
@@ -104,17 +110,17 @@ func display_discard_pile() -> Array[CardData]:
 	return _hand.duplicate(false)
 
 
-func put_on_top_deck(extra_cards: Array[CardData]) -> void:
-	extra_cards.append_array(_deck)
-	_deck = extra_cards
+func put_on_top_card_pile(extra_cards: Array[CardData]) -> void:
+	extra_cards.append_array(_card_pile)
+	_card_pile = extra_cards
 	
 	
-func put_on_bottom_deck(extra_cards: Array[CardData]) -> void:	
-	_deck.append_array(extra_cards)	
+func put_on_bottom_card_pile(extra_cards: Array[CardData]) -> void:	
+	_card_pile.append_array(extra_cards)	
 
 
-func add_to_deck(extra_cards: Array[CardData]) -> void:
+func add_to_card_pile(extra_cards: Array[CardData]) -> void:
 	for card: CardData in extra_cards:
-		_deck.append(card)
-	_deck.shuffle()
-	deck_shuffle.emit(_deck.size())
+		_card_pile.append(card)
+	_card_pile.shuffle()
+	deck_shuffle.emit(_card_pile.size())

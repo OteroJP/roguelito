@@ -13,14 +13,11 @@ func _init(
 	
 func run() -> void:
 	print("upkeep started")
-	#await _hero.get_ready() # Hero shows stance
+	await _hero.draw() # Hero shows stance
 	print("hero playing card")
 	await _hero.play_card() # Hero shows play intent of its card
-	print("villain drawing")
-	await _villain.draw() # villaino roba 1 carta 
 	if _have_loop_ended.call():
 		return
-	phase_ended.emit()
-	# Si no le quedan cartas, pierde 1 de vida, mezcla su descarte en un nuevo mazo y roba.
 	# on_upkeep effects.
+	#phase_ended.emit()
 	

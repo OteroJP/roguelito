@@ -9,32 +9,30 @@ var _combat_loop: CombatLoop
 @onready var dungeon: Node2D = %DungeonRoom
 
 func _ready() -> void:
-	_prepare_combat() #await?
-	
-	#Add villain node
-	villain.prepare_deck()
-	hero.prepare_deck()
-	villain_container.add_child(villain.create_node())
-	dungeon.add_child(hero.create_node())
-	
-	#TODO Add heor node
-	
+	_prepare_room()
 	await start_combat()
 	
 	
 func start_combat() -> void:
-	_combat_loop = CombatLoop.new(
-		_prepare_end_conditions(),
-		_prepare_phases(),	
-	)
+	#TBD initial combat animations
+	await villain.show_hand()
 	await _combat_loop.run()
 	_end_combat()
 	
 
-func _prepare_combat() -> void:
+func _prepare_room() -> void:
 	print("Preparing hero, decks and villain")
-	# get and store the hero 
-	# get and store the villain
+	villain_container.add_child(villain.prepare())
+	dungeon.add_child(hero.prepare())
+	_combat_loop = CombatLoop.new(
+		_prepare_end_conditions(),
+		_prepare_phases(),	
+	)
+
+
+func _end_combat() -> void:
+	# TBD
+	pass
 
 
 func _prepare_end_conditions() -> Array[EndCondition]:
@@ -46,15 +44,12 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 		villain_defeated,
 		hero_defeated
 	]
-	#end_conditions
 	
 	
 func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
-		UpkeepLoop.new(hero, villain),PlayerTurn.new(villain),Resolution.new()
+		UpkeepLoop.new(hero, villain),
+		PlayerTurn.new(villain),
+		Resolution.new()
 		]
 	return phases
-
-
-func _end_combat() -> void:
-	pass

@@ -39,6 +39,10 @@ func update() -> void:
 	#life_bar.value = _hero.health
 
 
+func change_stance(card: CardData) -> void:
+	#TODO esto hay que reverlo
+	await get_tree().process_frame 
+
 func _shake_sprite() -> void:
 	var original_position: Vector2 = art.position
 	var tween: Tween = create_tween().set_parallel(false)

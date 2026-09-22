@@ -42,5 +42,6 @@ func run() -> void:
 		child.queue_free()
 	await _control_node.get_tree().process_frame 
 	_control_node.hide()
+
 	
 	#TODO Discards cards, if there is more than hand_limit (6) it must discard hand_size - hand_limit.

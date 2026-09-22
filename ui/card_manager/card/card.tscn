@@ -2,8 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dj7q4ijsy01wc" path="res://ui/card_manager/card/card.gd" id="1_pbwxm"]
 
-[node name="Control" type="PanelContainer" unique_id=1032387873]
+[node name="Control" type="PanelContainer" unique_id=386368749]
 custom_minimum_size = Vector2(100, 140)
+propagate_maximum_size = false
+offset_right = 100.0
+offset_bottom = 140.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_pbwxm")
@@ -15,7 +18,8 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer" unique_id=1052783]
+[node name="CardBack" type="ColorRect" parent="MarginContainer" unique_id=1052783]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1824602944]
@@ -56,3 +60,6 @@ size_flags_vertical = 3
 [node name="Effect" type="RichTextLabel" parent="MarginContainer/VBoxContainer/EffectBackGround" unique_id=2048058424]
 unique_name_in_owner = true
 layout_mode = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

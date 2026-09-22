@@ -27,14 +27,13 @@ func run() -> void:
 	while not _should_end():
 		_current_phase = _current_phase + 1 % phases.size()
 		var phase = phases[_current_phase]
-		print("next phase is starting ", phase.get_script().get_global_name()," ",
-		phases.map(func(x): return x.get_script().get_global_name())
-		)
+		print("next phase is starting ", phase.get_script().get_global_name())
 		await phase.run()
-	print("While loop ended")
+	print("Combat loop ended")
+
 
 func _should_end() -> bool:
-	#TODO run report
+	#TBD run report
 	var was_satisfied: Callable = (
 		func(condition: EndCondition): 
 			return condition.was_satisfied()
