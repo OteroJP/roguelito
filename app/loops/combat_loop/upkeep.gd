@@ -15,7 +15,7 @@ func run() -> void:
 	print("upkeep started")
 	await _hero.draw() # Hero shows stance
 	print("hero playing card")
-	await _hero.play_card() # Hero shows play intent of its card
+	await _hero.play_card() # Hero picks random card to play
 	if _have_loop_ended.call():
 		return
 	# on_upkeep effects.

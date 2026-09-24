@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HealHero" format=3 uid="uid://blmn662tuwjor"]
+
+[ext_resource type="Script" uid="uid://dsn81nnd0sen4" path="res://ui/card_manager/card/card_effects/heal_hero.gd" id="1_vi0f4"]
+
+[resource]
+script = ExtResource("1_vi0f4")
+metadata/_custom_type_script = "uid://dsn81nnd0sen4"

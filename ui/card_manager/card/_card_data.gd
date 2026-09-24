@@ -1,4 +1,4 @@
-class_name CardData
+@abstract class_name CardData
 extends Resource
 
 signal resolved(card: CardData)
@@ -16,3 +16,15 @@ func effects_text() -> String:
 	for card_effect in effects:
 		text += card_effect.text() + "\n"
 	return text.strip_edges()
+
+
+@abstract func on_play(villain: Villain, hero: Hero)
+
+
+@abstract func on_clash(villain: Villain, hero: Hero)
+
+
+@abstract func after_clash(villain: Villain, hero: Hero)
+
+
+@abstract func on_discard(villain: Villain, hero: Hero)

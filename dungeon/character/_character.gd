@@ -19,3 +19,8 @@ signal character_stats_changed
 func take_damage(damage: int) -> void:
 	health -= damage
 	character_stats_changed.emit()
+	
+	
+func heal(amount_to_heal: int) -> void:
+	health += amount_to_heal
+	character_stats_changed.emit()

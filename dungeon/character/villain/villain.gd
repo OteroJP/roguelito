@@ -1,7 +1,16 @@
 class_name Villain extends Character
 
+enum Symbol { NONE, SKULL, OMEGA, HEART }
+
 const VILLAIN_CARDS: PackedScene = preload("uid://cs4gqthniprqk")
+
+var current_symbol: Symbol
 var _VillainCardsUI: VillainCardsUI
+
+@export var mana: int
+@export var max_mana: int
+@export var second_phase_min: int
+@export var second_phase_max: int
 
 
 ## Implement as a coroutine because the combat loop
@@ -18,7 +27,7 @@ func play_card() -> void: #CardData
 	var card: CardData = await _VillainCardsUI.choose_card()
 	deck.play(card)
 	await _VillainCardsUI.remove_from_hand(card)
-	GameManager.current_villain_card = card #return card
+	await GameManager.play_villain_card(card)
 
 
 func draw() -> void:
@@ -32,3 +41,23 @@ func draw() -> void:
 func show_hand() -> void:
 	#TESTING
 	await _VillainCardsUI.add_to_hand(deck.display_hand())
+	
+	
+func activate_ability() -> void:
+	pass
+	
+
+func matches_current_symbol(symbol_to_match: Symbol) -> bool:
+	return true if symbol_to_match == current_symbol else false	
+
+	
+func change_symbol(new_symbol: Symbol) -> void:
+	current_symbol = new_symbol
+
+
+func resolve_symbol_bonus() -> void:
+	pass
+	
+
+func is_in_second_phase() -> bool:
+	return true if (health >= second_phase_min and health <= second_phase_max) else false

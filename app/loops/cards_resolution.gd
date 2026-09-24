@@ -1,4 +1,4 @@
-class_name  CardsResolution extends Loop
+class_name CardsResolution extends Loop
 
 	
 func _init(

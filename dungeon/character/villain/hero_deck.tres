@@ -1,12 +1,16 @@
 [gd_resource type="Resource" script_class="Deck" format=3 uid="uid://bd76ry0mpjv76"]
 
-[ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://ui/card_manager/card/card_data.gd" id="1_rh3kn"]
+[ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://ui/card_manager/card/_card_data.gd" id="1_wapdo"]
 [ext_resource type="Script" uid="uid://ba84e8ikj4p01" path="res://dungeon/deck.gd" id="2_1jeib"]
-[ext_resource type="Resource" uid="uid://2edhimbie4rg" path="res://ui/card_manager/card/card_library/hero/hero_damage_1.tres" id="2_05xs2"]
+[ext_resource type="Resource" uid="uid://cser6pcumtd74" path="res://ui/card_manager/card/card_library/hero/dmg_then_heal_if_atk.tres" id="2_pabrw"]
+[ext_resource type="Resource" uid="uid://thfxe6u0a741" path="res://ui/card_manager/card/card_library/hero/dmg_then_heal_if_def.tres" id="3_twe6g"]
+[ext_resource type="Resource" uid="uid://dfd4s4wpmxtd" path="res://ui/card_manager/card/card_library/hero/dmg_then_heal_if_upg.tres" id="4_xevnd"]
 
 [resource]
 script = ExtResource("2_1jeib")
-card_set = Dictionary[ExtResource("1_rh3kn"), int]({
-ExtResource("2_05xs2"): 3
+card_set = Dictionary[ExtResource("1_wapdo"), int]({
+ExtResource("2_pabrw"): 1,
+ExtResource("3_twe6g"): 1,
+ExtResource("4_xevnd"): 1
 })
 metadata/_custom_type_script = "uid://ba84e8ikj4p01"

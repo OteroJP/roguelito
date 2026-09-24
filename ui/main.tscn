@@ -10,7 +10,10 @@
 
 [sub_resource type="Resource" id="Resource_loxbi"]
 script = ExtResource("3_04ebt")
-character_name = null
+mana = 2
+max_mana = 2
+second_phase_min = 1
+second_phase_max = 5
 max_health = 10
 health = 10
 deck = ExtResource("2_06s8x")

@@ -1,11 +1,9 @@
 extends Node
 
-signal all_cards_resolved
-
-var villain: Character
-var hero: Character
-var current_villain_card: CardData
-var current_hero_card: CardData
+var villain: Villain
+var hero: Hero
+var current_villain_card: VillainCardData
+var current_hero_card: HeroCardData
 var card_resolve_queue: Array[CardData]
 var ux_delay: float
 
@@ -14,21 +12,31 @@ func sort_cards() -> void:
 	card_resolve_queue = _sort_cards_by_fastest(current_hero_card, current_villain_card)	
 	
 
+func play_villain_card(card: VillainCardData) -> void:
+	current_villain_card = card
+	card.on_play(villain, hero)
+	await get_tree().create_timer(GameManager.ux_delay).timeout
+
+
+func play_hero_card(card: HeroCardData) -> void:
+	current_hero_card = card
+	card.on_play(villain, hero)
+	await get_tree().create_timer(GameManager.ux_delay).timeout
+
+
 func execute_faster_card() -> void:
-	for effect in card_resolve_queue[0].effects:
-		_resolve_card_effect(effect) #await 
+	card_resolve_queue[0].on_clash(villain, hero)
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
 func execute_slower_card() -> void:
-	for effect in card_resolve_queue[1].effects:
-		_resolve_card_effect(effect) #await
+	card_resolve_queue[1].on_clash(villain, hero)
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	
 	
 func end_phase() -> void:
 	for card in card_resolve_queue:
-		card.resolved.emit(card)
+		card.after_clash(villain, hero)
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
@@ -39,25 +47,3 @@ func _sort_cards_by_fastest(card_a: CardData, card_b: CardData) -> Array[CardDat
 	else:
 		sorted_cards = [card_b, card_a]
 	return sorted_cards
-
-
-func _resolve_card_effect(effect: CardEffect) -> void:
-	var effect_to_resolve: CardEffect = effect.duplicate(true)
-	match effect_to_resolve._target:
-		CardEffect.Target.VILLAIN:
-			effect_to_resolve.character_target = villain
-		CardEffect.Target.HERO:
-			effect_to_resolve.character_target = hero
-		CardEffect.Target.NONE:
-			#TODO
-			pass
-		CardEffect.Target.BOTH:
-			#TODO
-			pass
-		CardEffect.Target.CARD:
-			#TODO
-			pass
-		_:
-			#TODO
-			pass
-	effect_to_resolve.on_resolve()

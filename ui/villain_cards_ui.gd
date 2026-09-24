@@ -8,6 +8,7 @@ var _chosen_card: CardData
 @onready var _DeckContainer: MarginContainer = %DeckContainer
 @onready var _HandContainer: MarginContainer = %HandContainer
 @onready var _DiscardContainer: MarginContainer = %DiscardContainer
+@onready var _AbilitiesContainer: HBoxContainer = %Abilities
 
 @onready var _Deck: Label = %Deck
 @onready var _Hand: HBoxContainer = %Hand
@@ -15,6 +16,7 @@ var _chosen_card: CardData
 @onready var _ConfirmButton: Button = %ConfirmButton
 @onready var _CancelButton: Button = %CancelButton
 @onready var _LifeBar: ProgressBar = %Life
+@onready var _ManaBar: ProgressBar = %Mana
 
 var _villain: Villain
 
@@ -54,6 +56,14 @@ func choose_card() -> CardData:
 	return card_selected
 
 
+func activate_abilities() -> void:
+	print("Activating abilities")
+	_set_abilities_interactable(true)
+	await _ConfirmButton.pressed
+	_set_abilities_interactable(false)
+
+
+
 #TODO revisar esto
 func remove_from_hand(card_data: CardData) -> void:
 	#TODO animaciones sonidos y todo eso
@@ -71,9 +81,11 @@ func remove_from_hand(card_data: CardData) -> void:
 func _update_counters() -> void:
 	#TODO animacion de como sube el numero y otras visuales
 	_Discard.value  = _deck.cards_in_discard()
-	_Deck.text = "%d / %d" % [_deck.cards_in_card_pile(), _deck.size()]
+	_Deck.text = "%d / %d cards" % [_deck.cards_in_card_pile(), _deck.size()]
 	_LifeBar.value = _villain.health
 	_LifeBar.max_value = _villain.max_health
+	_ManaBar.value = _villain.mana
+	_ManaBar.max_value = _villain.max_mana
 	# update deck label
 
 
@@ -83,6 +95,11 @@ func _find_card_in_hand(data: CardData) -> Card:
 			return card_node.match_data(data)
 	)
 	return _Hand.get_children().get(card_ix)
+
+
+func _set_abilities_interactable(enabled: bool) -> void:
+	for button: Button in _AbilitiesContainer.get_children():
+		button.set_process_input(enabled)
 
 
 func _set_hand_interactable(enabled: bool) -> void:

@@ -2,18 +2,30 @@ class_name HeroVisuals
 extends Area2D
 
 signal played_card_anim_finished
+signal stance_changed
 
 @onready var name_label: Label = %Name
 @onready var art: Sprite2D = %Art
+@onready var armor_bar: ProgressBar = %ArmorBar
 @onready var life_bar: ProgressBar = %LifeBar
 
 var _hero: Hero
+
+var stance_library: Dictionary[Hero.Stance, Texture2D] = {
+	Hero.Stance.NONE: preload("uid://4q335xxs2p"),
+	Hero.Stance.ATTACK: preload("uid://dk7fn6p2sy1xp"),
+	Hero.Stance.DEFEND: preload("uid://dlrnwhe76u7ke"),
+	Hero.Stance.UPGRADE: preload("uid://dlkhk201xuk2q")
+	}
 
 
 func _ready() -> void:
 	name_label.text = _hero.character_name
 	life_bar.max_value = _hero.max_health
 	life_bar.value = _hero.health
+	armor_bar.max_value = _hero.max_armor
+	armor_bar.value = _hero.armor
+	change_stance(_hero.current_stance)
 	
 
 func setup(hero: Hero) -> HeroVisuals:
@@ -30,8 +42,11 @@ func play_card():
 
 func update() -> void:
 	_shake_sprite()
-	#TODO: pensar que pasa si se reciben muchos dannos muy rapido
-	var animation_tween: Tween = RangeAnimation.animate_range_decrease(
+	var life_bar_tween: Tween = RangeAnimation.animate_range_decrease(
+		armor_bar,
+		absf(armor_bar.value - _hero.armor)
+	)
+	var armor_bar_tween: Tween = RangeAnimation.animate_range_decrease(
 		life_bar,
 		absf(life_bar.value - _hero.health)
 	)
@@ -39,9 +54,10 @@ func update() -> void:
 	#life_bar.value = _hero.health
 
 
-func change_stance(card: CardData) -> void:
-	#TODO esto hay que reverlo
-	await get_tree().process_frame 
+func change_stance(new_stance: Hero.Stance) -> void:
+	art.texture = stance_library[new_stance]
+	await get_tree().process_frame
+	stance_changed.emit()
 
 
 func _shake_sprite() -> void:
