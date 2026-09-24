@@ -5,6 +5,7 @@ extends CardData
 @export var symbol_to_spawn: Villain.Symbol
 
 func on_play(villain: Villain, hero: Hero):
+	villain.complete_symbol(symbol_to_complete)
 	if villain.matches_current_symbol(symbol_to_complete):
 		villain.resolve_symbol_bonus()
 

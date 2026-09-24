@@ -4,9 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
 [ext_resource type="Resource" uid="uid://buuedavgylgmr" path="res://dungeon/character/villain/villain_deck.tres" id="2_06s8x"]
 [ext_resource type="Script" uid="uid://c4teak7vu6pqs" path="res://dungeon/character/villain/villain.gd" id="3_04ebt"]
-[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/card.tscn" id="3_loxbi"]
+[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/villain_card.tscn" id="3_loxbi"]
+[ext_resource type="Script" uid="uid://cdfx4ka5bxjp" path="res://dungeon/character/villain/symbol_bonus.gd" id="4_04ebt"]
 [ext_resource type="Resource" uid="uid://bd76ry0mpjv76" path="res://dungeon/character/villain/hero_deck.tres" id="4_ar4ev"]
+[ext_resource type="Resource" uid="uid://bwxdu75t8dm73" path="res://dungeon/character/villain/resources/heart_heal.tres" id="5_4w4kc"]
 [ext_resource type="Script" uid="uid://boop60gqxkjeu" path="res://dungeon/character/hero/hero.gd" id="5_7nk2m"]
+[ext_resource type="Resource" uid="uid://3dbpegs3q3vt" path="res://dungeon/character/villain/resources/omega_cancel.tres" id="6_r4kgx"]
+[ext_resource type="Resource" uid="uid://gjjx7un00n2c" path="res://dungeon/character/villain/resources/skull_damage.tres" id="7_u61fw"]
 
 [sub_resource type="Resource" id="Resource_loxbi"]
 script = ExtResource("3_04ebt")
@@ -14,6 +18,7 @@ mana = 2
 max_mana = 2
 second_phase_min = 1
 second_phase_max = 5
+symbol_bonuses = Array[ExtResource("4_04ebt")]([ExtResource("5_4w4kc"), ExtResource("6_r4kgx"), ExtResource("7_u61fw")])
 max_health = 10
 health = 10
 deck = ExtResource("2_06s8x")

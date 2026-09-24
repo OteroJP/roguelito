@@ -1,4 +1,5 @@
-class_name Villain extends Character
+class_name Villain
+extends Character
 
 enum Symbol { NONE, SKULL, OMEGA, HEART }
 
@@ -11,8 +12,12 @@ var _VillainCardsUI: VillainCardsUI
 @export var max_mana: int
 @export var second_phase_min: int
 @export var second_phase_max: int
-
-
+@export var symbol_bonuses: Array[SymbolBonus]
+@export var symbol_count: Dictionary[Symbol, int] = {
+	Symbol.SKULL: 0,
+	Symbol.OMEGA: 0,
+	Symbol.HEART: 0
+	}
 ## Implement as a coroutine because the combat loop
 ## structure is awaiting for this method:
 func prepare() -> VillainCardsUI:
@@ -20,6 +25,8 @@ func prepare() -> VillainCardsUI:
 	_VillainCardsUI = VILLAIN_CARDS.instantiate() as VillainCardsUI
 	_VillainCardsUI.prepare(deck, self)
 	character_stats_changed.connect(_VillainCardsUI._update_counters)
+	for count in symbol_count:
+		count = 0
 	return _VillainCardsUI
 	
 	
@@ -53,11 +60,22 @@ func matches_current_symbol(symbol_to_match: Symbol) -> bool:
 	
 func change_symbol(new_symbol: Symbol) -> void:
 	current_symbol = new_symbol
+	await _VillainCardsUI.change_current_symbol(new_symbol)
+
+
+func complete_symbol(new_symbol: Symbol) -> void:
+	await _VillainCardsUI.change_completed_symbol(new_symbol)
 
 
 func resolve_symbol_bonus() -> void:
-	pass
-	
+	for symbol_bonus in symbol_bonuses:
+		if symbol_bonus.symbol == current_symbol:
+			for bonus in symbol_bonus.bonuses:
+				bonus.on_clash(GameManager.villain, GameManager.hero)
+	symbol_count[current_symbol] += 1
+	character_stats_changed.emit()
+	await GameManager.get_tree().create_timer(GameManager.ux_delay).timeout
+
 
 func is_in_second_phase() -> bool:
 	return true if (health >= second_phase_min and health <= second_phase_max) else false

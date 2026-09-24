@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SymbolBonus" format=3 uid="uid://3dbpegs3q3vt"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://ui/card_manager/card/_card_effect.gd" id="1_6bho2"]
+[ext_resource type="Script" uid="uid://cdfx4ka5bxjp" path="res://dungeon/character/villain/symbol_bonus.gd" id="2_ext3j"]
+
+[resource]
+script = ExtResource("2_ext3j")
+symbol = 2
+metadata/_custom_type_script = "uid://cdfx4ka5bxjp"

@@ -1,12 +1,12 @@
-class_name Card
+class_name HeroCard
 extends PanelContainer
 
-signal card_clicked(card: CardData)
+signal card_clicked(card: HeroCardData)
 
-const CARD_SCENE: PackedScene = preload("uid://ce3fqp227u3vc")
+const CARD_SCENE: PackedScene = preload("uid://yn4vjcemn7yh")
 const HOVER_UPWARD_MOVEMENT: float = 20.0 # Pixels to move up
 
-var _data: CardData
+var _data: HeroCardData
 @onready var _art_frame: TextureRect = %Ilustration
 @onready var _effect_label: RichTextLabel = %Effect
 @onready var _name_tag: Label = %Title
@@ -36,18 +36,18 @@ func _ready() -> void:
 		_effect_label.text = _data.effects_text()
 
 
-static func new_card(data: CardData) -> Card:
-	var card: Card = CARD_SCENE.instantiate() as Card
+static func new_hero_card(data: HeroCardData) -> HeroCard:
+	var card: HeroCard = CARD_SCENE.instantiate() as HeroCard
 	card.set_process_input(false)
 	card._data = data
 	return card
 	
 
-func select_card() -> CardData:
+func select_card() -> HeroCardData:
 	return _data
 
 
-func match_data(data: CardData) -> bool:
+func match_data(data: HeroCardData) -> bool:
 	return _data == data
 
 

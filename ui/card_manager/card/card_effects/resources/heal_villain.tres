@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_vunei")
-amount_to_heal = 3
+amount_to_heal = 1
 effect_text = "Heal 3"
 metadata/_custom_type_script = "uid://db3snuwsh6hor"

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://hj3gtb6iqefk"]
+
+[ext_resource type="Script" uid="uid://6kyhx31bbvb0" path="res://ui/card_manager/card/symbol_counter.gd" id="1_nl15r"]
+[ext_resource type="Texture2D" uid="uid://c1teqyuhv6yl8" path="res://dungeon/character/villain/assets/symbol_heart.png" id="1_rigrg"]
+
+[node name="PanelContainer" type="PanelContainer" unique_id=290641268]
+script = ExtResource("1_nl15r")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=84139763]
+layout_mode = 2
+
+[node name="Count" type="Label" parent="HBoxContainer" unique_id=1667111463]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "1"
+horizontal_alignment = 1
+
+[node name="Symbol" type="TextureRect" parent="HBoxContainer" unique_id=1439746826]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("1_rigrg")
+expand_mode = 1
+stretch_mode = 5

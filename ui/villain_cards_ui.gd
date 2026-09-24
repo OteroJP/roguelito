@@ -12,17 +12,30 @@ var _chosen_card: CardData
 
 @onready var _Deck: Label = %Deck
 @onready var _Hand: HBoxContainer = %Hand
-@onready var _Discard: SpinBox = %Discard
+@onready var _Discard: Label = %Discard
 @onready var _ConfirmButton: Button = %ConfirmButton
 @onready var _CancelButton: Button = %CancelButton
 @onready var _LifeBar: ProgressBar = %Life
 @onready var _ManaBar: ProgressBar = %Mana
+@onready var _CurrentSymbol: TextureRect = %CurrentSymbol
+@onready var _SymbolCompleted: TextureRect = %SymbolCompleted
+@onready var _SkullCount: SymbolCount = %SkullCount
+@onready var _OmegaCount: SymbolCount = %OmegaCount
+@onready var _HeartCount: SymbolCount = %HeartCount
 
 var _villain: Villain
-
+#TODO this is replicated from villain card class, should be unified
+var _symbol_library: Dictionary[Villain.Symbol, Texture2D] = {
+	Villain.Symbol.NONE: null,
+	Villain.Symbol.SKULL: preload("uid://cehsg6vccc7gd"),
+	Villain.Symbol.OMEGA: preload("uid://b31undwpa6kjr"),
+	Villain.Symbol.HEART: preload("uid://c1teqyuhv6yl8")
+	}
+	
 func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
-
+	_CurrentSymbol.texture = null
+	_SymbolCompleted.texture = null
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
 	_deck = new_deck
@@ -34,7 +47,7 @@ func add_to_hand(cards: Array[CardData]) -> void:
 	var card_nodes: Array[Control] = []
 
 	for data: CardData in cards:
-		var card: Card = Card.new_card(data)
+		var card: VillainCard = VillainCard.new_villain_card(data)
 		if _Hand:
 			_Hand.add_child(card)
 		card.offset_transform_enabled = true
@@ -67,7 +80,7 @@ func activate_abilities() -> void:
 #TODO revisar esto
 func remove_from_hand(card_data: CardData) -> void:
 	#TODO animaciones sonidos y todo eso
-	var card_to_remove: Card = _find_card_in_hand(card_data)
+	var card_to_remove: VillainCard = _find_card_in_hand(card_data)
 	#tween to visually move outside
 	_Hand.remove_child(
 		card_to_remove
@@ -80,18 +93,21 @@ func remove_from_hand(card_data: CardData) -> void:
 
 func _update_counters() -> void:
 	#TODO animacion de como sube el numero y otras visuales
-	_Discard.value  = _deck.cards_in_discard()
-	_Deck.text = "%d / %d cards" % [_deck.cards_in_card_pile(), _deck.size()]
+	_Discard.text  = "Discard: %d" %  _deck.cards_in_discard()
+	_Deck.text = "Draw pile: %d / %d" % [_deck.cards_in_card_pile(), _deck.size()]
 	_LifeBar.value = _villain.health
 	_LifeBar.max_value = _villain.max_health
 	_ManaBar.value = _villain.mana
 	_ManaBar.max_value = _villain.max_mana
-	# update deck label
+	_SkullCount.count = _villain.symbol_count[_SkullCount.symbol]
+	_OmegaCount.count = _villain.symbol_count[_OmegaCount.symbol]
+	_HeartCount.count = _villain.symbol_count[_HeartCount.symbol]
+	
 
 
-func _find_card_in_hand(data: CardData) -> Card:
+func _find_card_in_hand(data: CardData) -> VillainCard:
 	var card_ix = _Hand.get_children().find_custom(
-		func(card_node: Card):
+		func(card_node: VillainCard):
 			return card_node.match_data(data)
 	)
 	return _Hand.get_children().get(card_ix)
@@ -103,7 +119,7 @@ func _set_abilities_interactable(enabled: bool) -> void:
 
 
 func _set_hand_interactable(enabled: bool) -> void:
-	for card: Card in _Hand.get_children():
+	for card: VillainCard in _Hand.get_children():
 		card.set_process_input(enabled)
 		if enabled:
 			card.card_clicked.connect(_chose_card)		
@@ -126,6 +142,18 @@ func _cancel_selection() -> void:
 	_CancelButton.set_process_input(false)
 	_ConfirmButton.set_process_input(false)
 	
+	
+func change_current_symbol(new_symbol: Villain.Symbol) -> void:
+	_CurrentSymbol.texture = get_symbol_asset(new_symbol)
+	_SymbolCompleted.texture = null
+	
+	
+func change_completed_symbol(new_symbol: Villain.Symbol) -> void:
+	_SymbolCompleted.texture = get_symbol_asset(new_symbol)
+	
+
+func get_symbol_asset(symbol: Villain.Symbol) -> Texture2D:
+	return _symbol_library[symbol]
 	
 func _translation_tween(control_nodes: Array[Control]) -> Tween:
 	const DELAY_FACTOR: float = 0.08

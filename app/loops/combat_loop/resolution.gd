@@ -11,14 +11,14 @@ func _init(
 func run() -> void:
 	# Show Hero card
 	_control_node.show()
-	var hero_card: Card = Card.new_card(GameManager.current_hero_card)
+	var hero_card: HeroCard = HeroCard.new_hero_card(GameManager.current_hero_card)
 	hero_card.offset_transform_enabled = true
 	hero_card.offset_transform_visual_only = true
 	hero_card.offset_transform_rotation = PI
 	_control_node.add_child(hero_card)
 	await _control_node.get_tree().process_frame 
 	
-	var villain_card: Card = Card.new_card(GameManager.current_villain_card)
+	var villain_card: VillainCard = VillainCard.new_villain_card(GameManager.current_villain_card)
 	_control_node.add_child(villain_card)
 	await _control_node.get_tree().process_frame 
 	
