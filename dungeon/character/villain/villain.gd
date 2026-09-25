@@ -80,3 +80,8 @@ func resolve_symbol_bonus() -> void:
 
 func is_in_second_phase() -> bool:
 	return true if (health >= second_phase_min and health <= second_phase_max) else false
+
+
+func end_phase() -> void:
+	speed_bonus = 0
+	GameManager.is_current_villain_card_enabled =  true

@@ -45,3 +45,8 @@ func change_stance(target_stance: Stance) -> void:
 	
 func is_in_stance(stance_to_check: Stance) -> bool:
 	return true if current_stance == stance_to_check else false
+
+
+func end_phase() -> void:
+	speed_bonus = 0
+	GameManager.is_current_hero_card_enabled =  true

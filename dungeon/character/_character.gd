@@ -9,16 +9,17 @@ signal character_stats_changed
 @export var deck: Deck
 @export var statuses: Array[Status]
 
+var speed_bonus: int
+
 @abstract func prepare() -> Node
 
 @abstract func play_card() -> void
 
 @abstract func draw() -> void
 
+@abstract func end_phase() -> void
 
-func take_damage(damage: int) -> void:
-	health -= damage
-	character_stats_changed.emit()
+@abstract func take_damage(attack: Attack) -> void
 	
 	
 func heal(amount_to_heal: int) -> void:

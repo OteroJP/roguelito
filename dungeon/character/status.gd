@@ -1,5 +1,6 @@
 class_name Status
 extends Resource
+## Use a duration of -1 for infinite statuses
 
 signal status_depleted(status: Status)
 
@@ -10,9 +11,10 @@ signal status_depleted(status: Status)
 
 func on_tick(villain: Villain, hero: Hero) -> void:
 	resolve_status_effects(villain, hero)
-	duration -= 1
-	if duration <= 0:
-		status_depleted.emit(self)
+	if duration != -1:
+		duration -= 1
+		if duration <= 0:
+			status_depleted.emit(self)
 
 
 func resolve_status_effects(villain: Villain, hero: Hero):
