@@ -13,6 +13,7 @@ var _VillainCardsUI: VillainCardsUI
 @export var second_phase_min: int
 @export var second_phase_max: int
 @export var symbol_bonuses: Array[SymbolBonus]
+@export var immune_to_damage: bool = false
 @export var symbol_count: Dictionary[Symbol, int] = {
 	Symbol.SKULL: 0,
 	Symbol.OMEGA: 0,
@@ -84,4 +85,30 @@ func is_in_second_phase() -> bool:
 
 func end_phase() -> void:
 	speed_bonus = 0
+	for modifier in attack_modifiers:
+		modifier.spend_use()
 	GameManager.is_current_villain_card_enabled =  true
+
+
+func take_damage(damage: int, ignores_armor: bool = false) -> void:
+	var incoming_damage := damage
+	health -= incoming_damage
+	character_stats_changed.emit()
+	
+
+func take_attack(attack: Attack) -> void:
+	if immune_to_damage:
+		return
+	take_damage(attack.damage, attack.ignores_armor)
+
+
+func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = false) -> void:
+	var new_attack: Attack = Attack.new(target, damage, ignores_armor)
+	for modifier in attack_modifiers:
+		modifier.modify_attack(new_attack)
+	target.take_attack(new_attack)
+
+
+func heal(amount_to_heal: int) -> void:
+	health += amount_to_heal
+	character_stats_changed.emit()

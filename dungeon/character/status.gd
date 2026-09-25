@@ -1,5 +1,5 @@
 class_name Status
-extends Resource
+extends RefCounted
 ## Use a duration of -1 for infinite statuses
 
 signal status_depleted(status: Status)

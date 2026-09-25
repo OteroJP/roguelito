@@ -7,7 +7,8 @@ signal character_stats_changed
 @export var max_health: int
 @export var health: int
 @export var deck: Deck
-@export var statuses: Array[Status]
+var statuses: Array[Status]
+var attack_modifiers: Array[AttackModifier]
 
 var speed_bonus: int
 
@@ -19,12 +20,23 @@ var speed_bonus: int
 
 @abstract func end_phase() -> void
 
-@abstract func take_damage(attack: Attack) -> void
+@abstract func take_damage(damage: int, ignores_armor: bool) -> void
+
+@abstract func take_attack(attack: Attack) -> void
+	
+@abstract func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = false) -> void
+	
+@abstract func heal(amount_to_heal: int) -> void
+
+
+func take_attack_modifier(modifier: AttackModifier) -> void:
+	modifier.append(attack_modifiers)
+	modifier.attack_modifier_depleted.connect(remove_attack_modifier)
 	
 	
-func heal(amount_to_heal: int) -> void:
-	health += amount_to_heal
-	character_stats_changed.emit()
+func remove_attack_modifier(modifier: AttackModifier) -> void:
+	attack_modifiers.erase(modifier)
+	#Entiendo que siendo q son ref counted no necesitan free
 
 
 func tick_statuses(villain: Villain, hero: Hero) -> void:
@@ -40,5 +52,5 @@ func take_status(status: Status) -> void:
 	
 func remove_status(status_to_remove: Status) -> void:
 	statuses.erase(status_to_remove)
-	status_to_remove.queue_free()
+	#Entiendo que siendo q son ref counted no necesitan free
 	
