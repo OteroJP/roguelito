@@ -15,6 +15,14 @@ func run() -> void:
 	print("upkeep started")
 	await _hero.draw() # Hero shows stance
 	print("hero playing card")
+	await _hero.tick_statuses(_villain, _hero)
+	print("hero ticked statuses")
+	if _have_loop_ended.call(): # WIN-LOSS CHECK
+		return
+	await _villain.tick_statuses(_villain, _hero)
+	print("hero ticked card")
+	if _have_loop_ended.call(): # WIN-LOSS CHECK
+		return
 	await _hero.play_card() # Hero picks random card to play
 	if _have_loop_ended.call():
 		return

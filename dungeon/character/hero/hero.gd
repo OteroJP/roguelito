@@ -18,6 +18,7 @@ func prepare() -> HeroVisuals:
 	deck.prepare()
 	var hero_visuals: HeroVisuals = HERO_SCENE.instantiate() as HeroVisuals
 	_hero_visuals = hero_visuals.setup(self)
+	statuses.clear()
 	return _hero_visuals
 
 

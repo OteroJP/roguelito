@@ -27,6 +27,7 @@ func prepare() -> VillainCardsUI:
 	character_stats_changed.connect(_VillainCardsUI._update_counters)
 	for count in symbol_count:
 		count = 0
+	statuses.clear()
 	return _VillainCardsUI
 	
 	
