@@ -30,7 +30,7 @@ var speed_bonus: int
 
 
 func take_attack_modifier(modifier: AttackModifier) -> void:
-	modifier.append(attack_modifiers)
+	attack_modifiers.append(modifier)
 	modifier.attack_modifier_depleted.connect(remove_attack_modifier)
 	
 	

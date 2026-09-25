@@ -1,8 +1,8 @@
-class_name DamageVillain
+class_name VillainHeal
 extends CardEffect
 
-@export var damage: int
+@export var amount_to_heal: int
 
 #TODO refactor to new attack system
 func on_clash(villain: Villain, hero: Hero):
-	villain.take_damage(damage)
+	villain.heal(amount_to_heal)

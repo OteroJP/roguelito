@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://dc8mcsarlovnk"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://ui/card_manager/card/_card_effect.gd" id="1_x7ppt"]
+[ext_resource type="Script" uid="uid://dxfnni4lwgray" path="res://ui/card_manager/card/card_effects/villain_modify_damage.gd" id="2_1b02l"]
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://ui/card_manager/card/card_effects/villain_attacks.gd" id="2_kne4e"]
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://ui/card_manager/card/villain_card_data.gd" id="3_1b02l"]
+
+[sub_resource type="Resource" id="Resource_ubg51"]
+script = ExtResource("2_1b02l")
+damage_modification = 5
+metadata/_custom_type_script = "uid://dxfnni4lwgray"
+
+[sub_resource type="Resource" id="Resource_yy5s2"]
+script = ExtResource("2_kne4e")
+damage = 1
+metadata/_custom_type_script = "uid://bdmeoqu23atu8"
+
+[resource]
+script = ExtResource("3_1b02l")
+symbol_to_complete = 1
+symbol_to_spawn = 2
+effect_text = "Ataca 1 (6)"
+speed = 1
+bonus_effects = Array[ExtResource("1_x7ppt")]([SubResource("Resource_ubg51")])
+effects = Array[ExtResource("1_x7ppt")]([SubResource("Resource_yy5s2")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

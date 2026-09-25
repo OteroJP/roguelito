@@ -52,23 +52,45 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="Life" type="ProgressBar" parent="StatsAndAbilities" unique_id=356820469]
+[node name="LifeContainer" type="CenterContainer" parent="StatsAndAbilities" unique_id=658291170]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Life" type="ProgressBar" parent="StatsAndAbilities/LifeContainer" unique_id=356820469]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_japx7")
 theme_override_styles/fill = SubResource("StyleBoxFlat_htno0")
 show_percentage = false
 
-[node name="Mana" type="ProgressBar" parent="StatsAndAbilities" unique_id=752301709]
+[node name="LifeLabel" type="Label" parent="StatsAndAbilities/LifeContainer" unique_id=1240624598]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "1/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ManaContainer" type="CenterContainer" parent="StatsAndAbilities" unique_id=1306368086]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Mana" type="ProgressBar" parent="StatsAndAbilities/ManaContainer" unique_id=752301709]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 30)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_japx7")
 theme_override_styles/fill = SubResource("StyleBoxFlat_t6otb")
 show_percentage = false
+
+[node name="ManaLabel" type="Label" parent="StatsAndAbilities/ManaContainer" unique_id=21968853]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1/3"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DiscardContainer" type="MarginContainer" parent="StatsAndAbilities" unique_id=4977308]
 layout_mode = 2

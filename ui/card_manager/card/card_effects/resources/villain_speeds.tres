@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="VillainSpeeds" format=3 uid="uid://cdpydypp70qb2"]
+
+[ext_resource type="Script" uid="uid://c3sjwk5s36yda" path="res://ui/card_manager/card/card_effects/villain_speeds.gd" id="1_s8avj"]
+
+[resource]
+script = ExtResource("1_s8avj")
+speed_modification = 4
+metadata/_custom_type_script = "uid://c3sjwk5s36yda"

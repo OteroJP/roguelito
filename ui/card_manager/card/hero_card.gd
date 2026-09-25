@@ -33,7 +33,7 @@ func _ready() -> void:
 	if _data:
 		_art_frame.texture = _data.art
 		_name_tag.text = _data.name
-		_effect_label.text = _data.effects_text()
+		_effect_label.text = _data.effects_text() if _data.effect_text.is_empty() else _data.effect_text
 
 
 static func new_hero_card(data: HeroCardData) -> HeroCard:

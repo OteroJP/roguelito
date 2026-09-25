@@ -9,6 +9,7 @@ var current_hero_card: HeroCardData
 var is_current_hero_card_enabled: bool = true
 var card_resolve_queue: Array[CardData]
 var ux_delay: float
+var log: Label
 
 
 func sort_cards() -> void:
@@ -28,20 +29,36 @@ func play_hero_card(card: HeroCardData) -> void:
 
 
 func execute_faster_card() -> void:
-	match card_resolve_queue[0].get_class():
-		"HeroCardData":
-			if is_current_hero_card_enabled: card_resolve_queue[0].on_clash(villain, hero)
-		"VillainCardData":
-			if is_current_villain_card_enabled: card_resolve_queue[0].on_clash(villain, hero)			
+	#TODO this could be cleaner
+	if (card_resolve_queue[0] == current_villain_card):
+		if is_current_villain_card_enabled:
+			GameManager.add_log("VILLAIN GOES FIRST:")
+			card_resolve_queue[0].on_clash(villain, hero)
+		else:
+			GameManager.add_log("VILLAIN WAS CANCELLED!:")
+	if (card_resolve_queue[0] == current_hero_card):
+		if is_current_hero_card_enabled:
+			GameManager.add_log("HERO GOES FIRST:")
+			card_resolve_queue[0].on_clash(villain, hero)
+		else:
+			GameManager.add_log("HERO WAS CANCELLED!:")
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
 func execute_slower_card() -> void:
-	match card_resolve_queue[0].get_class():
-		"HeroCardData":
-			if is_current_hero_card_enabled: card_resolve_queue[0].on_clash(villain, hero)
-		"VillainCardData":
-			if is_current_villain_card_enabled: card_resolve_queue[0].on_clash(villain, hero)			
+	#TODO this could be cleaner
+	if (card_resolve_queue[1] == current_villain_card):
+		if is_current_villain_card_enabled:
+			GameManager.add_log("VILLAIN GOES SECOND:")
+			card_resolve_queue[1].on_clash(villain, hero)
+		else:
+			GameManager.add_log("VILLAIN WAS CANCELLED!")
+	if (card_resolve_queue[1] == current_hero_card):
+		if is_current_hero_card_enabled:
+			GameManager.add_log("HERO GOES SECOND:")
+			card_resolve_queue[1].on_clash(villain, hero)
+		else:
+			GameManager.add_log("HERO WAS CANCELLED!")
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	
 	
@@ -60,3 +77,14 @@ func _sort_cards_by_fastest() -> Array[CardData]:
 	else:
 		sorted_cards = [current_villain_card, current_hero_card]
 	return sorted_cards
+
+
+func clear_log() -> void:
+	log.text = ""
+
+
+func add_log(line: String) -> void:
+	log.text += "\n" + line
+	await get_tree().process_frame
+	var scroll := log.get_parent() as ScrollContainer
+	scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value)

@@ -19,6 +19,7 @@ max_mana = 2
 second_phase_min = 1
 second_phase_max = 5
 symbol_bonuses = Array[ExtResource("4_04ebt")]([ExtResource("5_4w4kc"), ExtResource("6_r4kgx"), ExtResource("7_u61fw")])
+character_name = "VILLAIN"
 max_health = 10
 health = 10
 deck = ExtResource("2_06s8x")
@@ -26,6 +27,9 @@ metadata/_custom_type_script = "uid://c4teak7vu6pqs"
 
 [sub_resource type="Resource" id="Resource_t6oic"]
 script = ExtResource("5_7nk2m")
+max_armor = 5
+armor = 5
+character_name = "HERO"
 max_health = 20
 health = 20
 deck = ExtResource("4_ar4ev")
@@ -94,3 +98,18 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=911237387]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_bottom = 300.0
+grow_horizontal = 0
+
+[node name="Log" type="Label" parent="ScrollContainer" unique_id=1072853026]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 2
+autowrap_mode = 2

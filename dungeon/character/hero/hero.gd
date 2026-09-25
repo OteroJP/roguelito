@@ -62,24 +62,26 @@ func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	var incoming_damage := damage
 	if not ignores_armor:
 		var absorbed_damage := mini(armor, incoming_damage)
+		GameManager.add_log("Hero's armor absorbs %s damage" % [str(absorbed_damage)])
 		armor -= absorbed_damage
 		incoming_damage -= absorbed_damage
 	health -= incoming_damage
+	GameManager.add_log("Hero suffers %s damage" % [str(incoming_damage)])
 	character_stats_changed.emit()
 
 
 func take_attack(attack: Attack) -> void:
 	if immune_to_damage:
+		GameManager.add_log("Hero resists damage due to immunity")
 		return
 	take_damage(attack.damage, attack.ignores_armor)
-	
 
 func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = false) -> void:
 	var new_attack: Attack = Attack.new(target, damage, ignores_armor)
 	for modifier in attack_modifiers:
 		modifier.modify_attack(new_attack)
 	target.take_attack(new_attack)
-	
+	GameManager.add_log("Hero attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)])
 	
 func increase_max_armor(increase: int) -> void:
 	max_armor += increase
@@ -96,3 +98,8 @@ func increase_max_basic_damage(increase: int) -> void:
 func heal(amount_to_heal: int) -> void:
 	health += amount_to_heal
 	character_stats_changed.emit()
+	GameManager.add_log("Hero heals for %s" % [str(amount_to_heal)])
+
+func get_bonus_speed(_bonus_speed: int) -> void:
+	speed_bonus += _bonus_speed
+	GameManager.add_log("Hero gets bonus speed for %s" % [str(_bonus_speed)])

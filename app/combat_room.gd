@@ -12,6 +12,7 @@ var _combat_loop: CombatLoop
 
 func _ready() -> void:
 	_prepare_room()
+	GameManager.log = %Log
 	await start_combat()
 	
 	

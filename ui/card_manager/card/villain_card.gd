@@ -32,7 +32,7 @@ func _ready() -> void:
 	if _data:
 		_art_frame.texture = _data.art
 		_name_tag.text = _data.name
-		_effect_label.text = _data.effects_text()
+		_effect_label.text = _data.effects_text() if _data.effect_text.is_empty() else _data.effect_text
 		_symbol_to_complete.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_complete]
 		_symbol_to_spawn.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_spawn]
 

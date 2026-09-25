@@ -1,15 +1,19 @@
 [gd_resource type="Resource" script_class="Deck" format=3 uid="uid://buuedavgylgmr"]
 
 [ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://ui/card_manager/card/_card_data.gd" id="1_vs4gk"]
-[ext_resource type="Resource" uid="uid://cwmx1btyws2cd" path="res://ui/card_manager/card/card_library/villain/dmg_then_heal.tres" id="2_vs4gk"]
-[ext_resource type="Resource" uid="uid://q8xgsflhyrm" path="res://ui/card_manager/card/card_library/villain/heal_then_dmg.tres" id="3_jkt45"]
+[ext_resource type="Resource" uid="uid://dc8mcsarlovnk" path="res://ui/card_manager/card/card_library/villain/Attack 1 + 5 Damage.tres" id="2_jkt45"]
+[ext_resource type="Resource" uid="uid://c3ccfngnet4ks" path="res://ui/card_manager/card/card_library/villain/Attack 3 + Pierce.tres" id="3_fux2j"]
 [ext_resource type="Script" uid="uid://ba84e8ikj4p01" path="res://dungeon/deck.gd" id="3_wd1rs"]
+[ext_resource type="Resource" uid="uid://ci04xvfhg48oh" path="res://ui/card_manager/card/card_library/villain/Heal + Cancel.tres" id="4_f11wj"]
+[ext_resource type="Resource" uid="uid://nvertmvbkgi8" path="res://ui/card_manager/card/card_library/villain/Pierce 2 +3 speed.tres" id="5_06ggs"]
 
 [resource]
 script = ExtResource("3_wd1rs")
 card_set = Dictionary[ExtResource("1_vs4gk"), int]({
-ExtResource("2_vs4gk"): 3,
-ExtResource("3_jkt45"): 3
+ExtResource("2_jkt45"): 2,
+ExtResource("3_fux2j"): 2,
+ExtResource("4_f11wj"): 2,
+ExtResource("5_06ggs"): 2
 })
 initial_hand_size = 3
 max_hand_size = 6

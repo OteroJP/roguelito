@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CancelHero" format=3 uid="uid://bro7fi5rx3suy"]
+
+[ext_resource type="Script" uid="uid://b7urfk5cebngg" path="res://ui/card_manager/card/card_effects/cancel_hero_card.gd" id="1_aalmk"]
+
+[resource]
+script = ExtResource("1_aalmk")
+metadata/_custom_type_script = "uid://b7urfk5cebngg"

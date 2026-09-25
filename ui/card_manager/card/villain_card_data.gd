@@ -12,8 +12,10 @@ func on_play(villain: Villain, hero: Hero):
 
 func on_clash(villain: Villain, hero: Hero):
 	if villain.is_in_second_phase():
+		GameManager.add_log("2nd PHASE BONUS EFFECT:")
 		for effect in bonus_effects:
 			effect.on_clash(villain, hero)
+	GameManager.add_log("REGULAR EFFECT:")
 	for effect in effects:
 		effect.on_clash(villain, hero)
 

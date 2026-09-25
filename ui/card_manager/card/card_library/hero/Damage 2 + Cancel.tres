@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://cdsq210ad1jij"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://ui/card_manager/card/_card_effect.gd" id="1_xniub"]
+[ext_resource type="Script" uid="uid://weq3qyrfv4m8" path="res://ui/card_manager/card/card_effects/cancel_villain_card.gd" id="2_abhhy"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://ui/card_manager/card/hero_card_data.gd" id="2_r1gx4"]
+[ext_resource type="Script" uid="uid://dex2jmcgp44cv" path="res://ui/card_manager/card/card_effects/hero_attacks.gd" id="3_abhhy"]
+
+[sub_resource type="Resource" id="Resource_be3sm"]
+script = ExtResource("2_abhhy")
+metadata/_custom_type_script = "uid://weq3qyrfv4m8"
+
+[sub_resource type="Resource" id="Resource_k7jyy"]
+script = ExtResource("3_abhhy")
+damage = 2
+metadata/_custom_type_script = "uid://dex2jmcgp44cv"
+
+[resource]
+script = ExtResource("2_r1gx4")
+stance_for_bonus = 1
+stance_after_clash = 2
+effect_text = "Dmg 2 + Cancel"
+speed = 2
+bonus_effects = Array[ExtResource("1_xniub")]([SubResource("Resource_be3sm")])
+effects = Array[ExtResource("1_xniub")]([SubResource("Resource_k7jyy")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

@@ -93,6 +93,7 @@ func end_phase() -> void:
 func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	var incoming_damage := damage
 	health -= incoming_damage
+	GameManager.add_log("Villain suffers %s damage" % str(incoming_damage))
 	character_stats_changed.emit()
 	
 
@@ -107,8 +108,15 @@ func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = fa
 	for modifier in attack_modifiers:
 		modifier.modify_attack(new_attack)
 	target.take_attack(new_attack)
+	GameManager.add_log("Villain attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)])
 
 
 func heal(amount_to_heal: int) -> void:
 	health += amount_to_heal
 	character_stats_changed.emit()
+	GameManager.add_log("Villain heals for %s" % [str(amount_to_heal)])
+
+
+func get_bonus_speed(_bonus_speed: int) -> void:
+	speed_bonus += _bonus_speed
+	GameManager.add_log("Villain gets bonus speed for %s" % [str(_bonus_speed)])

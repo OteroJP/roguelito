@@ -16,7 +16,9 @@ var _chosen_card: CardData
 @onready var _ConfirmButton: Button = %ConfirmButton
 @onready var _CancelButton: Button = %CancelButton
 @onready var _LifeBar: ProgressBar = %Life
+@onready var _LifeLabel: Label = %LifeLabel
 @onready var _ManaBar: ProgressBar = %Mana
+@onready var _ManaLabel: Label = %ManaLabel
 @onready var _CurrentSymbol: TextureRect = %CurrentSymbol
 @onready var _SymbolCompleted: TextureRect = %SymbolCompleted
 @onready var _SkullCount: SymbolCount = %SkullCount
@@ -29,6 +31,7 @@ func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
 	_CurrentSymbol.texture = null
 	_SymbolCompleted.texture = null
+	_update_counters
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
 	_deck = new_deck
@@ -90,11 +93,14 @@ func _update_counters() -> void:
 	_Deck.text = "Draw pile: %d / %d" % [_deck.cards_in_card_pile(), _deck.size()]
 	_LifeBar.value = _villain.health
 	_LifeBar.max_value = _villain.max_health
+	_LifeLabel.text = "%d / %d" % [_villain.health, _villain.max_health]	
 	_ManaBar.value = _villain.mana
 	_ManaBar.max_value = _villain.max_mana
+	_ManaLabel.text = "%d / %d" % [_villain.mana, _villain.max_mana]
 	_SkullCount.count = _villain.symbol_count[_SkullCount.symbol]
 	_OmegaCount.count = _villain.symbol_count[_OmegaCount.symbol]
 	_HeartCount.count = _villain.symbol_count[_HeartCount.symbol]
+
 	
 
 

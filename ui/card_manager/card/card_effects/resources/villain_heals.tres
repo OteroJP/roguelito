@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainHeal" format=3 uid="uid://btpu2oj3x5ucc"]
+
+[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://ui/card_manager/card/card_effects/villain_heals.gd" id="1_8anit"]
+
+[resource]
+script = ExtResource("1_8anit")
+metadata/_custom_type_script = "uid://db3snuwsh6hor"

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DamageHero" format=3 uid="uid://c8qg1ybwvbota"]
+
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://ui/card_manager/card/card_effects/villain_attacks.gd" id="1_ym1j0"]
+
+[resource]
+script = ExtResource("1_ym1j0")
+metadata/_custom_type_script = "uid://bdmeoqu23atu8"

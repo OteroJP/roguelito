@@ -7,7 +7,9 @@ signal stance_changed
 @onready var name_label: Label = %Name
 @onready var art: Sprite2D = %Art
 @onready var armor_bar: ProgressBar = %ArmorBar
+@onready var armor_label: Label = %ArmorLabel
 @onready var life_bar: ProgressBar = %LifeBar
+@onready var life_label: Label = %LifeLabel
 
 var _hero: Hero
 
@@ -15,8 +17,10 @@ func _ready() -> void:
 	name_label.text = _hero.character_name
 	life_bar.max_value = _hero.max_health
 	life_bar.value = _hero.health
+	life_label.text = "%d / %d" % [_hero.health, _hero.max_health]
 	armor_bar.max_value = _hero.max_armor
 	armor_bar.value = _hero.armor
+	armor_label.text = "%d / %d" % [_hero.armor, _hero.max_armor]
 	change_stance(_hero.current_stance)
 	
 
@@ -34,14 +38,16 @@ func play_card():
 
 func update() -> void:
 	_shake_sprite()
-	var life_bar_tween: Tween = RangeAnimation.animate_range_decrease(
+	var armor_bar_tween: Tween = RangeAnimation.animate_range_decrease(
 		armor_bar,
 		absf(armor_bar.value - _hero.armor)
 	)
-	var armor_bar_tween: Tween = RangeAnimation.animate_range_decrease(
+	armor_label.text = "%d / %d" % [_hero.armor, _hero.max_armor]
+	var life_bar_tween: Tween = RangeAnimation.animate_range_decrease(
 		life_bar,
 		absf(life_bar.value - _hero.health)
 	)
+	life_label.text = "%d / %d" % [_hero.health, _hero.max_health]
 	#await animation_tween.finished
 	#life_bar.value = _hero.health
 

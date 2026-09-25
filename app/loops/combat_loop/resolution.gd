@@ -12,9 +12,9 @@ func run() -> void:
 	# Show Hero card
 	_control_node.show()
 	var hero_card: HeroCard = HeroCard.new_hero_card(GameManager.current_hero_card)
-	hero_card.offset_transform_enabled = true
-	hero_card.offset_transform_visual_only = true
-	hero_card.offset_transform_rotation = PI
+	#hero_card.offset_transform_enabled = true
+	#hero_card.offset_transform_visual_only = true
+	#hero_card.offset_transform_rotation = PI
 	_control_node.add_child(hero_card)
 	await _control_node.get_tree().process_frame 
 	
@@ -30,6 +30,7 @@ func run() -> void:
 	
 	# Execute faster card. 
 	# WIN-LOSS CHECK
+	GameManager.clear_log()
 	await GameManager.execute_faster_card()
 	# Execute slower card. 
 	if _have_loop_ended.call(): # WIN-LOSS CHECK

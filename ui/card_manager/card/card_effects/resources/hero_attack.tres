@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="HeroAttacks" format=3 uid="uid://3ivic3p8mu7o"]
+
+[ext_resource type="Script" uid="uid://dex2jmcgp44cv" path="res://ui/card_manager/card/card_effects/hero_attacks.gd" id="1_5omys"]
+
+[resource]
+script = ExtResource("1_5omys")
+damage = 3
+metadata/_custom_type_script = "uid://dex2jmcgp44cv"

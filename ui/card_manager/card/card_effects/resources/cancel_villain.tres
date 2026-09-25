@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CancelVillain" format=3 uid="uid://ct65yjgfnstqt"]
+
+[ext_resource type="Script" uid="uid://weq3qyrfv4m8" path="res://ui/card_manager/card/card_effects/cancel_villain_card.gd" id="1_fxbt8"]
+
+[resource]
+script = ExtResource("1_fxbt8")
+metadata/_custom_type_script = "uid://weq3qyrfv4m8"

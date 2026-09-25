@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://ci04xvfhg48oh"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://ui/card_manager/card/_card_effect.gd" id="1_gpcws"]
+[ext_resource type="Resource" uid="uid://bro7fi5rx3suy" path="res://ui/card_manager/card/card_effects/resources/cancel_hero.tres" id="2_orj7i"]
+[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://ui/card_manager/card/card_effects/villain_heals.gd" id="3_ysij7"]
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://ui/card_manager/card/villain_card_data.gd" id="4_datiy"]
+
+[sub_resource type="Resource" id="Resource_d4r0p"]
+script = ExtResource("3_ysij7")
+amount_to_heal = 2
+metadata/_custom_type_script = "uid://db3snuwsh6hor"
+
+[resource]
+script = ExtResource("4_datiy")
+symbol_to_complete = 2
+symbol_to_spawn = 3
+effect_text = "Cura 2 (y cancela carta)"
+speed = 1
+bonus_effects = Array[ExtResource("1_gpcws")]([ExtResource("2_orj7i")])
+effects = Array[ExtResource("1_gpcws")]([SubResource("Resource_d4r0p")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"
