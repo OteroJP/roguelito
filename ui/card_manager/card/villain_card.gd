@@ -17,12 +17,6 @@ var _data: VillainCardData
 var _bonus_effect_label: Label
 var _tween: Tween
 var _is_hovered: bool = false
-var _symbol_library: Dictionary[Villain.Symbol, Texture2D] = {
-	Villain.Symbol.NONE: null,
-	Villain.Symbol.SKULL: preload("uid://cehsg6vccc7gd"),
-	Villain.Symbol.OMEGA: preload("uid://b31undwpa6kjr"),
-	Villain.Symbol.HEART: preload("uid://c1teqyuhv6yl8")
-	}
 
 func _ready() -> void:
 	offset_transform_enabled = true
@@ -39,8 +33,8 @@ func _ready() -> void:
 		_art_frame.texture = _data.art
 		_name_tag.text = _data.name
 		_effect_label.text = _data.effects_text()
-		_symbol_to_complete.texture = _symbol_library[_data.symbol_to_complete]
-		_symbol_to_spawn.texture = _symbol_library[_data.symbol_to_spawn]
+		_symbol_to_complete.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_complete]
+		_symbol_to_spawn.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_spawn]
 
 
 static func new_villain_card(data: VillainCardData) -> VillainCard:

@@ -36,6 +36,22 @@ theme_override_font_sizes/font_size = 28
 text = "Draw pile: 6/9"
 horizontal_alignment = 1
 
+[node name="StatusContainer" type="PanelContainer" parent="StatsAndAbilities" unique_id=870325977]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsAndAbilities/StatusContainer" unique_id=454167175]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="StatsAndAbilities/StatusContainer/VBoxContainer" unique_id=1963549839]
+layout_mode = 2
+text = "Statuses"
+horizontal_alignment = 1
+
+[node name="Statuses" type="HBoxContainer" parent="StatsAndAbilities/StatusContainer/VBoxContainer" unique_id=1521094761]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
 [node name="Life" type="ProgressBar" parent="StatsAndAbilities" unique_id=356820469]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
@@ -67,6 +83,22 @@ theme_override_font_sizes/font_size = 28
 text = "Discard: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ModifierContainer" type="PanelContainer" parent="StatsAndAbilities" unique_id=383891750]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsAndAbilities/ModifierContainer" unique_id=1196645840]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="StatsAndAbilities/ModifierContainer/VBoxContainer" unique_id=316338614]
+layout_mode = 2
+text = "Modifiers"
+horizontal_alignment = 1
+
+[node name="Modifiers" type="HBoxContainer" parent="StatsAndAbilities/ModifierContainer/VBoxContainer" unique_id=1594424274]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="HandContainer" type="MarginContainer" parent="." unique_id=718987366]
 custom_minimum_size = Vector2(515, 0)

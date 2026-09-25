@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dsakfrfgkdj8u"]
 
-[ext_resource type="Script" uid="uid://dyl7ojhkdl43a" path="res://dungeon/character/hero/hero_visuals.gd" id="1_fc2uq"]
-[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_ffd3t"]
+[ext_resource type="Script" uid="uid://dyl7ojhkdl43a" path="res://dungeon/character/hero/hero_visuals.gd" id="1_lieq6"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_tknoa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nghp0"]
 radius = 82.0
@@ -15,7 +15,7 @@ bg_color = Color(0.33117646, 0.4193574, 0.51896834, 1)
 bg_color = Color(0.99664944, 0.34226042, 0.32453904, 1)
 
 [node name="Hero" type="Area2D" unique_id=1875536359]
-script = ExtResource("1_fc2uq")
+script = ExtResource("1_lieq6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=191043933]
 position = Vector2(0, -10)
@@ -23,7 +23,8 @@ shape = SubResource("CircleShape2D_nghp0")
 
 [node name="Art" type="Sprite2D" parent="." unique_id=2021261964]
 unique_name_in_owner = true
-texture = ExtResource("2_ffd3t")
+position = Vector2(120, 0)
+texture = ExtResource("2_tknoa")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=949581151]
 anchors_preset = 7
@@ -32,9 +33,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -48.0
-offset_top = 66.0
+offset_top = -75.0
 offset_right = 54.0
-offset_bottom = 106.0
+offset_bottom = 89.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 3
@@ -42,7 +43,24 @@ size_flags_vertical = 3
 [node name="Name" type="Label" parent="VBoxContainer" unique_id=1790307745]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Lorem ipsum"
+theme_override_font_sizes/font_size = 24
+text = "HERO"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=658131623]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=355097596]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer" unique_id=694198486]
+layout_mode = 2
+text = "Statuses"
+horizontal_alignment = 1
+
+[node name="Statuses" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer" unique_id=1157024398]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="ArmorBar" type="ProgressBar" parent="VBoxContainer" unique_id=1433236488]
 unique_name_in_owner = true
@@ -67,3 +85,18 @@ max_value = 10.0
 step = 1.0
 value = 6.0
 show_percentage = false
+
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer" unique_id=1389875597]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer2" unique_id=1935310671]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer" unique_id=1144431632]
+layout_mode = 2
+text = "Modifiers"
+horizontal_alignment = 1
+
+[node name="Statuses" type="HBoxContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer" unique_id=870567126]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2

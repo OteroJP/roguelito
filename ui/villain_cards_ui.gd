@@ -24,13 +24,6 @@ var _chosen_card: CardData
 @onready var _HeartCount: SymbolCount = %HeartCount
 
 var _villain: Villain
-#TODO this is replicated from villain card class, should be unified
-var _symbol_library: Dictionary[Villain.Symbol, Texture2D] = {
-	Villain.Symbol.NONE: null,
-	Villain.Symbol.SKULL: preload("uid://cehsg6vccc7gd"),
-	Villain.Symbol.OMEGA: preload("uid://b31undwpa6kjr"),
-	Villain.Symbol.HEART: preload("uid://c1teqyuhv6yl8")
-	}
 	
 func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
@@ -153,7 +146,7 @@ func change_completed_symbol(new_symbol: Villain.Symbol) -> void:
 	
 
 func get_symbol_asset(symbol: Villain.Symbol) -> Texture2D:
-	return _symbol_library[symbol]
+	return UIAssets.SYMBOL_LIBRARY[symbol]
 	
 func _translation_tween(control_nodes: Array[Control]) -> Tween:
 	const DELAY_FACTOR: float = 0.08
