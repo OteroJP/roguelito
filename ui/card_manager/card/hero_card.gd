@@ -83,3 +83,7 @@ func _animate_card(direction: Vector2) -> Tween:
 	_tween.set_trans(Tween.TRANS_QUAD)
 	_tween.set_ease(Tween.EASE_OUT)
 	return _tween
+
+
+func enable_visibility(enabled: bool) -> void:
+	_back.visible = not enabled

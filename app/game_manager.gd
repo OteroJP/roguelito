@@ -21,8 +21,16 @@ var is_current_villain_card_enabled: bool = true
 var current_hero_card: HeroCardData
 var is_current_hero_card_enabled: bool = true
 var card_resolve_queue: Array[CardData]
+var playing_area: PlayingArea
 var ux_delay: float
 var _log: CombatLog
+
+
+func prepare(_playing_area: PlayingArea, _hero: Hero, _villain: Villain, _ux_delay: float) -> void:
+	playing_area = _playing_area
+	hero = _hero
+	villain = _villain
+	ux_delay = _ux_delay
 
 
 func sort_cards() -> void:

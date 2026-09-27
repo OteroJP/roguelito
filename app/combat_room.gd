@@ -8,7 +8,7 @@ var _combat_loop: CombatLoop
 
 @onready var villain_container: MarginContainer = %InteractiveContainer
 @onready var dungeon: Node2D = %DungeonRoom
-@onready var playing_area: VBoxContainer = %PlayingArea
+@onready var playing_area: PlayingArea = %PlayingArea
 
 func _ready() -> void:
 	_prepare_room()
@@ -23,17 +23,22 @@ func start_combat() -> void:
 	
 
 func _prepare_room() -> void:
+	GameManager.prepare(
+		playing_area,
+		hero,
+		villain,
+		ux_delay
+	)
+	playing_area.clear()
 	GameManager.add_log("Preparing hero, decks and villain", GameManager.LogSource.GAME)
 	villain_container.add_child(villain.prepare())
-	dungeon.add_child(hero.prepare())
+	var new_hero: HeroVisuals = hero.prepare()
+	dungeon.add_child(new_hero)
+	
 	_combat_loop = CombatLoop.new(
 		_prepare_end_conditions(),
 		_prepare_phases(),	
 	)
-	GameManager.hero = hero
-	GameManager.villain = villain
-	GameManager.ux_delay = ux_delay
-
 
 func _end_combat() -> void:
 	# TBD
@@ -53,8 +58,8 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 	
 func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
-		UpkeepLoop.new(hero, villain),
-		PlayerTurn.new(villain),
+		UpkeepLoop.new(hero, villain, playing_area),
+		PlayerTurn.new(villain, playing_area),
 		Resolution.new(playing_area)
 		]
 	return phases

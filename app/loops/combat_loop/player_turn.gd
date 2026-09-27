@@ -2,12 +2,15 @@ class_name PlayerTurn extends LoopPhase
 
 
 var _villain: Villain
+var _playing_area: PlayingArea
 
 
 func _init(
-	villain_character, 
+	villain_character: Villain,
+	playing_area: PlayingArea
 	) -> void:
 	_villain = villain_character
+	_playing_area = playing_area
 	
 	
 func run() -> void:
@@ -22,4 +25,5 @@ func run() -> void:
 		return
 	GameManager.add_log("Villain plays a card", GameManager.LogSource.VILLAIN)
 	await _villain.play_card() # Mandatory: Player selects a card to play, may undo, and the confirms.	
-	#phase_ended.emit()	
+	await _playing_area.add_villain_card(GameManager.current_villain_card)
+	await _playing_area.get_tree().process_frame 

@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://dungeon/dungeon_room.tscn" id="1_r3wx3"]
 [ext_resource type="Resource" uid="uid://buuedavgylgmr" path="res://dungeon/character/villain/villain_deck.tres" id="2_06s8x"]
 [ext_resource type="Script" uid="uid://c4teak7vu6pqs" path="res://dungeon/character/villain/villain.gd" id="3_04ebt"]
-[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/villain_card.tscn" id="3_loxbi"]
 [ext_resource type="Script" uid="uid://cdfx4ka5bxjp" path="res://dungeon/character/villain/symbol_bonus.gd" id="4_04ebt"]
 [ext_resource type="Resource" uid="uid://bd76ry0mpjv76" path="res://dungeon/character/villain/hero_deck.tres" id="4_ar4ev"]
 [ext_resource type="Script" uid="uid://w8lt376mqa5p" path="res://dungeon/character/villain/spell.gd" id="4_r4kgx"]
@@ -15,6 +14,7 @@
 [ext_resource type="Resource" uid="uid://3dbpegs3q3vt" path="res://dungeon/character/villain/resources/symbol_bonuses/omega_cancel.tres" id="6_r4kgx"]
 [ext_resource type="Resource" uid="uid://d3qvdvh4cxk03" path="res://dungeon/character/villain/resources/spells/reveal_hero_card.tres" id="7_qg6ye"]
 [ext_resource type="Resource" uid="uid://gjjx7un00n2c" path="res://dungeon/character/villain/resources/symbol_bonuses/skull_damage.tres" id="7_u61fw"]
+[ext_resource type="PackedScene" uid="uid://xicrwm38hrf1" path="res://ui/playing_area.tscn" id="15_yiodr"]
 
 [sub_resource type="Resource" id="Resource_loxbi"]
 script = ExtResource("3_04ebt")
@@ -77,26 +77,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="HBoxContainer" unique_id=1587713020]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PlayingArea" type="VBoxContainer" parent="HBoxContainer/Panel" unique_id=1076703880]
+[node name="PlayingArea" parent="HBoxContainer" unique_id=969993662 instance=ExtResource("15_yiodr")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(180, 300)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Card2" parent="HBoxContainer/Panel/PlayingArea" unique_id=1032387873 instance=ExtResource("3_loxbi")]
-visible = false
-layout_mode = 2
-offset_transform_enabled = true
-offset_transform_rotation = 3.1415927
-
-[node name="Card3" parent="HBoxContainer/Panel/PlayingArea" unique_id=1174546503 instance=ExtResource("3_loxbi")]
-visible = false
 layout_mode = 2
 
 [node name="InteractiveContainer" type="MarginContainer" parent="HBoxContainer" unique_id=1834258728]

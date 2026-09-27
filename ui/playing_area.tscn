@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://xicrwm38hrf1"]
+
+[ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://ui/card_manager/card/villain_card.tscn" id="1_3wxtt"]
+[ext_resource type="Script" uid="uid://dp52pgokj854b" path="res://ui/playing_area.gd" id="1_umndx"]
+
+[node name="Panel" type="PanelContainer" unique_id=969993662]
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 400.0
+offset_bottom = 300.0
+size_flags_vertical = 3
+script = ExtResource("1_umndx")
+
+[node name="PlayingColumn" type="VBoxContainer" parent="." unique_id=1662216359]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="HeroCard" parent="PlayingColumn" unique_id=386368749 instance=ExtResource("1_3wxtt")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_rotation = 3.1415927
+
+[node name="VillainCard" parent="PlayingColumn" unique_id=1130769112 instance=ExtResource("1_3wxtt")]
+layout_mode = 2
