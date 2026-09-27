@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dy6uo6vbo88li"
-path="res://.godot/imported/pierce_disabled.png-3183d666a76c0f618eff31eb17747c6c.ctex"
+uid="uid://4ec7c5ruon6c"
+path="res://.godot/imported/spells_confirm.png-72c5719f6b7eabf47f9a2851ab5a4bfa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dungeon/character/villain/assets/pierce_disabled.png"
-dest_files=["res://.godot/imported/pierce_disabled.png-3183d666a76c0f618eff31eb17747c6c.ctex"]
+source_file="res://ui/villain_hud/spells_confirm.png"
+dest_files=["res://.godot/imported/spells_confirm.png-72c5719f6b7eabf47f9a2851ab5a4bfa.ctex"]
 
 [params]
 

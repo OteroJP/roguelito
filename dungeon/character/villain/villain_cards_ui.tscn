@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://ui/villain_cards_ui.gd" id="1_bkb4w"]
 [ext_resource type="Texture2D" uid="uid://c1teqyuhv6yl8" path="res://dungeon/character/villain/assets/symbol_heart.png" id="2_bkb4w"]
-[ext_resource type="Texture2D" uid="uid://cph76hx3udtix" path="res://dungeon/character/villain/assets/damage.png" id="2_t6otb"]
-[ext_resource type="Texture2D" uid="uid://r5qjnaxsjyrb" path="res://dungeon/character/villain/assets/heal.png" id="3_gyx0p"]
+[ext_resource type="Texture2D" uid="uid://4ec7c5ruon6c" path="res://ui/villain_hud/spells_confirm.png" id="3_v81xm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_japx7"]
 
@@ -203,36 +202,28 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="Abilities" type="HBoxContainer" parent="." unique_id=565965432]
+[node name="Separator" type="PanelContainer" parent="." unique_id=1117393306]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Separator" unique_id=758194481]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Separator/MarginContainer" unique_id=574022428]
+layout_mode = 2
+
+[node name="Spellbook" type="VBoxContainer" parent="Separator/MarginContainer/VBoxContainer" unique_id=1540790274]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="Abilities" unique_id=1117393306]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="HBoxContainer" type="VBoxContainer" parent="Abilities" unique_id=1540790274]
-layout_mode = 2
-alignment = 1
-
-[node name="Damage" type="TextureButton" parent="Abilities/HBoxContainer" unique_id=1524448713]
+[node name="SpellConfirmBtn" type="TextureButton" parent="Separator/MarginContainer/VBoxContainer" unique_id=953243279]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-texture_normal = ExtResource("2_t6otb")
+texture_normal = ExtResource("3_v81xm")
 ignore_texture_size = true
 stretch_mode = 5
-
-[node name="Heal" type="TextureButton" parent="Abilities/HBoxContainer" unique_id=237176008]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-texture_normal = ExtResource("3_gyx0p")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="???" type="TextureButton" parent="Abilities/HBoxContainer" unique_id=711776966]
-layout_mode = 2
-
-[node name="PanelContainer2" type="PanelContainer" parent="Abilities" unique_id=1695662685]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2

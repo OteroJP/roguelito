@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b8557o2sefgot"]
+
+[ext_resource type="Script" uid="uid://b23sa10vsyabe" path="res://ui/card_manager/card/spell_button.gd" id="1_6qy5m"]
+
+[node name="Button" type="TextureButton" unique_id=1165962404]
+custom_minimum_size = Vector2(50, 50)
+offset_right = 30.0
+offset_bottom = 110.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1_6qy5m")

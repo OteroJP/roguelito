@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4bubuyb53fe"
-path="res://.godot/imported/pierce.png-03ef903ec751e91e30011979a42a23b9.ctex"
+uid="uid://bvcuwey8470ml"
+path="res://.godot/imported/reveal_disabled.png-ace538b2ad5e058479b48e127d2ff9db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dungeon/character/villain/assets/pierce.png"
-dest_files=["res://.godot/imported/pierce.png-03ef903ec751e91e30011979a42a23b9.ctex"]
+source_file="res://ui/villain_hud/reveal_disabled.png"
+dest_files=["res://.godot/imported/reveal_disabled.png-ace538b2ad5e058479b48e127d2ff9db.ctex"]
 
 [params]
 

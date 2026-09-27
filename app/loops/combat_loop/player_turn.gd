@@ -16,8 +16,10 @@ func run() -> void:
 	GameManager.add_log("Villain drawn", GameManager.LogSource.VILLAIN)
 	if _have_loop_ended.call():
 		return
-	await _villain.activate_ability() 
-	# TODO: cambiar lo de abajo por esto? 
-	#		> GameManager.current_hero_card = await _villain.play_card() 
+	GameManager.add_log("Villain may cast spells", GameManager.LogSource.VILLAIN)
+	await _villain.cast_spells()
+	if _have_loop_ended.call(): # WIN-LOSS CHECK
+		return
+	GameManager.add_log("Villain plays a card", GameManager.LogSource.VILLAIN)
 	await _villain.play_card() # Mandatory: Player selects a card to play, may undo, and the confirms.	
 	#phase_ended.emit()	

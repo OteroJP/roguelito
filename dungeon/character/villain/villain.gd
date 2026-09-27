@@ -13,6 +13,7 @@ var _VillainCardsUI: VillainCardsUI
 @export var second_phase_min: int
 @export var second_phase_max: int
 @export var symbol_bonuses: Array[SymbolBonus]
+@export var spells: Array[VillainSpell]
 @export var immune_to_damage: bool = false
 @export var symbol_count: Dictionary[Symbol, int] = {
 	Symbol.SKULL: 0,
@@ -53,9 +54,17 @@ func show_hand() -> void:
 	await _VillainCardsUI.add_to_hand(deck.display_hand())
 	
 	
-func activate_ability() -> void:
-	pass
+func cast_spells() -> void:
+	await _VillainCardsUI.cast_spells()
 	
+func resolve_spell(spell: VillainSpell) -> void:
+	assert(spell.mana_cost <= mana, "Insufficient mana to cast, spell should've been disabled.")
+	GameManager.add_log("%s spell casted!" % spell.name)
+	mana -= spell.mana_cost
+	for effect in spell.effects:
+		effect.on_clash(self, GameManager.hero)
+	character_stats_changed.emit()
+
 
 func matches_current_symbol(symbol_to_match: Symbol) -> bool:
 	return true if symbol_to_match == current_symbol else false	

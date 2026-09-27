@@ -8,8 +8,6 @@ var _chosen_card: CardData
 @onready var _DeckContainer: MarginContainer = %DeckContainer
 @onready var _HandContainer: MarginContainer = %HandContainer
 @onready var _DiscardContainer: MarginContainer = %DiscardContainer
-@onready var _AbilitiesContainer: HBoxContainer = %Abilities
-
 @onready var _Deck: Label = %Deck
 @onready var _Hand: HBoxContainer = %Hand
 @onready var _Discard: Label = %Discard
@@ -22,6 +20,8 @@ var _chosen_card: CardData
 @onready var _CurrentSymbol: TextureRect = %CurrentSymbol
 @onready var _SymbolCompleted: TextureRect = %SymbolCompleted
 @onready var _SymbolCounters: HBoxContainer = %SymbolCounters
+@onready var _Spellbook: VBoxContainer = %Spellbook
+@onready var _SpellConfirmBtn: TextureButton = %SpellConfirmBtn
 
 var _villain: Villain
 	
@@ -32,6 +32,11 @@ func _ready() -> void:
 	for bonus: SymbolBonus in _villain.symbol_bonuses:
 		var new_symbol_counter = SymbolCounter.new_symbol_counter(bonus)
 		_SymbolCounters.add_child(new_symbol_counter)
+	for spell: VillainSpell in _villain.spells:
+		var new_spell_btn = SpellButton.new_spell_button(spell, _villain)
+		_Spellbook.add_child(new_spell_btn)
+		new_spell_btn.pressed.connect(_villain.resolve_spell)
+		new_spell_btn._refresh_enabled()
 	_update_counters
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
@@ -66,11 +71,11 @@ func choose_card() -> CardData:
 	return card_selected
 
 
-func activate_abilities() -> void:
-	GameManager.add_log("Activating abilities", GameManager.LogSource.VILLAIN)
-	_set_abilities_interactable(true)
-	await _ConfirmButton.pressed
-	_set_abilities_interactable(false)
+func cast_spells() -> void:
+	GameManager.add_log("Activating spells", GameManager.LogSource.VILLAIN)
+	_set_spells_interactable(true)
+	await _SpellConfirmBtn.pressed
+	_set_spells_interactable(false)
 
 
 
@@ -109,9 +114,10 @@ func _find_card_in_hand(data: CardData) -> VillainCard:
 	return _Hand.get_children().get(card_ix)
 
 
-func _set_abilities_interactable(enabled: bool) -> void:
-	for button: Button in _AbilitiesContainer.get_children():
-		button.set_process_input(enabled)
+func _set_spells_interactable(enabled: bool) -> void:
+	for spell_button: SpellButton in _Spellbook.get_children():
+		spell_button.enable_spell_cast(enabled)
+	_SpellConfirmBtn.show() if enabled else _SpellConfirmBtn.hide()
 
 
 func _set_hand_interactable(enabled: bool) -> void:
