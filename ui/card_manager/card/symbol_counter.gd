@@ -1,14 +1,26 @@
-class_name SymbolCount
+class_name SymbolCounter
 extends PanelContainer
 
 @onready var label: Label = %Count
-@onready var text_rect: TextureRect = %Symbol
+@onready var symbol_texture: TextureRect = %Symbol
+@onready var bonus_texture: TextureRect = %Bonus
 
-@export var symbol: Villain.Symbol
-@export var count: int = 0:
+var _data: SymbolBonus
+var count: int = 0:
 	set(_count):
 		count = _count
 		label.text = str(count)
 	
 func _ready() -> void:
-	text_rect.texture = UIAssets.SYMBOL_LIBRARY[symbol]
+	symbol_texture.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol]
+	bonus_texture.texture = _data.ui_asset
+	
+func get_symbol() -> Villain.Symbol:
+	return _data.symbol
+	
+static func new_symbol_counter(data: SymbolBonus) -> SymbolCounter:
+	var counter: SymbolCounter = UIAssets.SYMBOL_COUNTER_SCENE.instantiate() as SymbolCounter
+	counter._data = data
+	counter.name = "%s Counter" % str(counter._data.symbol)
+	return counter
+	

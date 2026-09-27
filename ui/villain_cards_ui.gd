@@ -21,9 +21,7 @@ var _chosen_card: CardData
 @onready var _ManaLabel: Label = %ManaLabel
 @onready var _CurrentSymbol: TextureRect = %CurrentSymbol
 @onready var _SymbolCompleted: TextureRect = %SymbolCompleted
-@onready var _SkullCount: SymbolCount = %SkullCount
-@onready var _OmegaCount: SymbolCount = %OmegaCount
-@onready var _HeartCount: SymbolCount = %HeartCount
+@onready var _SymbolCounters: HBoxContainer = %SymbolCounters
 
 var _villain: Villain
 	
@@ -31,6 +29,9 @@ func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
 	_CurrentSymbol.texture = null
 	_SymbolCompleted.texture = null
+	for bonus: SymbolBonus in _villain.symbol_bonuses:
+		var new_symbol_counter = SymbolCounter.new_symbol_counter(bonus)
+		_SymbolCounters.add_child(new_symbol_counter)
 	_update_counters
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
@@ -97,12 +98,8 @@ func _update_counters() -> void:
 	_ManaBar.value = _villain.mana
 	_ManaBar.max_value = _villain.max_mana
 	_ManaLabel.text = "%d / %d" % [_villain.mana, _villain.max_mana]
-	_SkullCount.count = _villain.symbol_count[_SkullCount.symbol]
-	_OmegaCount.count = _villain.symbol_count[_OmegaCount.symbol]
-	_HeartCount.count = _villain.symbol_count[_HeartCount.symbol]
-
-	
-
+	for counter in _SymbolCounters.get_children():
+		counter.count = _villain.symbol_count[counter.get_symbol()]
 
 func _find_card_in_hand(data: CardData) -> VillainCard:
 	var card_ix = _Hand.get_children().find_custom(

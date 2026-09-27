@@ -72,6 +72,7 @@ func complete_symbol(new_symbol: Symbol) -> void:
 func resolve_symbol_bonus() -> void:
 	for symbol_bonus in symbol_bonuses:
 		if symbol_bonus.symbol == current_symbol:
+			GameManager.add_log("Resolves %s bonus effect" % str(current_symbol), GameManager.LogSource.VILLAIN)
 			for bonus in symbol_bonus.bonuses:
 				bonus.on_clash(GameManager.villain, GameManager.hero)
 	symbol_count[current_symbol] += 1

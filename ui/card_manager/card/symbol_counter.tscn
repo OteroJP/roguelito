@@ -23,3 +23,11 @@ layout_mode = 2
 texture = ExtResource("1_rigrg")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Bonus" type="TextureRect" parent="HBoxContainer" unique_id=192166448]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("1_rigrg")
+expand_mode = 1
+stretch_mode = 5

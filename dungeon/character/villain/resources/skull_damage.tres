@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://ui/card_manager/card/_card_effect.gd" id="1_6f8gj"]
 [ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://ui/card_manager/card/card_effects/villain_attacks.gd" id="2_24kpm"]
 [ext_resource type="Script" uid="uid://cdfx4ka5bxjp" path="res://dungeon/character/villain/symbol_bonus.gd" id="2_tt5pt"]
+[ext_resource type="Texture2D" uid="uid://cph76hx3udtix" path="res://dungeon/character/villain/assets/damage.png" id="4_24kpm"]
 
 [sub_resource type="Resource" id="Resource_5chfc"]
 script = ExtResource("2_24kpm")
@@ -13,5 +14,7 @@ metadata/_custom_type_script = "uid://bdmeoqu23atu8"
 [resource]
 script = ExtResource("2_tt5pt")
 symbol = 1
+tooltip = "Damage hero for 1"
+ui_asset = ExtResource("4_24kpm")
 bonuses = Array[ExtResource("1_6f8gj")]([SubResource("Resource_5chfc")])
 metadata/_custom_type_script = "uid://cdfx4ka5bxjp"

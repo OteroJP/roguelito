@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://c1teqyuhv6yl8" path="res://dungeon/character/villain/assets/symbol_heart.png" id="2_bkb4w"]
 [ext_resource type="Texture2D" uid="uid://cph76hx3udtix" path="res://dungeon/character/villain/assets/damage.png" id="2_t6otb"]
 [ext_resource type="Texture2D" uid="uid://r5qjnaxsjyrb" path="res://dungeon/character/villain/assets/heal.png" id="3_gyx0p"]
-[ext_resource type="PackedScene" uid="uid://hj3gtb6iqefk" path="res://ui/card_manager/card/symbol_counter.tscn" id="3_sieyt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_japx7"]
 
@@ -198,26 +197,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="SymbolCount" type="HBoxContainer" parent="VBoxContainer" unique_id=24446110]
+[node name="SymbolCounters" type="HBoxContainer" parent="VBoxContainer" unique_id=24446110]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
-
-[node name="SkullCount" parent="VBoxContainer/SymbolCount" unique_id=290641268 instance=ExtResource("3_sieyt")]
-unique_name_in_owner = true
-layout_mode = 2
-symbol = 1
-
-[node name="HeartCount" parent="VBoxContainer/SymbolCount" unique_id=284038174 instance=ExtResource("3_sieyt")]
-unique_name_in_owner = true
-layout_mode = 2
-symbol = 3
-
-[node name="OmegaCount" parent="VBoxContainer/SymbolCount" unique_id=575219280 instance=ExtResource("3_sieyt")]
-unique_name_in_owner = true
-layout_mode = 2
-symbol = 2
 
 [node name="Abilities" type="HBoxContainer" parent="." unique_id=565965432]
 unique_name_in_owner = true

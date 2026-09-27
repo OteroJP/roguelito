@@ -14,3 +14,5 @@ const SYMBOL_LIBRARY: Dictionary[Villain.Symbol, Texture2D] = {
 	Villain.Symbol.OMEGA: preload("uid://b31undwpa6kjr"),
 	Villain.Symbol.HEART: preload("uid://c1teqyuhv6yl8"),
 }
+
+const SYMBOL_COUNTER_SCENE: PackedScene = preload("uid://hj3gtb6iqefk")
