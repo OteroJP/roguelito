@@ -12,7 +12,6 @@ var _combat_loop: CombatLoop
 
 func _ready() -> void:
 	_prepare_room()
-	GameManager.log = %Log
 	await start_combat()
 	
 	
@@ -24,7 +23,7 @@ func start_combat() -> void:
 	
 
 func _prepare_room() -> void:
-	print("Preparing hero, decks and villain")
+	GameManager.add_log("Preparing hero, decks and villain", GameManager.LogSource.GAME)
 	villain_container.add_child(villain.prepare())
 	dungeon.add_child(hero.prepare())
 	_combat_loop = CombatLoop.new(
@@ -44,8 +43,8 @@ func _end_combat() -> void:
 func _prepare_end_conditions() -> Array[EndCondition]:
 	var villain_defeated = CharacterDefeated.new(villain)
 	var hero_defeated = CharacterDefeated.new(hero)
-	villain_defeated.satisfied.connect(print.bind("Player lost"))
-	villain_defeated.satisfied.connect(print.bind("Hero defeated!"))
+	villain_defeated.satisfied.connect(func(_condition: EndCondition) -> void: GameManager.add_log("Player lost", GameManager.LogSource.GAME))
+	hero_defeated.satisfied.connect(func(_condition: EndCondition) -> void: GameManager.add_log("Hero defeated!", GameManager.LogSource.HERO))
 	return [
 		villain_defeated,
 		hero_defeated

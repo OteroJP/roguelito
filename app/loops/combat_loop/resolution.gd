@@ -30,7 +30,6 @@ func run() -> void:
 	
 	# Execute faster card. 
 	# WIN-LOSS CHECK
-	GameManager.clear_log()
 	await GameManager.execute_faster_card()
 	# Execute slower card. 
 	if _have_loop_ended.call(): # WIN-LOSS CHECK

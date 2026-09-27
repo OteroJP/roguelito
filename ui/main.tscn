@@ -98,18 +98,3 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=911237387]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -400.0
-offset_bottom = 300.0
-grow_horizontal = 0
-
-[node name="Log" type="Label" parent="ScrollContainer" unique_id=1072853026]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 300)
-layout_mode = 2
-autowrap_mode = 2

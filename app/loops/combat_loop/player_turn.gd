@@ -11,9 +11,9 @@ func _init(
 	
 	
 func run() -> void:
-	print("player turn started")
+	GameManager.add_log("Player turn started", GameManager.LogSource.GAME)
 	await _villain.draw()
-	print("villain drawn")
+	GameManager.add_log("Villain drawn", GameManager.LogSource.VILLAIN)
 	if _have_loop_ended.call():
 		return
 	await _villain.activate_ability() 

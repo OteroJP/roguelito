@@ -23,7 +23,7 @@ func prepare() -> void:
 	_discard_pile.clear()
 	_hand.clear()
 	for card: CardData in card_set:
-		print("card: ", card)
+		GameManager.add_log("card: %s" % card.name, GameManager.LogSource.GAME)
 		for copy: int in card_set[card]:
 			_card_pile.append(card.duplicate(true))
 	_card_pile.shuffle() #without controled seed

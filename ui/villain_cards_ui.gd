@@ -56,7 +56,7 @@ func add_to_hand(cards: Array[CardData]) -> void:
 	
 #
 func choose_card() -> CardData:
-	print("Choosing card")
+	GameManager.add_log("Choosing card", GameManager.LogSource.VILLAIN)
 	_set_hand_interactable(true)
 	await _ConfirmButton.pressed
 	var card_selected: CardData = _chosen_card
@@ -66,7 +66,7 @@ func choose_card() -> CardData:
 
 
 func activate_abilities() -> void:
-	print("Activating abilities")
+	GameManager.add_log("Activating abilities", GameManager.LogSource.VILLAIN)
 	_set_abilities_interactable(true)
 	await _ConfirmButton.pressed
 	_set_abilities_interactable(false)
