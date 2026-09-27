@@ -43,6 +43,7 @@ func draw() -> void:
 	if not deck.may_draw(1): # Si no le quedan cartas, pierde 1 de vida, mezcla su descarte en un nuevo mazo y roba.
 		deck.reshuffle()
 		take_damage(1)
+		GameManager.add_log("No cards left, take damage and reshuffle", GameManager.LogSource.VILLAIN)
 	var card_data: CardData = deck.draw()
 	await _VillainCardsUI.add_to_hand([card_data])
 
@@ -89,6 +90,7 @@ func end_phase() -> void:
 	for modifier in attack_modifiers:
 		modifier.spend_use()
 	GameManager.is_current_villain_card_enabled =  true
+
 
 
 func take_damage(damage: int, ignores_armor: bool = false) -> void:

@@ -68,12 +68,12 @@ func resolve(card: CardData) -> void:
 		card.resolved.disconnect(resolve)
 		_playing_area.erase(card)
 		_discard_pile.append(card)
-		
 		cards_moved.emit()
 
 
 func discard(card: CardData) -> void:
 	if card in _hand:
+		card.on_discard(GameManager.villain, GameManager.hero)
 		_hand.erase(card)
 		_discard_pile.append(card)
 		cards_moved.emit()
@@ -126,3 +126,11 @@ func add_to_card_pile(extra_cards: Array[CardData]) -> void:
 		_card_pile.append(card)
 	_card_pile.shuffle()
 	deck_shuffle.emit(_card_pile.size())
+	
+
+func discard_extra_cards() -> void:
+	var cards_to_discard: int = maxi(_hand.size() - max_hand_size, 0)
+	if cards_to_discard > 0:
+		for i in range(0, cards_to_discard):
+			discard(_hand.pop_front())
+	
