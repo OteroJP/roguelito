@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cs4gqthniprqk"]
 
 [ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://ui/villain_cards_ui.gd" id="1_bkb4w"]
+[ext_resource type="Texture2D" uid="uid://cdoo4w6ycumq6" path="res://dungeon/villain_hands.png" id="1_iims5"]
 [ext_resource type="Texture2D" uid="uid://c1teqyuhv6yl8" path="res://dungeon/character/villain/assets/symbol_heart.png" id="2_bkb4w"]
 [ext_resource type="Texture2D" uid="uid://4ec7c5ruon6c" path="res://ui/villain_hud/spells_confirm.png" id="3_v81xm"]
 
@@ -12,7 +13,17 @@ bg_color = Color(0.2503098, 0.0004813075, 0.71974313, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6otb"]
 bg_color = Color(0.2509804, 0.6745098, 0.72156864, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2a87"]
+atlas = ExtResource("1_iims5")
+region = Rect2(340, 0, 180, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wm4fb"]
+atlas = ExtResource("1_iims5")
+region = Rect2(840, 0, 380, 0)
+
 [node name="VillainCards" type="HBoxContainer" unique_id=1026675182]
+offset_right = 913.0
+offset_bottom = 252.0
 size_flags_horizontal = 3
 script = ExtResource("1_bkb4w")
 
@@ -227,3 +238,38 @@ layout_mode = 2
 texture_normal = ExtResource("3_v81xm")
 ignore_texture_size = true
 stretch_mode = 5
+
+[node name="Control" type="Control" parent="." unique_id=1839454495]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="Control" unique_id=1250678320]
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 768.0
+texture = SubResource("AtlasTexture_q2a87")
+
+[node name="Container" type="SubViewportContainer" parent="Control" unique_id=411690973]
+layout_mode = 0
+offset_left = 184.0
+offset_right = 1098.0
+offset_bottom = 252.0
+scale = Vector2(0.7, 0.7)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+offset_transform_scale = Vector2(0.8, 0.8)
+offset_transform_visual_only = false
+stretch_shrink = 6
+
+[node name="SubViewport" type="SubViewport" parent="Control/Container" unique_id=1634475503]
+handle_input_locally = false
+size = Vector2i(914, 252)
+render_target_update_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1212117513]
+layout_mode = 0
+offset_left = 1102.0
+offset_right = 1482.0
+offset_bottom = 768.0
+offset_transform_enabled = true
+texture = SubResource("AtlasTexture_wm4fb")

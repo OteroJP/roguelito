@@ -42,14 +42,14 @@ func remove_attack_modifier(modifier: AttackModifier) -> void:
 func tick_statuses(villain: Villain, hero: Hero) -> void:
 	for status in statuses:
 		status.on_tick(villain, hero)
-		
-		
+
+
 func take_status(status: Status) -> void:
 	var new_status: Status = status.duplicate(true)
 	statuses.append(new_status)
 	new_status.status_depleted.connect(remove_status)
-	
-	
+
+
 func remove_status(status_to_remove: Status) -> void:
 	statuses.erase(status_to_remove)
 	#Entiendo que siendo q son ref counted no necesitan free

@@ -62,7 +62,7 @@ func add_to_hand(cards: Array[CardData]) -> void:
 	
 #
 func choose_card() -> CardData:
-	GameManager.add_log("Choosing card", GameManager.LogSource.VILLAIN)
+	GameManager.add_debug("Choosing card", GameManager.LogSource.VILLAIN)
 	_set_hand_interactable(true)
 	await _ConfirmButton.pressed
 	var card_selected: CardData = _chosen_card
@@ -72,11 +72,10 @@ func choose_card() -> CardData:
 
 
 func cast_spells() -> void:
-	GameManager.add_log("Activating spells", GameManager.LogSource.VILLAIN)
+	GameManager.add_debug("Activating spells", GameManager.LogSource.VILLAIN)
 	_set_spells_interactable(true)
 	await _SpellConfirmBtn.pressed
 	_set_spells_interactable(false)
-
 
 
 #TODO revisar esto
@@ -105,6 +104,7 @@ func _update_counters() -> void:
 	_ManaLabel.text = "%d / %d" % [_villain.mana, _villain.max_mana]
 	for counter in _SymbolCounters.get_children():
 		counter.count = _villain.symbol_count[counter.get_symbol()]
+
 
 func _find_card_in_hand(data: CardData) -> VillainCard:
 	var card_ix = _Hand.get_children().find_custom(
@@ -156,6 +156,7 @@ func change_completed_symbol(new_symbol: Villain.Symbol) -> void:
 
 func get_symbol_asset(symbol: Villain.Symbol) -> Texture2D:
 	return UIAssets.SYMBOL_LIBRARY[symbol]
+	
 	
 func _translation_tween(control_nodes: Array[Control]) -> Tween:
 	const DELAY_FACTOR: float = 0.08

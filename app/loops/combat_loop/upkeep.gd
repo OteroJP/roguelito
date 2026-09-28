@@ -15,15 +15,15 @@ func _init(
 
 	
 func run() -> void:
-	GameManager.add_log("Upkeep started", GameManager.LogSource.GAME)
+	GameManager.add_debug("Upkeep started", GameManager.LogSource.GAME)
 	await _hero.draw() # Hero shows stance
-	GameManager.add_log("Hero chose card", GameManager.LogSource.HERO)
+	GameManager.add_debug("Hero chose card", GameManager.LogSource.HERO)
 	await _hero.tick_statuses(_villain, _hero)
-	GameManager.add_log("Hero ticked statuses", GameManager.LogSource.HERO)
+	GameManager.add_debug("Hero ticked statuses", GameManager.LogSource.HERO)
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
 	await _villain.tick_statuses(_villain, _hero)
-	GameManager.add_log("Villain ticked statuses", GameManager.LogSource.VILLAIN)
+	GameManager.add_debug("Villain ticked statuses", GameManager.LogSource.VILLAIN)
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
 	await _hero.play_card() # Hero picks random card to play

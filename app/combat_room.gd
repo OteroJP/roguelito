@@ -17,7 +17,7 @@ func _ready() -> void:
 	
 func start_combat() -> void:
 	#TBD initial combat animations
-	await villain.show_hand()
+	await villain.show_hand() #TODO modify this
 	await _combat_loop.run()
 	_end_combat()
 	
@@ -30,7 +30,7 @@ func _prepare_room() -> void:
 		ux_delay
 	)
 	playing_area.clear()
-	GameManager.add_log("Preparing hero, decks and villain", GameManager.LogSource.GAME)
+	GameManager.add_debug("Preparing hero, decks and villain", GameManager.LogSource.GAME)
 	villain_container.add_child(villain.prepare())
 	var new_hero: HeroVisuals = hero.prepare()
 	dungeon.add_child(new_hero)
@@ -40,6 +40,7 @@ func _prepare_room() -> void:
 		_prepare_phases(),	
 	)
 
+
 func _end_combat() -> void:
 	# TBD
 	pass
@@ -48,8 +49,8 @@ func _end_combat() -> void:
 func _prepare_end_conditions() -> Array[EndCondition]:
 	var villain_defeated = CharacterDefeated.new(villain)
 	var hero_defeated = CharacterDefeated.new(hero)
-	villain_defeated.satisfied.connect(func(_condition: EndCondition) -> void: GameManager.add_log("Player lost", GameManager.LogSource.GAME))
-	hero_defeated.satisfied.connect(func(_condition: EndCondition) -> void: GameManager.add_log("Hero defeated!", GameManager.LogSource.HERO))
+	villain_defeated.satisfied.connect(func(_condition: EndCondition) -> void: GameManager.add_debug("Player lost", GameManager.LogSource.GAME))
+	hero_defeated.satisfied.connect(func(_condition: EndCondition) -> void: GameManager.add_debug("Hero defeated!", GameManager.LogSource.HERO))
 	return [
 		villain_defeated,
 		hero_defeated

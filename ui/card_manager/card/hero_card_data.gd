@@ -11,10 +11,10 @@ func on_play(villain: Villain, hero: Hero):
 
 func on_clash(villain: Villain, hero: Hero):
 	if hero.is_in_stance(stance_for_bonus):
-		GameManager.add_log("STANCE BONUS:", GameManager.LogSource.HERO)
+		GameManager.add_debug("STANCE BONUS:", GameManager.LogSource.HERO)
 		for effect in bonus_effects:
 			effect.on_clash(villain, hero)
-	GameManager.add_log("REGULAR EFFECT:", GameManager.LogSource.HERO)
+	GameManager.add_debug("REGULAR EFFECT:", GameManager.LogSource.HERO)
 	for effect in effects:
 		effect.on_clash(villain, hero)
 

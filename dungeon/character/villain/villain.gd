@@ -44,7 +44,7 @@ func draw() -> void:
 	if not deck.may_draw(1): # Si no le quedan cartas, pierde 1 de vida, mezcla su descarte en un nuevo mazo y roba.
 		deck.reshuffle()
 		take_damage(1)
-		GameManager.add_log("No cards left, take damage and reshuffle", GameManager.LogSource.VILLAIN)
+		GameManager.add_debug("No cards left, take damage and reshuffle", GameManager.LogSource.VILLAIN)
 	var card_data: CardData = deck.draw()
 	await _VillainCardsUI.add_to_hand([card_data])
 
@@ -57,9 +57,10 @@ func show_hand() -> void:
 func cast_spells() -> void:
 	await _VillainCardsUI.cast_spells()
 	
+	
 func resolve_spell(spell: VillainSpell) -> void:
 	assert(spell.mana_cost <= mana, "Insufficient mana to cast, spell should've been disabled.")
-	GameManager.add_log("%s spell casted!" % spell.name)
+	GameManager.add_debug("%s spell casted!" % spell.name)
 	mana -= spell.mana_cost
 	for effect in spell.effects:
 		effect.on_clash(self, GameManager.hero)
@@ -82,7 +83,7 @@ func complete_symbol(new_symbol: Symbol) -> void:
 func resolve_symbol_bonus() -> void:
 	for symbol_bonus in symbol_bonuses:
 		if symbol_bonus.symbol == current_symbol:
-			GameManager.add_log("Resolves %s bonus effect" % str(current_symbol), GameManager.LogSource.VILLAIN)
+			GameManager.add_debug("Resolves %s bonus effect" % str(current_symbol), GameManager.LogSource.VILLAIN)
 			for bonus in symbol_bonus.bonuses:
 				bonus.on_clash(GameManager.villain, GameManager.hero)
 	symbol_count[current_symbol] += 1
@@ -105,7 +106,7 @@ func end_phase() -> void:
 func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	var incoming_damage := damage
 	health -= incoming_damage
-	GameManager.add_log("Villain suffers %s damage" % str(incoming_damage), GameManager.LogSource.VILLAIN)
+	GameManager.add_debug("Villain suffers %s damage" % str(incoming_damage), GameManager.LogSource.VILLAIN)
 	character_stats_changed.emit()
 	
 
@@ -120,15 +121,15 @@ func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = fa
 	for modifier in attack_modifiers:
 		modifier.modify_attack(new_attack)
 	target.take_attack(new_attack)
-	GameManager.add_log("Villain attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)], GameManager.LogSource.VILLAIN)
+	GameManager.add_debug("Villain attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)], GameManager.LogSource.VILLAIN)
 
 
 func heal(amount_to_heal: int) -> void:
 	health += amount_to_heal
 	character_stats_changed.emit()
-	GameManager.add_log("Villain heals for %s" % [str(amount_to_heal)], GameManager.LogSource.VILLAIN)
+	GameManager.add_debug("Villain heals for %s" % [str(amount_to_heal)], GameManager.LogSource.VILLAIN)
 
 
 func get_bonus_speed(_bonus_speed: int) -> void:
 	speed_bonus += _bonus_speed
-	GameManager.add_log("Villain gets bonus speed for %s" % [str(_bonus_speed)], GameManager.LogSource.VILLAIN)
+	GameManager.add_debug("Villain gets bonus speed for %s" % [str(_bonus_speed)], GameManager.LogSource.VILLAIN)

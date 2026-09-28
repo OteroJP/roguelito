@@ -53,16 +53,16 @@ func execute_faster_card() -> void:
 	#TODO this could be cleaner
 	if (card_resolve_queue[0] == current_villain_card):
 		if is_current_villain_card_enabled:
-			GameManager.add_log("VILLAIN GOES FIRST:", LogSource.VILLAIN)
+			GameManager.add_debug("VILLAIN GOES FIRST:", LogSource.VILLAIN)
 			card_resolve_queue[0].on_clash(villain, hero)
 		else:
-			GameManager.add_log("VILLAIN WAS CANCELLED!:", LogSource.VILLAIN)
+			GameManager.add_debug("VILLAIN WAS CANCELLED!:", LogSource.VILLAIN)
 	if (card_resolve_queue[0] == current_hero_card):
 		if is_current_hero_card_enabled:
-			GameManager.add_log("HERO GOES FIRST:", LogSource.HERO)
+			GameManager.add_debug("HERO GOES FIRST:", LogSource.HERO)
 			card_resolve_queue[0].on_clash(villain, hero)
 		else:
-			GameManager.add_log("HERO WAS CANCELLED!:", LogSource.HERO)
+			GameManager.add_debug("HERO WAS CANCELLED!:", LogSource.HERO)
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
@@ -70,16 +70,16 @@ func execute_slower_card() -> void:
 	#TODO this could be cleaner
 	if (card_resolve_queue[1] == current_villain_card):
 		if is_current_villain_card_enabled:
-			GameManager.add_log("VILLAIN GOES SECOND:", LogSource.VILLAIN)
+			GameManager.add_debug("VILLAIN GOES SECOND:", LogSource.VILLAIN)
 			card_resolve_queue[1].on_clash(villain, hero)
 		else:
-			GameManager.add_log("VILLAIN WAS CANCELLED!", LogSource.VILLAIN)
+			GameManager.add_debug("VILLAIN WAS CANCELLED!", LogSource.VILLAIN)
 	if (card_resolve_queue[1] == current_hero_card):
 		if is_current_hero_card_enabled:
-			GameManager.add_log("HERO GOES SECOND:", LogSource.HERO)
+			GameManager.add_debug("HERO GOES SECOND:", LogSource.HERO)
 			card_resolve_queue[1].on_clash(villain, hero)
 		else:
-			GameManager.add_log("HERO WAS CANCELLED!", LogSource.HERO)
+			GameManager.add_debug("HERO WAS CANCELLED!", LogSource.HERO)
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	
 	
@@ -116,5 +116,5 @@ func clear_log() -> void:
 	_log.clear()
 
 
-func add_log(line: String, source: LogSource = LogSource.GAME) -> void:
+func add_debug(line: String, source: LogSource = LogSource.GAME) -> void:
 	_log.append(line, _LOG_COLOR[source], _LOG_TAG[source])

@@ -27,9 +27,9 @@ func run() -> void:
 	while not _should_end():
 		_current_phase = (_current_phase + 1) % phases.size()
 		var phase = phases[_current_phase]
-		GameManager.add_log("Next phase is starting %s" % phase.get_script().get_global_name(), GameManager.LogSource.GAME)
+		GameManager.add_debug("Next phase is starting %s" % phase.get_script().get_global_name(), GameManager.LogSource.GAME)
 		await phase.run()
-	GameManager.add_log("Combat loop ended", GameManager.LogSource.GAME)
+	GameManager.add_debug("Combat loop ended", GameManager.LogSource.GAME)
 
 
 func _should_end() -> bool:
