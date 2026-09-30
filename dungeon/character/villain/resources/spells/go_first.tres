@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://w8lt376mqa5p" path="res://dungeon/character/villain/spell.gd" id="2_tgw0o"]
 [ext_resource type="Script" uid="uid://c3sjwk5s36yda" path="res://ui/card_manager/card/card_effects/villain_speeds.gd" id="4_8ns3l"]
 
-[sub_resource type="Resource" id="Resource_hiiq4"]
+[sub_resource type="Resource" id="Resource_8ns3l"]
 script = ExtResource("4_8ns3l")
 speed_modification = 100
 metadata/_custom_type_script = "uid://c3sjwk5s36yda"
@@ -16,5 +16,5 @@ script = ExtResource("2_tgw0o")
 name = "Speed"
 btn_asset = ExtResource("1_l2ny2")
 btn_asset_disabled = ExtResource("2_8ns3l")
-effect = Array[ExtResource("1_wny61")]([SubResource("Resource_hiiq4")])
+effects = Array[ExtResource("1_wny61")]([SubResource("Resource_8ns3l")])
 metadata/_custom_type_script = "uid://w8lt376mqa5p"
