@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Villain" format=3 uid="uid://dalgani72u8cv"]
+
+[ext_resource type="Resource" uid="uid://buuedavgylgmr" path="res://resources/villain_deck.tres" id="1_o7fji"]
+[ext_resource type="Script" uid="uid://c4teak7vu6pqs" path="res://game_specific/characters/villain.gd" id="2_you8l"]
+[ext_resource type="Script" uid="uid://w8lt376mqa5p" path="res://game_specific/spell.gd" id="3_nph7r"]
+[ext_resource type="Resource" uid="uid://by2n3vpuwb26c" path="res://resources/spells/go_first.tres" id="4_5qq0m"]
+[ext_resource type="Resource" uid="uid://x8nlosmpwjgh" path="res://resources/spells/ignore_armor.tres" id="5_vtv8i"]
+[ext_resource type="Resource" uid="uid://d3qvdvh4cxk03" path="res://resources/spells/reveal_hero_card.tres" id="6_h7ng5"]
+[ext_resource type="Script" uid="uid://cdfx4ka5bxjp" path="res://game_specific/symbol_bonus.gd" id="7_ank24"]
+[ext_resource type="Resource" uid="uid://bwxdu75t8dm73" path="res://resources/symbol_bonuses/heart_heal.tres" id="8_1xw2i"]
+[ext_resource type="Resource" uid="uid://3dbpegs3q3vt" path="res://resources/symbol_bonuses/omega_cancel.tres" id="9_7oh72"]
+[ext_resource type="Resource" uid="uid://gjjx7un00n2c" path="res://resources/symbol_bonuses/skull_damage.tres" id="10_2dyoj"]
+
+[resource]
+script = ExtResource("2_you8l")
+mana = 2
+max_mana = 2
+second_phase_min = 1
+second_phase_max = 5
+symbol_bonuses = Array[ExtResource("7_ank24")]([ExtResource("8_1xw2i"), ExtResource("9_7oh72"), ExtResource("10_2dyoj")])
+spells = Array[ExtResource("3_nph7r")]([ExtResource("4_5qq0m"), ExtResource("5_vtv8i"), ExtResource("6_h7ng5")])
+character_name = "VILLAIN"
+max_health = 10
+health = 10
+deck = ExtResource("1_o7fji")
+metadata/_custom_type_script = "uid://c4teak7vu6pqs"

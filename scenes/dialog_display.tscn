@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://comupejlsb4vo"]
+
+[ext_resource type="Script" uid="uid://4ow8mlopi16r" path="res://dungeon/dialog/dialog_display.gd" id="1_1i6oh"]
+
+[node name="DialogDisplay" type="PanelContainer" unique_id=2144449603]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("1_1i6oh")
+
+[node name="Container" type="VBoxContainer" parent="." unique_id=1299904125]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TextMargins" type="MarginContainer" parent="Container" unique_id=28869142]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="Container/TextMargins" unique_id=1414430284]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "Otra vez aca?"

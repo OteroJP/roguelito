@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="RevealHero" format=3 uid="uid://gxxtidcjn2dr"]
+
+[ext_resource type="Script" uid="uid://d7eoprihg1j3" path="res://game_specific/card_effects/reveal_hero_card.gd" id="1_net3r"]
+
+[resource]
+script = ExtResource("1_net3r")
+metadata/_custom_type_script = "uid://d7eoprihg1j3"

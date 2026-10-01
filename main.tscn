@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://c6a2ffow874yf"]
+
+[ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://game_specific/combat_room.gd" id="1_7mycd"]
+[ext_resource type="Resource" uid="uid://dalgani72u8cv" path="res://resources/villain.tres" id="2_272bh"]
+[ext_resource type="Resource" uid="uid://bd76ry0mpjv76" path="res://resources/hero_deck.tres" id="3_5vw27"]
+[ext_resource type="Script" uid="uid://boop60gqxkjeu" path="res://game_specific/characters/hero.gd" id="4_kek77"]
+[ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://scenes/dungeon_room.tscn" id="5_4c57u"]
+[ext_resource type="PackedScene" uid="uid://xicrwm38hrf1" path="res://scenes/playing_area.tscn" id="6_efxa6"]
+
+[sub_resource type="Resource" id="Resource_t6oic"]
+script = ExtResource("4_kek77")
+max_armor = 5
+armor = 5
+character_name = "HERO"
+max_health = 20
+health = 20
+deck = ExtResource("3_5vw27")
+metadata/_custom_type_script = "uid://boop60gqxkjeu"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Control" type="Control" unique_id=489232660]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7mycd")
+villain = ExtResource("2_272bh")
+hero = SubResource("Resource_t6oic")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=684047473]
+size = Vector2i(1152, 648)
+
+[node name="DungeonRoom" parent="SubViewport" unique_id=1410852599 instance=ExtResource("5_4c57u")]
+unique_name_in_owner = true
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1721460229]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_fc3ap")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=2087657242]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayingArea" parent="HBoxContainer" unique_id=969993662 instance=ExtResource("6_efxa6")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="InteractiveContainer" type="MarginContainer" parent="HBoxContainer" unique_id=1834258728]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
