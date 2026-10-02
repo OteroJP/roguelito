@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="DamageHero" format=3 uid="uid://c8qg1ybwvbota"]
 
-[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/card_effects/villain_attacks.gd" id="1_ym1j0"]
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/effects/villain_attacks.gd" id="1_ym1j0"]
 
 [resource]
 script = ExtResource("1_ym1j0")

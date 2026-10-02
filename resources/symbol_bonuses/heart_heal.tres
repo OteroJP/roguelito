@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="SymbolBonus" format=3 uid="uid://bwxdu75t8dm73"]
 
-[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/card_effects/_card_effect.gd" id="1_dflhj"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_1m430"]
+[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://game_specific/effects/villain_heals.gd" id="2_2wr21"]
 [ext_resource type="Script" uid="uid://cdfx4ka5bxjp" path="res://game_specific/symbol_bonus.gd" id="2_7ccoq"]
-[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://game_specific/card_effects/villain_heals.gd" id="2_cht5j"]
 [ext_resource type="Texture2D" uid="uid://r5qjnaxsjyrb" path="res://assets/villain/heal.png" id="4_cht5j"]
 
 [sub_resource type="Resource" id="Resource_36cne"]
-script = ExtResource("2_cht5j")
+script = ExtResource("2_2wr21")
 amount_to_heal = 1
 effect_text = "Heal Villain 1."
 metadata/_custom_type_script = "uid://db3snuwsh6hor"
@@ -16,5 +16,5 @@ script = ExtResource("2_7ccoq")
 symbol = 3
 tooltip = "Heal Villain 1."
 ui_asset = ExtResource("4_cht5j")
-bonuses = Array[ExtResource("1_dflhj")]([SubResource("Resource_36cne")])
+bonuses = Array[ExtResource("1_1m430")]([SubResource("Resource_36cne")])
 metadata/_custom_type_script = "uid://cdfx4ka5bxjp"

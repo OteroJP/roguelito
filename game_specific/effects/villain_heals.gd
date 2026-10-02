@@ -1,5 +1,5 @@
 class_name VillainHeal
-extends CardEffect
+extends Effect
 
 @export var amount_to_heal: int
 

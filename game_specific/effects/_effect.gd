@@ -1,9 +1,6 @@
-@abstract class_name CardEffect
+@abstract class_name Effect
 extends Resource
 
-#this is unsuitable to then resolve the actual target
-#split between different subclasses of card effects
-#then ask for class
 @export_multiline() var effect_text: String = "Lorem ipsum"
 
 
@@ -28,7 +25,7 @@ func text() -> String:
 
 
 #DamageEffect
-#extends CardEffect
+#extends Effect
 #var damage: int
 #func _on_clash(_target)
 	#if  _get_target() and  _get_target().has_metod(“take_damage”):

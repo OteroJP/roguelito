@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainPierce" format=3 uid="uid://v82h00nkuy7m"]
+
+[ext_resource type="Script" uid="uid://3colurvxkj81" path="res://game_specific/effects/villain_make_pierce.gd" id="1_wbmds"]
+
+[resource]
+script = ExtResource("1_wbmds")
+metadata/_custom_type_script = "uid://3colurvxkj81"

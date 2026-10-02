@@ -7,14 +7,14 @@ signal resolved(card: CardData)
 @export_multiline() var effect_text: String
 @export var art: Texture2D
 @export var speed: int
-@export var bonus_effects: Array[CardEffect]
-@export var effects: Array[CardEffect]
+@export var bonus_effects: Array[Effect]
+@export var effects: Array[Effect]
 
 
 func effects_text() -> String:
 	var text: String = ""
-	for card_effect in effects:
-		text += card_effect.text() + "\n"
+	for effect in effects:
+		text += effect.text() + "\n"
 	return text.strip_edges()
 
 

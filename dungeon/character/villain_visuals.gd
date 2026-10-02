@@ -1,4 +1,4 @@
-class_name VillainCardsUI extends HBoxContainer
+class_name VillainVisuals extends HBoxContainer
 
 #signal hand_changed()
 

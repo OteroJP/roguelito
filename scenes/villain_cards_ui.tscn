@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cs4gqthniprqk"]
 
-[ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://dungeon/character/villain_cards_ui.gd" id="1_xt270"]
+[ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://dungeon/character/villain_visuals.gd" id="1_xt270"]
 [ext_resource type="Texture2D" uid="uid://c1teqyuhv6yl8" path="res://assets/villain/symbol_heart.png" id="2_mpbht"]
 [ext_resource type="Texture2D" uid="uid://4ec7c5ruon6c" path="res://assets/villain/hud/spells_confirm.png" id="3_xt270"]
 [ext_resource type="Texture2D" uid="uid://cdoo4w6ycumq6" path="res://assets/villain/villain_hands.png" id="4_xt270"]

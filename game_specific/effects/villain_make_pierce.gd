@@ -1,5 +1,5 @@
 class_name VillainPierce
-extends CardEffect
+extends Effect
 
 func on_clash(villain: Villain, hero: Hero):
 	var pierce_modifier: PierceModifier = PierceModifier.new()

@@ -6,7 +6,7 @@ enum Symbol { NONE, SKULL, OMEGA, HEART }
 const VILLAIN_CARDS: PackedScene = preload("uid://cs4gqthniprqk")
 
 var current_symbol: Symbol
-var _VillainCardsUI: VillainCardsUI
+var _VillainVisuals: VillainVisuals
 
 @export var mana: int
 @export var max_mana: int
@@ -22,21 +22,21 @@ var _VillainCardsUI: VillainCardsUI
 	}
 ## Implement as a coroutine because the combat loop
 ## structure is awaiting for this method:
-func prepare() -> VillainCardsUI:
+func prepare() -> VillainVisuals:
 	deck.prepare()
-	_VillainCardsUI = VILLAIN_CARDS.instantiate() as VillainCardsUI
-	_VillainCardsUI.prepare(deck, self)
-	character_stats_changed.connect(_VillainCardsUI._update_counters)
+	_VillainVisuals = VILLAIN_CARDS.instantiate() as VillainVisuals
+	_VillainVisuals.prepare(deck, self)
+	character_stats_changed.connect(_VillainVisuals._update_counters)
 	for count in symbol_count:
 		count = 0
 	statuses.clear()
-	return _VillainCardsUI
+	return _VillainVisuals
 	
 	
 func play_card() -> void: #CardData
-	var card: CardData = await _VillainCardsUI.choose_card()
+	var card: CardData = await _VillainVisuals.choose_card()
 	deck.play(card)
-	await _VillainCardsUI.remove_from_hand(card)
+	await _VillainVisuals.remove_from_hand(card)
 	await GameManager.play_villain_card(card)
 
 
@@ -46,16 +46,16 @@ func draw() -> void:
 		take_damage(1)
 		GameManager.add_debug("No cards left, take damage and reshuffle", GameManager.LogSource.VILLAIN)
 	var card_data: CardData = deck.draw()
-	await _VillainCardsUI.add_to_hand([card_data])
+	await _VillainVisuals.add_to_hand([card_data])
 
 	
 func show_hand() -> void:
 	#TESTING
-	await _VillainCardsUI.add_to_hand(deck.display_hand())
+	await _VillainVisuals.add_to_hand(deck.display_hand())
 	
 	
 func cast_spells() -> void:
-	await _VillainCardsUI.cast_spells()
+	await _VillainVisuals.cast_spells()
 	
 	
 func resolve_spell(spell: VillainSpell) -> void:
@@ -73,11 +73,11 @@ func matches_current_symbol(symbol_to_match: Symbol) -> bool:
 	
 func change_symbol(new_symbol: Symbol) -> void:
 	current_symbol = new_symbol
-	await _VillainCardsUI.change_current_symbol(new_symbol)
+	await _VillainVisuals.change_current_symbol(new_symbol)
 
 
 func complete_symbol(new_symbol: Symbol) -> void:
-	await _VillainCardsUI.change_completed_symbol(new_symbol)
+	await _VillainVisuals.change_completed_symbol(new_symbol)
 
 
 func resolve_symbol_bonus() -> void:

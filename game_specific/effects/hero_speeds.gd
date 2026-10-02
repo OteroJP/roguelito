@@ -1,8 +1,8 @@
-class_name VillainSpeeds
-extends CardEffect
+class_name HeroSpeeds
+extends Effect
 ## Increases should always be multiple of 2 so there are no ties
 
 @export var speed_modification: int
 
 func on_clash(villain: Villain, hero: Hero):
-	villain.get_bonus_speed(speed_modification)
+	hero.get_bonus_speed(speed_modification)

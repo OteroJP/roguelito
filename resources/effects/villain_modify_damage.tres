@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="VillainModifyDamage" format=3 uid="uid://v2qnuxht34ic"]
 
-[ext_resource type="Script" uid="uid://dxfnni4lwgray" path="res://game_specific/card_effects/villain_modify_damage.gd" id="1_0obtq"]
+[ext_resource type="Script" uid="uid://dxfnni4lwgray" path="res://game_specific/effects/villain_modify_damage.gd" id="1_0obtq"]
 
 [resource]
 script = ExtResource("1_0obtq")

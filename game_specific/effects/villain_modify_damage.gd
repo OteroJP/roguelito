@@ -1,5 +1,5 @@
 class_name VillainModifyDamage
-extends CardEffect
+extends Effect
 
 @export var damage_modification: int = 1
 

@@ -1,5 +1,5 @@
 class_name VillainAttack
-extends CardEffect
+extends Effect
 
 @export var damage: int
 @export var ignores_armor: bool = false

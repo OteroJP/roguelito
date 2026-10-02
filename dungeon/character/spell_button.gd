@@ -26,7 +26,7 @@ func _refresh_enabled() -> void:
 	)
 
 
-func get_effects() -> Array[CardEffect]:
+func get_effects() -> Array[Effect]:
 	return _data.effects
 
 
