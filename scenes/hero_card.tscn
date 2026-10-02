@@ -33,20 +33,27 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_maximum_size = Vector2(83, -1)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.0559491, 0.0559491, 0.055949084, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 10
 text = "Haunted souls"
 horizontal_alignment = 2
 
 [node name="PanelContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer" unique_id=418957704]
-custom_maximum_size = Vector2(108, -1)
+custom_maximum_size = Vector2(108, 90)
 clip_contents = true
 layout_mode = 2
 
 [node name="Ilustration" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=91382263]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+
+[node name="BonusStance" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=1898252310]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Type" type="PanelContainer" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=1136416741]
 layout_mode = 2
@@ -58,6 +65,9 @@ size_flags_vertical = 3
 [node name="Effect" type="RichTextLabel" parent="MarginContainer/VBoxContainer/EffectBackGround" unique_id=2048058424]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "Lorem ipsum"
 
 [node name="CardBack" type="ColorRect" parent="." unique_id=1052783]
 unique_name_in_owner = true

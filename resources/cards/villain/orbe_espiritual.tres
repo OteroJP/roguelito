@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://bqwo07eduvtu0"]
+
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_ha5dl"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_r4ise"]
+[ext_resource type="Script" uid="uid://d05lydcxnfe5i" path="res://game_specific/effects/villain_attacks_based_on_armor.gd" id="2_hnjsf"]
+
+[sub_resource type="Resource" id="Resource_ijn5p"]
+script = ExtResource("2_hnjsf")
+metadata/_custom_type_script = "uid://d05lydcxnfe5i"
+
+[resource]
+script = ExtResource("1_ha5dl")
+symbol_to_complete = 1
+name = "Orbe Espiritual"
+speed = 3
+effects = Array[ExtResource("1_r4ise")]([SubResource("Resource_ijn5p")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

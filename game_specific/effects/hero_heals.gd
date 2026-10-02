@@ -1,3 +1,4 @@
+@tool
 class_name HeroHeals
 extends Effect
 
@@ -6,3 +7,7 @@ extends Effect
 #TODO refactor to new attack system
 func on_clash(villain: Villain, hero: Hero):
 	hero.heal(amount_to_heal)
+
+
+func _effect_text() -> String:
+	return "Hero heals %d" % amount_to_heal

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://b2a0hmvmwteab"]
+
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_0qdpl"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_1i177"]
+
+[resource]
+script = ExtResource("1_0qdpl")
+symbol_to_spawn = 1
+name = "Rayo Letal"
+speed = 5
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

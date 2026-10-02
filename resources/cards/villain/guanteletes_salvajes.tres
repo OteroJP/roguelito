@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://536o8vlqlwup"]
+
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_66w7o"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_qny5f"]
+[ext_resource type="Script" uid="uid://c43m2bnh67egj" path="res://game_specific/effects/set_hero_armor.gd" id="2_bfv8e"]
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/effects/villain_attacks.gd" id="3_kqvne"]
+
+[sub_resource type="Resource" id="Resource_a17sp"]
+script = ExtResource("2_bfv8e")
+metadata/_custom_type_script = "uid://c43m2bnh67egj"
+
+[sub_resource type="Resource" id="Resource_80wfa"]
+script = ExtResource("3_kqvne")
+damage = 2
+metadata/_custom_type_script = "uid://bdmeoqu23atu8"
+
+[resource]
+script = ExtResource("1_66w7o")
+symbol_to_complete = 2
+symbol_to_spawn = 3
+name = "Guanteletes Salvajes"
+speed = 5
+bonus_effects = Array[ExtResource("1_qny5f")]([SubResource("Resource_a17sp")])
+effects = Array[ExtResource("1_qny5f")]([SubResource("Resource_80wfa")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://b5pl36up4rruo"]
+
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_lhpbq"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_sb4lb"]
+[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://game_specific/effects/villain_heals.gd" id="2_w87y0"]
+[ext_resource type="Script" uid="uid://cikbmjvktal4u" path="res://game_specific/effects/villain_take_status.gd" id="3_3qb4w"]
+[ext_resource type="Resource" uid="uid://oh6cpopiudge" path="res://resources/statuses/villain_speeds_card.tres" id="4_w7vom"]
+
+[sub_resource type="Resource" id="Resource_ynafv"]
+script = ExtResource("2_w87y0")
+amount_to_heal = 1
+metadata/_custom_type_script = "uid://db3snuwsh6hor"
+
+[sub_resource type="Resource" id="Resource_2yg5f"]
+script = ExtResource("3_3qb4w")
+status = ExtResource("4_w7vom")
+metadata/_custom_type_script = "uid://cikbmjvktal4u"
+
+[resource]
+script = ExtResource("1_lhpbq")
+symbol_to_complete = 2
+symbol_to_spawn = 2
+name = "Vial Potenciador"
+speed = 5
+bonus_effects = Array[ExtResource("1_sb4lb")]([SubResource("Resource_ynafv")])
+effects = Array[ExtResource("1_sb4lb")]([SubResource("Resource_2yg5f")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

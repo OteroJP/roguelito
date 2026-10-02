@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainImmune" format=3 uid="uid://c45xcekvretwx"]
+
+[ext_resource type="Script" uid="uid://oq7j65eyx6n2" path="res://game_specific/effects/villain_immune.gd" id="1_d0n26"]
+
+[resource]
+script = ExtResource("1_d0n26")
+metadata/_custom_type_script = "uid://oq7j65eyx6n2"

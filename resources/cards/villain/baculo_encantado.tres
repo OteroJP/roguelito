@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://ck5j8qjypm2dr"]
+
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_3mi5v"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_bg6pu"]
+[ext_resource type="Script" uid="uid://c3sjwk5s36yda" path="res://game_specific/effects/villain_speeds.gd" id="2_n34af"]
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/effects/villain_attacks.gd" id="3_n34af"]
+
+[sub_resource type="Resource" id="Resource_vnx7k"]
+script = ExtResource("2_n34af")
+speed_modification = 2
+metadata/_custom_type_script = "uid://c3sjwk5s36yda"
+
+[sub_resource type="Resource" id="Resource_weyry"]
+script = ExtResource("3_n34af")
+damage = 2
+ignores_armor = true
+metadata/_custom_type_script = "uid://bdmeoqu23atu8"
+
+[resource]
+script = ExtResource("1_3mi5v")
+symbol_to_complete = 3
+symbol_to_spawn = 1
+name = "Báculo Encantado"
+speed = 3
+bonus_effects = Array[ExtResource("1_bg6pu")]([SubResource("Resource_vnx7k")])
+effects = Array[ExtResource("1_bg6pu")]([SubResource("Resource_weyry")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

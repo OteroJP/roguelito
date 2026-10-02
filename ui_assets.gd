@@ -18,3 +18,7 @@ const SYMBOL_LIBRARY: Dictionary[Villain.Symbol, Texture2D] = {
 const SYMBOL_COUNTER_SCENE: PackedScene = preload("uid://hj3gtb6iqefk")
 
 const SPELL_BUTTON_SCENE: PackedScene = preload("uid://b8557o2sefgot")
+
+const HERO_BONUS_STANCE_COLOR: Color = Color("b43333")
+
+const VILLAIN_SECOND_PHASE_COLOR: Color = Color("063c2dff")

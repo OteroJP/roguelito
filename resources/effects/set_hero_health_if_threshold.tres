@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SetHeroHealthThreshold" format=3 uid="uid://bt75yqo472il0"]
+
+[ext_resource type="Script" uid="uid://dsw1ehkgu4vxy" path="res://game_specific/effects/set_hero_health_threshold.gd" id="1_iptof"]
+
+[resource]
+script = ExtResource("1_iptof")
+threshold = 2
+bonus_threshold = 3
+metadata/_custom_type_script = "uid://dsw1ehkgu4vxy"

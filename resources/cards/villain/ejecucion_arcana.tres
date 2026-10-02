@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://dpmuevii0ujmu"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_48erd"]
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_t8wkj"]
+[ext_resource type="Script" uid="uid://dsw1ehkgu4vxy" path="res://game_specific/effects/set_hero_health_threshold.gd" id="2_dggc4"]
+
+[sub_resource type="Resource" id="Resource_6cc6t"]
+script = ExtResource("2_dggc4")
+threshold = 2
+bonus_threshold = 3
+metadata/_custom_type_script = "uid://dsw1ehkgu4vxy"
+
+[resource]
+script = ExtResource("1_t8wkj")
+symbol_to_complete = 3
+symbol_to_spawn = 1
+name = "Ejecución Arcana"
+speed = 1
+effects = Array[ExtResource("1_48erd")]([SubResource("Resource_6cc6t")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

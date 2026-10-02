@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HeroTakesStatus" format=3 uid="uid://c5vuxhgndgsfs"]
+
+[ext_resource type="Script" uid="uid://b1ekymb7olrwk" path="res://game_specific/effects/hero_take_status.gd" id="1_1gi4c"]
+
+[resource]
+script = ExtResource("1_1gi4c")
+metadata/_custom_type_script = "uid://b1ekymb7olrwk"

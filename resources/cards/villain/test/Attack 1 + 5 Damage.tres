@@ -19,7 +19,6 @@ metadata/_custom_type_script = "uid://bdmeoqu23atu8"
 script = ExtResource("3_1b02l")
 symbol_to_complete = 1
 symbol_to_spawn = 2
-effect_text = "Ataca 1 (6)"
 speed = 1
 bonus_effects = Array[ExtResource("1_0bdh2")]([SubResource("Resource_ubg51")])
 effects = Array[ExtResource("1_0bdh2")]([SubResource("Resource_yy5s2")])

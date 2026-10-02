@@ -8,7 +8,6 @@
 [sub_resource type="Resource" id="Resource_36cne"]
 script = ExtResource("2_2wr21")
 amount_to_heal = 1
-effect_text = "Heal Villain 1."
 metadata/_custom_type_script = "uid://db3snuwsh6hor"
 
 [resource]

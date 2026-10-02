@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://b5sme4he233c5"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_stv0u"]
+[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://game_specific/effects/villain_heals.gd" id="2_14myn"]
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="2_vxv2j"]
+[ext_resource type="Script" uid="uid://b1ekymb7olrwk" path="res://game_specific/effects/hero_take_status.gd" id="3_5seb3"]
+[ext_resource type="Resource" uid="uid://csjb7yuc4ph4a" path="res://resources/statuses/poison.tres" id="4_pnx2y"]
+
+[sub_resource type="Resource" id="Resource_byuvo"]
+script = ExtResource("2_14myn")
+amount_to_heal = 1
+metadata/_custom_type_script = "uid://db3snuwsh6hor"
+
+[sub_resource type="Resource" id="Resource_gceo7"]
+script = ExtResource("3_5seb3")
+status = ExtResource("4_pnx2y")
+metadata/_custom_type_script = "uid://b1ekymb7olrwk"
+
+[resource]
+script = ExtResource("2_vxv2j")
+symbol_to_complete = 3
+symbol_to_spawn = 1
+name = "Envenenar"
+speed = 3
+bonus_effects = Array[ExtResource("1_stv0u")]([SubResource("Resource_byuvo")])
+effects = Array[ExtResource("1_stv0u")]([SubResource("Resource_gceo7")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

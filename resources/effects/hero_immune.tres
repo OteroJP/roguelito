@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HeroImmune" format=3 uid="uid://dexhw5hikco1b"]
+
+[ext_resource type="Script" uid="uid://bevu0c882qeey" path="res://game_specific/effects/hero_immune.gd" id="1_pmbhu"]
+
+[resource]
+script = ExtResource("1_pmbhu")
+metadata/_custom_type_script = "uid://bevu0c882qeey"

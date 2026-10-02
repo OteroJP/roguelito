@@ -70,6 +70,11 @@ func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	character_stats_changed.emit()
 
 
+func set_health(new_health: int) -> void:
+	health = new_health
+	character_stats_changed.emit()
+
+
 func take_attack(attack: Attack) -> void:
 	if immune_to_damage:
 		GameManager.add_debug("Hero resists damage due to immunity", GameManager.LogSource.HERO)
@@ -106,3 +111,8 @@ func heal(amount_to_heal: int) -> void:
 func get_bonus_speed(_bonus_speed: int) -> void:
 	speed_bonus += _bonus_speed
 	GameManager.add_debug("Hero gets bonus speed for %s" % [str(_bonus_speed)], GameManager.LogSource.HERO)
+
+
+func set_armor(new_armor) -> void:
+	armor = new_armor
+	character_stats_changed.emit()

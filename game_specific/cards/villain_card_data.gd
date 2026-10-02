@@ -1,3 +1,4 @@
+@tool
 class_name VillainCardData
 extends CardData
 
@@ -27,3 +28,7 @@ func after_clash(villain: Villain, hero: Hero):
 	
 func on_discard(villain: Villain, hero: Hero):
 	pass
+
+
+func _bonus_color() -> Color:
+	return UIAssets.VILLAIN_SECOND_PHASE_COLOR

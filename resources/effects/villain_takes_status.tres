@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainTakeStatus" format=3 uid="uid://crcsjxa1jhbwr"]
+
+[ext_resource type="Script" uid="uid://cikbmjvktal4u" path="res://game_specific/effects/villain_take_status.gd" id="1_snnm0"]
+
+[resource]
+script = ExtResource("1_snnm0")
+metadata/_custom_type_script = "uid://cikbmjvktal4u"

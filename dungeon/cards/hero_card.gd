@@ -8,6 +8,7 @@ const HOVER_UPWARD_MOVEMENT: float = 20.0 # Pixels to move up
 
 var _data: HeroCardData
 @onready var _art_frame: TextureRect = %Ilustration
+@onready var _bonus_stance: TextureRect = %BonusStance
 @onready var _effect_label: RichTextLabel = %Effect
 @onready var _name_tag: Label = %Title
 @onready var _back: ColorRect = %CardBack
@@ -33,7 +34,9 @@ func _ready() -> void:
 	if _data:
 		_art_frame.texture = _data.art
 		_name_tag.text = _data.name
-		_effect_label.text = _data.effects_text() if _data.effect_text.is_empty() else _data.effect_text
+		_effect_label.text = _data.card_text
+		_bonus_stance.texture = UIAssets.STANCE_LIBRARY[_data.stance_for_bonus]
+		
 
 
 static func new_hero_card(data: HeroCardData) -> HeroCard:

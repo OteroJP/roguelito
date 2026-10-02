@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://chxj7ucmi4yb5"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_i5ei8"]
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_xb1u2"]
+[ext_resource type="Script" uid="uid://3colurvxkj81" path="res://game_specific/effects/villain_make_pierce.gd" id="2_6edj0"]
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/effects/villain_attacks.gd" id="3_cpdv6"]
+
+[sub_resource type="Resource" id="Resource_cpdv6"]
+script = ExtResource("2_6edj0")
+metadata/_custom_type_script = "uid://3colurvxkj81"
+
+[sub_resource type="Resource" id="Resource_436an"]
+script = ExtResource("3_cpdv6")
+damage = 2
+metadata/_custom_type_script = "uid://bdmeoqu23atu8"
+
+[resource]
+script = ExtResource("1_xb1u2")
+symbol_to_complete = 1
+symbol_to_spawn = 2
+name = "Tridentes Espectrales"
+speed = 5
+bonus_effects = Array[ExtResource("1_i5ei8")]([SubResource("Resource_cpdv6")])
+effects = Array[ExtResource("1_i5ei8")]([SubResource("Resource_436an")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

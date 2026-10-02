@@ -8,7 +8,6 @@
 [sub_resource type="Resource" id="Resource_5chfc"]
 script = ExtResource("2_p01j0")
 damage = 1
-effect_text = "Damage Hero 1."
 metadata/_custom_type_script = "uid://bdmeoqu23atu8"
 
 [resource]

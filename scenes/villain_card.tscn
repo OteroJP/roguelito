@@ -38,18 +38,18 @@ unique_name_in_owner = true
 custom_maximum_size = Vector2(83, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0559491, 0.0559491, 0.055949084, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 10
 text = "Haunted souls"
 horizontal_alignment = 2
 
 [node name="PanelContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer" unique_id=418957704]
-custom_maximum_size = Vector2(108, -1)
+custom_maximum_size = Vector2(108, 90)
 clip_contents = true
 layout_mode = 2
 
 [node name="Ilustration" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=91382263]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 
 [node name="Type" type="PanelContainer" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=1136416741]
@@ -61,19 +61,19 @@ alignment = 1
 
 [node name="SymbolToComplete" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer/Symbols" unique_id=2087900690]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(-25, 0)
+offset_transform_position = Vector2(-20, 0)
 expand_mode = 1
 stretch_mode = 6
 
 [node name="SymbolToSpawn" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer/Symbols" unique_id=691218847]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(25, 0)
+offset_transform_position = Vector2(20, 0)
 expand_mode = 1
 stretch_mode = 6
 
@@ -84,6 +84,9 @@ size_flags_vertical = 3
 [node name="Effect" type="RichTextLabel" parent="MarginContainer/VBoxContainer/EffectBackGround" unique_id=2048058424]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "Lorem ipsum"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

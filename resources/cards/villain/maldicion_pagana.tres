@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://ctqbs0o3giwq2"]
+
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_tmccb"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_wlg8m"]
+[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/effects/villain_attacks.gd" id="2_2350s"]
+[ext_resource type="Script" uid="uid://b7urfk5cebngg" path="res://game_specific/effects/cancel_hero_card.gd" id="3_rhrp0"]
+
+[sub_resource type="Resource" id="Resource_cge2a"]
+script = ExtResource("2_2350s")
+damage = 2
+metadata/_custom_type_script = "uid://bdmeoqu23atu8"
+
+[sub_resource type="Resource" id="Resource_84mfv"]
+script = ExtResource("3_rhrp0")
+metadata/_custom_type_script = "uid://b7urfk5cebngg"
+
+[resource]
+script = ExtResource("1_tmccb")
+symbol_to_complete = 1
+symbol_to_spawn = 1
+name = "Maldición Pagana"
+speed = 5
+bonus_effects = Array[ExtResource("1_wlg8m")]([SubResource("Resource_cge2a")])
+effects = Array[ExtResource("1_wlg8m")]([SubResource("Resource_84mfv")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

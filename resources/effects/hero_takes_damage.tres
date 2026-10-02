@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HeroTakesDamage" format=3 uid="uid://bxvd5oy32o3o7"]
+
+[ext_resource type="Script" uid="uid://cy1lsxih34f7a" path="res://game_specific/effects/hero_take_damage.gd" id="1_7g77n"]
+
+[resource]
+script = ExtResource("1_7g77n")
+metadata/_custom_type_script = "uid://cy1lsxih34f7a"

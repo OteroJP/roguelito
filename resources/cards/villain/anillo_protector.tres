@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="VillainCardData" format=3 uid="uid://cw1r0ui2cgyrf"]
+
+[ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_b3qqn"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_bnh6p"]
+[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://game_specific/effects/villain_heals.gd" id="2_y4bid"]
+[ext_resource type="Script" uid="uid://bevu0c882qeey" path="res://game_specific/effects/hero_immune.gd" id="3_y4bid"]
+
+[sub_resource type="Resource" id="Resource_nc5x4"]
+script = ExtResource("2_y4bid")
+amount_to_heal = 1
+metadata/_custom_type_script = "uid://db3snuwsh6hor"
+
+[sub_resource type="Resource" id="Resource_8dqyk"]
+script = ExtResource("3_y4bid")
+metadata/_custom_type_script = "uid://bevu0c882qeey"
+
+[resource]
+script = ExtResource("1_b3qqn")
+symbol_to_complete = 1
+symbol_to_spawn = 3
+name = "Anillo Protector"
+speed = 5
+bonus_effects = Array[ExtResource("1_bnh6p")]([SubResource("Resource_nc5x4")])
+effects = Array[ExtResource("1_bnh6p")]([SubResource("Resource_8dqyk")])
+metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

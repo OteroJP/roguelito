@@ -1,19 +1,31 @@
 [gd_resource type="Resource" script_class="Deck" format=3 uid="uid://buuedavgylgmr"]
 
 [ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://game_specific/cards/_card_data.gd" id="1_vs4gk"]
-[ext_resource type="Resource" uid="uid://dc8mcsarlovnk" path="res://resources/cards/villain/Attack 1 + 5 Damage.tres" id="2_jkt45"]
-[ext_resource type="Resource" uid="uid://c3ccfngnet4ks" path="res://resources/cards/villain/Attack 3 + Pierce.tres" id="3_fux2j"]
+[ext_resource type="Resource" uid="uid://cw1r0ui2cgyrf" path="res://resources/cards/villain/anillo_protector.tres" id="2_tmfcq"]
+[ext_resource type="Resource" uid="uid://ck5j8qjypm2dr" path="res://resources/cards/villain/baculo_encantado.tres" id="3_1jjj0"]
 [ext_resource type="Script" uid="uid://ba84e8ikj4p01" path="res://game_specific/deck.gd" id="3_wd1rs"]
-[ext_resource type="Resource" uid="uid://ci04xvfhg48oh" path="res://resources/cards/villain/Heal + Cancel.tres" id="4_f11wj"]
-[ext_resource type="Resource" uid="uid://nvertmvbkgi8" path="res://resources/cards/villain/Pierce 2 +3 speed.tres" id="5_06ggs"]
+[ext_resource type="Resource" uid="uid://dpmuevii0ujmu" path="res://resources/cards/villain/ejecucion_arcana.tres" id="4_htc62"]
+[ext_resource type="Resource" uid="uid://b5sme4he233c5" path="res://resources/cards/villain/envenenar.tres" id="5_pyo8d"]
+[ext_resource type="Resource" uid="uid://536o8vlqlwup" path="res://resources/cards/villain/guanteletes_salvajes.tres" id="6_id02v"]
+[ext_resource type="Resource" uid="uid://dpf4b45iq7882" path="res://resources/cards/villain/hacha_runica.tres" id="7_1t6vd"]
+[ext_resource type="Resource" uid="uid://ctqbs0o3giwq2" path="res://resources/cards/villain/maldicion_pagana.tres" id="8_hu7ni"]
+[ext_resource type="Resource" uid="uid://bqwo07eduvtu0" path="res://resources/cards/villain/orbe_espiritual.tres" id="9_tvf8p"]
+[ext_resource type="Resource" uid="uid://chxj7ucmi4yb5" path="res://resources/cards/villain/tridentes_espectrales.tres" id="10_4ll0a"]
+[ext_resource type="Resource" uid="uid://b5pl36up4rruo" path="res://resources/cards/villain/vial_potenciador.tres" id="11_gmrlm"]
 
 [resource]
 script = ExtResource("3_wd1rs")
 card_set = Dictionary[ExtResource("1_vs4gk"), int]({
-ExtResource("2_jkt45"): 2,
-ExtResource("3_fux2j"): 2,
-ExtResource("4_f11wj"): 2,
-ExtResource("5_06ggs"): 2
+ExtResource("2_tmfcq"): 1,
+ExtResource("3_1jjj0"): 1,
+ExtResource("4_htc62"): 1,
+ExtResource("5_pyo8d"): 1,
+ExtResource("6_id02v"): 1,
+ExtResource("7_1t6vd"): 1,
+ExtResource("8_hu7ni"): 1,
+ExtResource("9_tvf8p"): 1,
+ExtResource("10_4ll0a"): 1,
+ExtResource("11_gmrlm"): 1
 })
 initial_hand_size = 3
 max_hand_size = 6

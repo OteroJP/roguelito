@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_fspxn")
-speed_modification = 100
+speed_modification = 2
 metadata/_custom_type_script = "uid://c3sjwk5s36yda"

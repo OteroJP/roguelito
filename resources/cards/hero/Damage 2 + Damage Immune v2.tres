@@ -18,7 +18,6 @@ metadata/_custom_type_script = "uid://dex2jmcgp44cv"
 script = ExtResource("4_0t8r6")
 stance_for_bonus = 1
 stance_after_clash = 2
-effect_text = "Dmg 2 + Immune"
 speed = 2
 bonus_effects = Array[ExtResource("1_trxik")]([SubResource("Resource_be3sm")])
 effects = Array[ExtResource("1_trxik")]([SubResource("Resource_k2rlt")])
