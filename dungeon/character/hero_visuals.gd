@@ -8,19 +8,23 @@ signal stance_changed
 @onready var art: Sprite2D = %Art
 @onready var armor_bar: ProgressBar = %ArmorBar
 @onready var armor_label: Label = %ArmorLabel
-@onready var life_bar: ProgressBar = %LifeBar
-@onready var life_label: Label = %LifeLabel
+@onready var armor_delta: Label = %DeltaArmor
+@onready var health_bar: ProgressBar = %HealthBar
+@onready var health_label: Label = %HealthLabel
+@onready var health_delta: Label = %DeltaHealth
 
 var _hero: Hero
 
 func _ready() -> void:
 	name_label.text = _hero.character_name
-	life_bar.max_value = _hero.max_health
-	life_bar.value = _hero.health
-	life_label.text = "%d / %d" % [_hero.health, _hero.max_health]
+	health_bar.max_value = _hero.max_health
+	health_bar.value = _hero.health
+	health_label.text = "%d / %d" % [_hero.health, _hero.max_health]
+	health_delta.text = ""
 	armor_bar.max_value = _hero.max_armor
 	armor_bar.value = _hero.armor
 	armor_label.text = "%d / %d" % [_hero.armor, _hero.max_armor]
+	armor_delta.text = ""
 	change_stance(_hero.current_stance)
 	
 
@@ -38,18 +42,28 @@ func play_card():
 
 func update() -> void:
 	_shake_sprite()
+	var delta_armor_value = int(_hero.armor - armor_bar.value)
+	if delta_armor_value != 0:
+		armor_delta.text = _format_delta_text(delta_armor_value)
+		var armor_delta_tween: Tween = await LabelAnimation.animate_label_num_delta(armor_delta)
+
+	var delta_health_value = (_hero.health - health_bar.value)
+	if delta_health_value != 0:
+		health_delta.text = _format_delta_text(delta_health_value)
+		var health_delta_tween: Tween = await LabelAnimation.animate_label_num_delta(health_delta)
+
 	var armor_bar_tween: Tween = RangeAnimation.animate_range_decrease(
 		armor_bar,
 		absf(armor_bar.value - _hero.armor)
 	)
 	armor_label.text = "%d / %d" % [_hero.armor, _hero.max_armor]
-	var life_bar_tween: Tween = RangeAnimation.animate_range_decrease(
-		life_bar,
-		absf(life_bar.value - _hero.health)
+	var health_bar_tween: Tween = RangeAnimation.animate_range_decrease(
+		health_bar,
+		absf(health_bar.value - _hero.health)
 	)
-	life_label.text = "%d / %d" % [_hero.health, _hero.max_health]
+	health_label.text = "%d / %d" % [_hero.health, _hero.max_health]
 	#await animation_tween.finished
-	#life_bar.value = _hero.health
+	#health_bar.value = _hero.health
 
 
 func change_stance(new_stance: Hero.Stance) -> void:
@@ -70,3 +84,12 @@ func _shake_sprite() -> void:
 		tween.tween_property(art, "position", original_position + random_offset, step_duration)
 	tween.tween_property(art, "position", original_position, step_duration)
 	await tween.finished
+	
+	
+func _format_delta_text(delta: int) -> String:
+	var delta_string: String
+	if delta > 0:
+		delta_string = "+%s" % str(delta)
+	else:
+		delta_string = str(delta)
+	return delta_string

@@ -13,15 +13,17 @@ var _chosen_card: CardData
 @onready var _Discard: Label = %Discard
 @onready var _ConfirmButton: Button = %ConfirmButton
 @onready var _CancelButton: Button = %CancelButton
-@onready var _LifeBar: ProgressBar = %Life
-@onready var _LifeLabel: Label = %LifeLabel
+@onready var _HealthBar: ProgressBar = %Health
+@onready var _HealthLabel: Label = %HealthLabel
+@onready var _HealthDelta: Label = %HealthDelta
 @onready var _ManaBar: ProgressBar = %Mana
 @onready var _ManaLabel: Label = %ManaLabel
+@onready var _ManaDelta: Label = %ManaDelta
 @onready var _CurrentSymbol: TextureRect = %CurrentSymbol
 @onready var _SymbolCompleted: TextureRect = %SymbolCompleted
 @onready var _SymbolCounters: HBoxContainer = %SymbolCounters
 @onready var _Spellbook: VBoxContainer = %Spellbook
-@onready var _SpellConfirmBtn: TextureButton = %SpellConfirmBtn
+@onready var _SpellConfirmBtn: Button = %SpellConfirmBtn
 
 var _villain: Villain
 	
@@ -37,6 +39,8 @@ func _ready() -> void:
 		_Spellbook.add_child(new_spell_btn)
 		new_spell_btn.pressed.connect(_villain.resolve_spell)
 		new_spell_btn._refresh_enabled()
+	_HealthDelta.text = ""
+	_ManaDelta.text = ""
 	_update_counters
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
@@ -93,12 +97,28 @@ func remove_from_hand(card_data: CardData) -> void:
 
 
 func _update_counters() -> void:
-	#TODO animacion de como sube el numero y otras visuales
 	_Discard.text  = "Discard: %d" %  _deck.cards_in_discard()
 	_Deck.text = "Draw pile: %d / %d" % [_deck.cards_in_card_pile(), _deck.size()]
-	_LifeBar.value = _villain.health
-	_LifeBar.max_value = _villain.max_health
-	_LifeLabel.text = "%d / %d" % [_villain.health, _villain.max_health]	
+	var delta_mana_value = int(_villain.mana - _ManaBar.value)
+	if delta_mana_value != 0:
+		_ManaDelta.text = _format_delta_text(delta_mana_value)
+		var _ManaDelta_tween: Tween = await LabelAnimation.animate_label_num_delta(_ManaDelta)
+
+	var delta_health_value = int(_villain.health - _HealthBar.value)
+	if delta_health_value != 0:
+		_HealthDelta.text = _format_delta_text(delta_health_value)
+		var _HealthDelta_tween: Tween = await LabelAnimation.animate_label_num_delta(_HealthDelta)
+	#var health_bar_tween: Tween = RangeAnimation.animate_range_decrease(
+		#_HealthBar,
+		#absf(_HealthBar.value - _villain.health)
+	#)
+	#var mana_bar_tween: Tween = RangeAnimation.animate_range_decrease(
+		#_ManaBar,
+		#absf(_ManaBar.value - _villain.mana)
+	#)
+	_HealthBar.value = _villain.health
+	_HealthBar.max_value = _villain.max_health
+	_HealthLabel.text = "%d / %d" % [_villain.health, _villain.max_health]	
 	_ManaBar.value = _villain.mana
 	_ManaBar.max_value = _villain.max_mana
 	_ManaLabel.text = "%d / %d" % [_villain.mana, _villain.max_mana]
@@ -210,4 +230,12 @@ func translation_tweener(
 	.set_trans(Tween.TRANS_BACK)
 	.set_ease(Tween.EASE_OUT)
 	)
+
 	
+func _format_delta_text(delta: int) -> String:
+	var delta_string: String
+	if delta > 0:
+		delta_string = "+%s" % str(delta)
+	else:
+		delta_string = str(delta)
+	return delta_string
