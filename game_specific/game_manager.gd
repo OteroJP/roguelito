@@ -40,31 +40,34 @@ func sort_cards() -> void:
 func play_villain_card(card: VillainCardData) -> void:
 	current_villain_card = card
 	card.on_play(villain, hero)
+	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
 func play_hero_card(card: HeroCardData) -> void:
 	current_hero_card = card
 	card.on_play(villain, hero)
+	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
 func execute_faster_card() -> void:
 	#TODO this could be cleaner
 	if (card_resolve_queue[0] == current_villain_card):
-		if is_current_villain_card_enabled:
+		if current_villain_card_enabled():
 			GameManager.add_debug("VILLAIN GOES FIRST:", LogSource.VILLAIN)
 			await playing_area.resolve_villain_card()
 			card_resolve_queue[0].on_clash(villain, hero)
 		else:
 			GameManager.add_debug("VILLAIN WAS CANCELLED!:", LogSource.VILLAIN)
 	if (card_resolve_queue[0] == current_hero_card):
-		if is_current_hero_card_enabled:
+		if current_hero_card_enabled():
 			GameManager.add_debug("HERO GOES FIRST:", LogSource.HERO)
 			await playing_area.resolve_hero_card()
 			card_resolve_queue[0].on_clash(villain, hero)
 		else:
 			GameManager.add_debug("HERO WAS CANCELLED!:", LogSource.HERO)
+	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
@@ -84,6 +87,7 @@ func execute_slower_card() -> void:
 			card_resolve_queue[1].on_clash(villain, hero)
 		else:
 			GameManager.add_debug("HERO WAS CANCELLED!", LogSource.HERO)
+	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	
 	
@@ -122,3 +126,11 @@ func clear_log() -> void:
 
 func add_debug(line: String, source: LogSource = LogSource.GAME) -> void:
 	_log.append(line, _LOG_COLOR[source], _LOG_TAG[source])
+
+
+func current_villain_card_enabled() -> bool:
+	return is_current_villain_card_enabled
+	
+	
+func current_hero_card_enabled() -> bool:
+	return is_current_hero_card_enabled

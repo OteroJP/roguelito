@@ -3,6 +3,7 @@ extends RefCounted
 
 signal attack_modifier_depleted(attack_modifier: AttackModifier)
 
+
 var damage_modification: int
 var ignores_armor: bool
 var uses_left: int = 1:

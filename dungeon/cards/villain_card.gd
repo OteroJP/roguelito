@@ -10,6 +10,7 @@ const HOVER_UPWARD_MOVEMENT: float = 20.0 # Pixels to move up
 @onready var _effect_label: RichTextLabel = %Effect
 @onready var _name_tag: Label = %Title
 @onready var _back: ColorRect = %CardBack
+@onready var _speed_label: Label = $%SpeedLabel
 @onready var _symbol_to_complete: TextureRect = %SymbolToComplete
 @onready var _symbol_to_spawn: TextureRect = %SymbolToSpawn
 
@@ -32,10 +33,12 @@ func _ready() -> void:
 	if _data:
 		_art_frame.texture = _data.art
 		_name_tag.text = _data.name
+		_speed_label.text = str(_data.speed)
 		_effect_label.text = _data.card_text
 		_symbol_to_complete.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_complete]
 		_symbol_to_spawn.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_spawn]
 
+	
 
 static func new_villain_card(data: VillainCardData) -> VillainCard:
 	var card: VillainCard = CARD_SCENE.instantiate() as VillainCard

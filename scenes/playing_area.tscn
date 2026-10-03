@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ce3fqp227u3vc" path="res://scenes/villain_card.tscn" id="1_3wxtt"]
 [ext_resource type="Script" uid="uid://dp52pgokj854b" path="res://dungeon/playing_area.gd" id="1_umndx"]
 [ext_resource type="PackedScene" uid="uid://yn4vjcemn7yh" path="res://scenes/hero_card.tscn" id="2_k08mb"]
+[ext_resource type="Texture2D" uid="uid://4ja5blhruvnj" path="res://assets/villain/cancel_hero_card.png" id="3_1l2n3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k08mb"]
 
@@ -39,6 +40,14 @@ theme_override_constants/margin_bottom = 20
 [node name="HeroCardPlaceholder" parent="PlayingColumn/HeroCardPanel/MarginContainer" unique_id=386368749 instance=ExtResource("2_k08mb")]
 layout_mode = 2
 
+[node name="HeroCancelledOverlay" type="TextureRect" parent="PlayingColumn/HeroCardPanel" unique_id=2063864753]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("3_1l2n3")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="VillainCardPanel" type="PanelContainer" parent="PlayingColumn" unique_id=2113221143]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 180)
@@ -54,3 +63,11 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VillainCardPlaceholder" parent="PlayingColumn/VillainCardPanel/MarginContainer" unique_id=1130769112 instance=ExtResource("1_3wxtt")]
 layout_mode = 2
+
+[node name="VillainCancelledOverlay" type="TextureRect" parent="PlayingColumn/VillainCardPanel" unique_id=477480292]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("3_1l2n3")
+expand_mode = 1
+stretch_mode = 5

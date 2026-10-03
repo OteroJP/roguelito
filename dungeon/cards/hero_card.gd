@@ -10,6 +10,7 @@ var _data: HeroCardData
 @onready var _art_frame: TextureRect = %Ilustration
 @onready var _bonus_stance: TextureRect = %BonusStance
 @onready var _effect_label: RichTextLabel = %Effect
+@onready var _speed_label: Label = $%SpeedLabel
 @onready var _name_tag: Label = %Title
 @onready var _back: ColorRect = %CardBack
 var _bonus_effect_label: Label
@@ -33,6 +34,7 @@ func _ready() -> void:
 	
 	if _data:
 		_art_frame.texture = _data.art
+		_speed_label.text = str(_data.speed)
 		_name_tag.text = _data.name
 		_effect_label.text = _data.card_text
 		_bonus_stance.texture = UIAssets.STANCE_LIBRARY[_data.stance_for_bonus]

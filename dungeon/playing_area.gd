@@ -4,9 +4,15 @@ extends PanelContainer
 @onready var _PlayingColumn: VBoxContainer = %PlayingColumn
 @onready var _HeroCardPanel: PanelContainer = %HeroCardPanel
 @onready var _VillainCardPanel: PanelContainer = %VillainCardPanel
+@onready var _VillainCancelled: TextureRect = %VillainCancelledOverlay
+@onready var _HeroCancelled: TextureRect = %HeroCancelledOverlay
 
 var _hero_card: HeroCard
 var _villain_card: VillainCard
+
+func update() -> void:
+	_VillainCancelled.visible = not GameManager.current_villain_card_enabled()
+	_HeroCancelled.visible = not GameManager.current_hero_card_enabled()
 
 func add_hero_card(card_data: HeroCardData, _visible: bool = false) -> void:
 	var hero_card: HeroCard = HeroCard.new_hero_card(GameManager.current_hero_card)

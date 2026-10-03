@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ce3fqp227u3vc"]
 
 [ext_resource type="Script" uid="uid://dj7q4ijsy01wc" path="res://dungeon/cards/villain_card.gd" id="1_exp8s"]
+[ext_resource type="Texture2D" uid="uid://i76vgcpfi8jd" path="res://assets/speed.png" id="2_aiaqf"]
 
 [node name="Control" type="PanelContainer" unique_id=386368749]
 custom_minimum_size = Vector2(100, 140)
@@ -76,6 +77,22 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(20, 0)
 expand_mode = 1
 stretch_mode = 6
+
+[node name="SpeedSymbol" type="TextureRect" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=1491208199]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+texture = ExtResource("2_aiaqf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpeedLabel" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer" unique_id=1995198735]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 24
+text = "5"
 
 [node name="EffectBackGround" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1306354511]
 layout_mode = 2

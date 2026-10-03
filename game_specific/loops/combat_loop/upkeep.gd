@@ -26,6 +26,7 @@ func run() -> void:
 	GameManager.add_debug("Villain ticked statuses", GameManager.LogSource.VILLAIN)
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
+	await _playing_area.update()
 	await _hero.play_card() # Hero picks random card to play
 	await _playing_area.add_hero_card(GameManager.current_hero_card)
 	if _have_loop_ended.call():
