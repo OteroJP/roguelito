@@ -2,10 +2,11 @@
 class_name VillainSpeedNext
 extends Effect
 
-func on_clash(villain: Villain, hero: Hero):
-	var speed_modifier_status: PierceModifier = PierceModifier.new()
-	villain.take_attack_modifier(pierce_modifier)
+@export var bonus_speed: int = 0
 
+func on_clash(villain: Villain, hero: Hero):
+	villain.bonus_speed += bonus_speed
 
 func _effect_text() -> String:
-	return "Villain's attacks ignore armor"
+	var text := "Villain gains +%s speed" % str(bonus_speed)
+	return text

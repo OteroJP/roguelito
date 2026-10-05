@@ -2,10 +2,22 @@
 
 [ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_0qdpl"]
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_1i177"]
+[ext_resource type="Script" uid="uid://3colurvxkj81" path="res://game_specific/effects/villain_make_pierce.gd" id="2_fbrr7"]
+[ext_resource type="Script" uid="uid://b21sv8iomi77b" path="res://game_specific/effects/villain_attacks_based_on_symbol.gd" id="3_1wbff"]
+
+[sub_resource type="Resource" id="Resource_3vt07"]
+script = ExtResource("2_fbrr7")
+metadata/_custom_type_script = "uid://3colurvxkj81"
+
+[sub_resource type="Resource" id="Resource_rr23l"]
+script = ExtResource("3_1wbff")
+metadata/_custom_type_script = "uid://b21sv8iomi77b"
 
 [resource]
 script = ExtResource("1_0qdpl")
 symbol_to_spawn = 1
 name = "Rayo Letal"
 speed = 5
+bonus_effects = Array[ExtResource("1_1i177")]([SubResource("Resource_3vt07")])
+effects = Array[ExtResource("1_1i177")]([SubResource("Resource_rr23l")])
 metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

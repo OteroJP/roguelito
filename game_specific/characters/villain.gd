@@ -63,7 +63,7 @@ func resolve_spell(spell: VillainSpell) -> void:
 	GameManager.add_debug("%s spell casted!" % spell.name)
 	mana -= spell.mana_cost
 	for effect in spell.effects:
-		effect.on_clash(self, GameManager.hero)
+		await effect.on_clash(self, GameManager.hero)
 	character_stats_changed.emit()
 
 
@@ -85,7 +85,7 @@ func resolve_symbol_bonus() -> void:
 		if symbol_bonus.symbol == current_symbol:
 			GameManager.add_debug("Resolves %s bonus effect" % str(current_symbol), GameManager.LogSource.VILLAIN)
 			for bonus in symbol_bonus.bonuses:
-				bonus.on_clash(GameManager.villain, GameManager.hero)
+				await bonus.on_clash(GameManager.villain, GameManager.hero)
 	symbol_count[current_symbol] += 1
 	character_stats_changed.emit()
 	await GameManager.get_tree().create_timer(GameManager.ux_delay).timeout
@@ -101,6 +101,28 @@ func end_phase() -> void:
 		modifier.spend_use()
 	GameManager.is_current_villain_card_enabled =  true
 	modifiers_changed.emit()
+	await discard_from_hand(deck.cards_over_hand_limit())
+
+
+func take_cards_from_discard(amount: int) -> void:
+	var to_take := mini(maxi(amount, 0), deck.cards_in_discard())
+	if to_take <= 0:
+		return
+	var cards: Array[CardData] = await _VillainVisuals.choose_cards_from_discard(deck.display_discard_pile(), to_take)
+	deck.take_from_discard(cards)
+	await _VillainVisuals.add_to_hand(cards)
+	GameManager.add_debug("Villain takes %s cards from the discard" % str(cards.size()), GameManager.LogSource.VILLAIN)
+
+
+func discard_from_hand(amount: int) -> void:
+	var to_discard := mini(maxi(amount, 0), deck.cards_in_hand())
+	if to_discard <= 0:
+		return
+	var cards: Array[CardData] = await _VillainVisuals.choose_cards(to_discard)
+	for card: CardData in cards:
+		deck.discard(card)
+		_VillainVisuals.remove_from_hand(card)
+	GameManager.add_debug("Villain discards %s cards" % str(cards.size()), GameManager.LogSource.VILLAIN)
 
 
 
@@ -126,7 +148,8 @@ func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = fa
 
 
 func heal(amount_to_heal: int) -> void:
-	health += amount_to_heal
+	health = min((health + amount_to_heal), max_health)
+	amount_to_heal
 	character_stats_changed.emit()
 	GameManager.add_debug("Villain heals for %s" % [str(amount_to_heal)], GameManager.LogSource.VILLAIN)
 
@@ -146,7 +169,7 @@ func take_status(status: Status) -> void:
 
 func tick_statuses(villain: Villain, hero: Hero) -> void:
 	for status in statuses:
-		status.on_tick(villain, hero)
+		await status.on_tick(villain, hero)
 
 
 func take_attack_modifier(modifier: AttackModifier) -> void:
@@ -158,3 +181,10 @@ func take_attack_modifier(modifier: AttackModifier) -> void:
 func remove_attack_modifier(modifier: AttackModifier) -> void:
 	attack_modifiers.erase(modifier)
 	modifiers_changed.emit()
+
+
+func get_symbol_count(symbol: Villain.Symbol):
+	if symbol == Symbol.NONE:
+		return 0
+	else:
+		return symbol_count[symbol]

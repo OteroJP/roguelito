@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Villain" format=3 uid="uid://dalgani72u8cv"]
 
-[ext_resource type="Resource" uid="uid://lr7q675r0g8d" path="res://resources/TEST_villain_deck.tres" id="1_o7fji"]
+[ext_resource type="Resource" uid="uid://buuedavgylgmr" path="res://resources/villain_deck.tres" id="1_o7fji"]
 [ext_resource type="Script" uid="uid://c4teak7vu6pqs" path="res://game_specific/characters/villain.gd" id="2_you8l"]
 [ext_resource type="Script" uid="uid://w8lt376mqa5p" path="res://game_specific/spell.gd" id="3_nph7r"]
 [ext_resource type="Resource" uid="uid://by2n3vpuwb26c" path="res://resources/spells/go_first.tres" id="4_5qq0m"]
@@ -21,6 +21,6 @@ symbol_bonuses = Array[ExtResource("7_ank24")]([ExtResource("8_1xw2i"), ExtResou
 spells = Array[ExtResource("3_nph7r")]([ExtResource("4_5qq0m"), ExtResource("5_vtv8i"), ExtResource("6_h7ng5")])
 character_name = "VILLAIN"
 max_health = 10
-health = 10
+health = 2
 deck = ExtResource("1_o7fji")
 metadata/_custom_type_script = "uid://c4teak7vu6pqs"

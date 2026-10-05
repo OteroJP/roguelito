@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainHealSymbol" format=3 uid="uid://byxv0f7x8srgq"]
+
+[ext_resource type="Script" uid="uid://btsgcljagx5ra" path="res://game_specific/effects/villain_heals_based_on_symbol.gd" id="1_y1w3f"]
+
+[resource]
+script = ExtResource("1_y1w3f")
+metadata/_custom_type_script = "uid://btsgcljagx5ra"

@@ -104,7 +104,7 @@ func increase_max_basic_damage(increase: int) -> void:
 	
 	
 func heal(amount_to_heal: int) -> void:
-	health += amount_to_heal
+	health = min((health + amount_to_heal), max_health)
 	character_stats_changed.emit()
 	GameManager.add_debug("Hero heals for %s" % [str(amount_to_heal)], GameManager.LogSource.HERO)
 
@@ -116,7 +116,7 @@ func get_bonus_speed(_bonus_speed: int) -> void:
 
 
 func set_armor(new_armor) -> void:
-	armor = new_armor
+	armor = min(new_armor, max_armor)
 	character_stats_changed.emit()
 
 
@@ -129,7 +129,7 @@ func take_status(status: Status) -> void:
 
 func tick_statuses(villain: Villain, hero: Hero) -> void:
 	for status in statuses:
-		status.on_tick(villain, hero)
+		await status.on_tick(villain, hero)
 
 
 func take_attack_modifier(modifier: AttackModifier) -> void:

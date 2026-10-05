@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://chp8l03w8l6eq"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_8p2pj"]
+[ext_resource type="Script" uid="uid://weq3qyrfv4m8" path="res://game_specific/effects/cancel_villain_card.gd" id="2_2egt3"]
+[ext_resource type="Script" uid="uid://dex2jmcgp44cv" path="res://game_specific/effects/hero_attacks.gd" id="3_fyypt"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="4_pnyn4"]
+
+[sub_resource type="Resource" id="Resource_be3sm"]
+script = ExtResource("2_2egt3")
+metadata/_custom_type_script = "uid://weq3qyrfv4m8"
+
+[sub_resource type="Resource" id="Resource_k2rlt"]
+script = ExtResource("3_fyypt")
+damage = 2
+metadata/_custom_type_script = "uid://dex2jmcgp44cv"
+
+[resource]
+script = ExtResource("4_pnyn4")
+stance_for_bonus = 2
+stance_after_clash = 3
+speed = 2
+bonus_effects = Array[ExtResource("1_8p2pj")]([SubResource("Resource_be3sm")])
+effects = Array[ExtResource("1_8p2pj")]([SubResource("Resource_k2rlt")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

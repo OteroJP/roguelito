@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Status" format=3 uid="uid://c2ql411ey7y8v"]
+
+[ext_resource type="Texture2D" uid="uid://m2y4o76rt8r2" path="res://assets/missing_image.png" id="1_nycjl"]
+[ext_resource type="Script" uid="uid://cgoqmau02v2a4" path="res://game_specific/statuses/status.gd" id="2_ve0sp"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="3_xp2ka"]
+
+[resource]
+script = ExtResource("2_ve0sp")
+metadata/_custom_type_script = "uid://cgoqmau02v2a4"

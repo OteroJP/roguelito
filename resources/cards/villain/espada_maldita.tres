@@ -2,6 +2,12 @@
 
 [ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_1kuis"]
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_ubodk"]
+[ext_resource type="Script" uid="uid://ujoy1e34rkki" path="res://game_specific/effects/villain_attacks_with_health_cost.gd" id="2_xmgnp"]
+
+[sub_resource type="Resource" id="Resource_bwf76"]
+script = ExtResource("2_xmgnp")
+damage = 4
+metadata/_custom_type_script = "uid://ujoy1e34rkki"
 
 [resource]
 script = ExtResource("1_1kuis")
@@ -9,4 +15,5 @@ symbol_to_complete = 3
 symbol_to_spawn = 3
 name = "Espada Maldita"
 speed = 1
+effects = Array[ExtResource("1_ubodk")]([SubResource("Resource_bwf76")])
 metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

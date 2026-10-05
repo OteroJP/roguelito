@@ -124,7 +124,7 @@ func _compose_card_text() -> String:
 	var lines := _effect_lines(effects)
 	var bonus_color := _bonus_color().to_html(false)
 	for line in _effect_lines(bonus_effects):
-		lines.append("[color=#%s]%s[/color]" % [bonus_color, line])
+		lines.insert(0, "[color=#%s]%s[/color]" % [bonus_color, line])
 	var tooltip := extra_text.strip_edges()
 	if not tooltip.is_empty():
 		lines.append(tooltip)

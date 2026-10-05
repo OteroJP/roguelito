@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainDraw" format=3 uid="uid://uuey5jyuobux"]
+
+[ext_resource type="Script" uid="uid://cquyxx8sd2av2" path="res://game_specific/effects/villain_draws.gd" id="1_b4eff"]
+
+[resource]
+script = ExtResource("1_b4eff")
+metadata/_custom_type_script = "uid://cquyxx8sd2av2"

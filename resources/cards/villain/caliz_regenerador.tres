@@ -2,6 +2,17 @@
 
 [ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="1_ca71q"]
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_iv66i"]
+[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://game_specific/effects/villain_heals.gd" id="2_u03cy"]
+[ext_resource type="Script" uid="uid://7aa2r2fthdpr" path="res://game_specific/effects/villain_takes_from_discard.gd" id="3_wo3hl"]
+
+[sub_resource type="Resource" id="Resource_p7p22"]
+script = ExtResource("2_u03cy")
+amount_to_heal = 1
+metadata/_custom_type_script = "uid://db3snuwsh6hor"
+
+[sub_resource type="Resource" id="Resource_86tsu"]
+script = ExtResource("3_wo3hl")
+metadata/_custom_type_script = "uid://7aa2r2fthdpr"
 
 [resource]
 script = ExtResource("1_ca71q")
@@ -9,4 +20,6 @@ symbol_to_complete = 1
 symbol_to_spawn = 2
 name = "Cáliz Regenerador"
 speed = 3
+bonus_effects = Array[ExtResource("1_iv66i")]([SubResource("Resource_p7p22")])
+effects = Array[ExtResource("1_iv66i")]([SubResource("Resource_86tsu")])
 metadata/_custom_type_script = "uid://bu1fmnrw82i6q"

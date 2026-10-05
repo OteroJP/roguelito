@@ -109,7 +109,19 @@ func display_hand() -> Array[CardData]:
 
 
 func display_discard_pile() -> Array[CardData]:
-	return _hand.duplicate(false)
+	return _discard_pile.duplicate(false)
+
+
+func take_from_discard(cards: Array[CardData]) -> void:
+	for card: CardData in cards:
+		if card in _discard_pile:
+			_discard_pile.erase(card)
+			_hand.append(card)
+	cards_moved.emit()
+
+
+func cards_over_hand_limit() -> int:
+	return maxi(_hand.size() - max_hand_size, 0)
 
 
 func put_on_top_card_pile(extra_cards: Array[CardData]) -> void:

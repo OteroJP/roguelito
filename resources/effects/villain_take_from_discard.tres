@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainTakeFromDiscard" format=3 uid="uid://c78a3qu45trl5"]
+
+[ext_resource type="Script" uid="uid://7aa2r2fthdpr" path="res://game_specific/effects/villain_takes_from_discard.gd" id="1_hbf7e"]
+
+[resource]
+script = ExtResource("1_hbf7e")
+metadata/_custom_type_script = "uid://7aa2r2fthdpr"

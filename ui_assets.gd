@@ -39,3 +39,5 @@ const IGNORE_ARMOR_ICON_SCENE: PackedScene = preload("uid://cprcmodvisual")
 const HERO_BONUS_STANCE_COLOR: Color = Color("b43333")
 
 const VILLAIN_SECOND_PHASE_COLOR: Color = Color("063c2dff")
+
+const VILLAIN_SECOND_PHASE_STYLEBOX: StyleBoxFlat = preload("uid://dfmmidq1orrt1")

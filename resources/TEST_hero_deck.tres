@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Deck" format=3 uid="uid://bhhursdnaepou"]
+
+[ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://game_specific/cards/_card_data.gd" id="1_gskm2"]
+[ext_resource type="Resource" uid="uid://nyifyeod5q3r" path="res://resources/cards/hero/test/Blank.tres" id="2_pqu8x"]
+[ext_resource type="Script" uid="uid://ba84e8ikj4p01" path="res://game_specific/deck.gd" id="6_iwgm7"]
+
+[resource]
+script = ExtResource("6_iwgm7")
+card_set = Dictionary[ExtResource("1_gskm2"), int]({
+ExtResource("2_pqu8x"): 10
+})
+metadata/_custom_type_script = "uid://ba84e8ikj4p01"

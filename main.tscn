@@ -2,19 +2,21 @@
 
 [ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://game_specific/combat_room.gd" id="1_7mycd"]
 [ext_resource type="Resource" uid="uid://dalgani72u8cv" path="res://resources/villain.tres" id="2_272bh"]
-[ext_resource type="Resource" uid="uid://bd76ry0mpjv76" path="res://resources/hero_deck.tres" id="3_5vw27"]
+[ext_resource type="Resource" uid="uid://bhhursdnaepou" path="res://resources/TEST_hero_deck.tres" id="3_7mycd"]
 [ext_resource type="Script" uid="uid://boop60gqxkjeu" path="res://game_specific/characters/hero.gd" id="4_kek77"]
 [ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://scenes/dungeon_room.tscn" id="5_4c57u"]
 [ext_resource type="PackedScene" uid="uid://xicrwm38hrf1" path="res://scenes/playing_area.tscn" id="6_efxa6"]
 
 [sub_resource type="Resource" id="Resource_t6oic"]
 script = ExtResource("4_kek77")
+max_basic_damage = 3
+basic_damage = 3
 max_armor = 5
 armor = 5
 character_name = "HERO"
 max_health = 20
 health = 20
-deck = ExtResource("3_5vw27")
+deck = ExtResource("3_7mycd")
 metadata/_custom_type_script = "uid://boop60gqxkjeu"
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
@@ -53,7 +55,9 @@ stretch = true
 mouse_target = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=684047473]
+handle_input_locally = false
 size = Vector2i(1152, 648)
+render_target_update_mode = 4
 
 [node name="DungeonRoom" parent="SubViewportContainer/SubViewport" unique_id=1410852599 instance=ExtResource("5_4c57u")]
 unique_name_in_owner = true

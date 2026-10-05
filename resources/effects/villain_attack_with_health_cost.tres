@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainAttackHealthCost" format=3 uid="uid://dbkg3581cln0c"]
+
+[ext_resource type="Script" uid="uid://ujoy1e34rkki" path="res://game_specific/effects/villain_attacks_with_health_cost.gd" id="1_j5cyl"]
+
+[resource]
+script = ExtResource("1_j5cyl")
+metadata/_custom_type_script = "uid://ujoy1e34rkki"

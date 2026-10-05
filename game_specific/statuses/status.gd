@@ -27,16 +27,16 @@ var _localize_enabled: bool = false
 
 
 func on_tick(villain: Villain, hero: Hero) -> void:
-	resolve_status_effects(villain, hero)
+	await resolve_status_effects(villain, hero)
 	if duration != -1:
 		duration -= 1
 		if duration <= 0:
 			status_depleted.emit(self)
 	status_ticked.emit()
 
-func resolve_status_effects(villain: Villain, hero: Hero):
+func resolve_status_effects(villain: Villain, hero: Hero) -> void:
 	for effect in status_effects:
-		effect.on_clash(villain, hero)
+		await effect.on_clash(villain, hero)
 
 
 func _init() -> void:

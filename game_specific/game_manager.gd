@@ -57,14 +57,14 @@ func execute_faster_card() -> void:
 		if current_villain_card_enabled():
 			GameManager.add_debug("VILLAIN GOES FIRST:", LogSource.VILLAIN)
 			await playing_area.resolve_villain_card()
-			card_resolve_queue[0].on_clash(villain, hero)
+			await current_villain_card.on_clash(villain, hero)
 		else:
 			GameManager.add_debug("VILLAIN WAS CANCELLED!:", LogSource.VILLAIN)
 	if (card_resolve_queue[0] == current_hero_card):
 		if current_hero_card_enabled():
 			GameManager.add_debug("HERO GOES FIRST:", LogSource.HERO)
 			await playing_area.resolve_hero_card()
-			card_resolve_queue[0].on_clash(villain, hero)
+			await current_hero_card.on_clash(villain, hero)
 		else:
 			GameManager.add_debug("HERO WAS CANCELLED!:", LogSource.HERO)
 	await playing_area.update()
@@ -77,14 +77,14 @@ func execute_slower_card() -> void:
 		if is_current_villain_card_enabled:
 			GameManager.add_debug("VILLAIN GOES SECOND:", LogSource.VILLAIN)
 			await playing_area.resolve_villain_card()
-			card_resolve_queue[1].on_clash(villain, hero)
+			await current_villain_card.on_clash(villain, hero)
 		else:
 			GameManager.add_debug("VILLAIN WAS CANCELLED!", LogSource.VILLAIN)
 	if (card_resolve_queue[1] == current_hero_card):
 		if is_current_hero_card_enabled:
 			GameManager.add_debug("HERO GOES SECOND:", LogSource.HERO)
 			await playing_area.resolve_hero_card()
-			card_resolve_queue[1].on_clash(villain, hero)
+			await current_hero_card.on_clash(villain, hero)
 		else:
 			GameManager.add_debug("HERO WAS CANCELLED!", LogSource.HERO)
 	await playing_area.update()
@@ -95,7 +95,7 @@ func end_phase() -> void:
 	for card in card_resolve_queue:
 		card.after_clash(villain, hero)
 	hero.end_phase()
-	villain.end_phase()
+	await villain.end_phase()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 

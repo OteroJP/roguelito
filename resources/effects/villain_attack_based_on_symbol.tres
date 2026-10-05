@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VillainAttackSymbol" format=3 uid="uid://c2krxbfa8fbsh"]
+
+[ext_resource type="Script" uid="uid://b21sv8iomi77b" path="res://game_specific/effects/villain_attacks_based_on_symbol.gd" id="1_1ct36"]
+
+[resource]
+script = ExtResource("1_1ct36")
+metadata/_custom_type_script = "uid://b21sv8iomi77b"
