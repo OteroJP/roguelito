@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://csmt2im0yjn6r"]
+
+[ext_resource type="Script" uid="uid://b4mk4pfu6pl8p" path="res://dungeon/status_visual.gd" id="1_gflyw"]
+[ext_resource type="Texture2D" uid="uid://cyfbc88gpcjw0" path="res://assets/poison.png" id="1_vwvyx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0.08, 0.08, 0.08, 0.92)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Control" type="Control" unique_id=1208295061]
+custom_minimum_size = Vector2(40, 80)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_gflyw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1804677166]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Duration" type="Label" parent="VBoxContainer" unique_id=1604713635]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 23
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=829326213]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_vwvyx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EffectOverlay" type="PanelContainer" parent="." unique_id=2143065925]
+unique_name_in_owner = true
+visible = false
+z_index = 100
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+
+[node name="EffectText" type="Label" parent="EffectOverlay" unique_id=1245509560]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

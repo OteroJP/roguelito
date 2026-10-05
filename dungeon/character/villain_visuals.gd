@@ -24,6 +24,7 @@ var _chosen_card: CardData
 @onready var _SymbolCounters: HBoxContainer = %SymbolCounters
 @onready var _Spellbook: VBoxContainer = %Spellbook
 @onready var _SpellConfirmBtn: Button = %SpellConfirmBtn
+@onready var _Statuses: HBoxContainer = %Statuses
 
 var _villain: Villain
 	
@@ -41,6 +42,7 @@ func _ready() -> void:
 		new_spell_btn._refresh_enabled()
 	_HealthDelta.text = ""
 	_ManaDelta.text = ""
+	_add_modifier_icons()
 	_update_counters
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
@@ -239,3 +241,14 @@ func _format_delta_text(delta: int) -> String:
 	else:
 		delta_string = str(delta)
 	return delta_string
+
+
+func add_status(status: Status) -> void:
+	var new_status_icon: StatusIcon = StatusIcon.new_status_icon(status)
+	_Statuses.add_child(new_status_icon)
+
+
+func _add_modifier_icons() -> void:
+	_Statuses.add_child(DamageModificationIcon.new_icon(_villain))
+	_Statuses.add_child(BonusSpeedIcon.new_icon(_villain))
+	_Statuses.add_child(IgnoreArmorIcon.new_icon(_villain))

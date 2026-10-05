@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="Status" format=3 uid="uid://csjb7yuc4ph4a"]
 
+[ext_resource type="Texture2D" uid="uid://cyfbc88gpcjw0" path="res://assets/poison.png" id="1_qpike"]
 [ext_resource type="Script" uid="uid://cgoqmau02v2a4" path="res://game_specific/statuses/status.gd" id="1_ukxhh"]
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="2_moyce"]
 [ext_resource type="Script" uid="uid://cy1lsxih34f7a" path="res://game_specific/effects/hero_take_damage.gd" id="3_moyce"]
@@ -13,7 +14,7 @@ metadata/_custom_type_script = "uid://cy1lsxih34f7a"
 [resource]
 script = ExtResource("1_ukxhh")
 name = "Poison"
+art = ExtResource("1_qpike")
 duration = -1
 status_effects = Array[ExtResource("2_moyce")]([SubResource("Resource_qpike")])
-effect_text = "Hero takes 1 damage, ignoring armor"
 metadata/_custom_type_script = "uid://cgoqmau02v2a4"

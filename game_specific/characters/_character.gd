@@ -2,6 +2,7 @@
 extends Resource
 
 signal character_stats_changed
+signal modifiers_changed
 
 @export var character_name: String
 @export var max_health: int
@@ -28,26 +29,13 @@ var speed_bonus: int
 	
 @abstract func heal(amount_to_heal: int) -> void
 
-
-func take_attack_modifier(modifier: AttackModifier) -> void:
-	attack_modifiers.append(modifier)
-	modifier.attack_modifier_depleted.connect(remove_attack_modifier)
+@abstract func take_attack_modifier(modifier: AttackModifier) -> void
 	
-	
-func remove_attack_modifier(modifier: AttackModifier) -> void:
-	attack_modifiers.erase(modifier)
-	#Entiendo que siendo q son ref counted no necesitan free
+@abstract func remove_attack_modifier(modifier: AttackModifier) -> void
 
+@abstract func tick_statuses(villain: Villain, hero: Hero) -> void
 
-func tick_statuses(villain: Villain, hero: Hero) -> void:
-	for status in statuses:
-		status.on_tick(villain, hero)
-
-
-func take_status(status: Status) -> void:
-	var new_status: Status = status.duplicate(true)
-	statuses.append(new_status)
-	new_status.status_depleted.connect(remove_status)
+@abstract func take_status(status: Status) -> void
 
 
 func remove_status(status_to_remove: Status) -> void:

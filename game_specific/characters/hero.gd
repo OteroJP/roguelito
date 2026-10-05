@@ -52,10 +52,11 @@ func is_in_stance(stance_to_check: Stance) -> bool:
 
 func end_phase() -> void:
 	speed_bonus = 0
-	for modifier in attack_modifiers:
+	for modifier in attack_modifiers.duplicate():
 		modifier.spend_use()
 	immune_to_damage = false
 	GameManager.is_current_hero_card_enabled =  true
+	modifiers_changed.emit()
 
 
 func take_damage(damage: int, ignores_armor: bool = false) -> void:
@@ -110,9 +111,34 @@ func heal(amount_to_heal: int) -> void:
 
 func get_bonus_speed(_bonus_speed: int) -> void:
 	speed_bonus += _bonus_speed
+	modifiers_changed.emit()
 	GameManager.add_debug("Hero gets bonus speed for %s" % [str(_bonus_speed)], GameManager.LogSource.HERO)
 
 
 func set_armor(new_armor) -> void:
 	armor = new_armor
 	character_stats_changed.emit()
+
+
+func take_status(status: Status) -> void:
+	var new_status: Status = status.duplicate(true)
+	statuses.append(new_status)
+	new_status.status_depleted.connect(remove_status)
+	await _hero_visuals.add_status(new_status)
+
+
+func tick_statuses(villain: Villain, hero: Hero) -> void:
+	for status in statuses:
+		status.on_tick(villain, hero)
+
+
+func take_attack_modifier(modifier: AttackModifier) -> void:
+	attack_modifiers.append(modifier)
+	modifier.attack_modifier_depleted.connect(remove_attack_modifier)
+	modifiers_changed.emit()
+	
+	
+func remove_attack_modifier(modifier: AttackModifier) -> void:
+	attack_modifiers.erase(modifier)
+	modifiers_changed.emit()
+	#Entiendo que siendo q son ref counted no necesitan free

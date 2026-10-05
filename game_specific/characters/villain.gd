@@ -97,9 +97,10 @@ func is_in_second_phase() -> bool:
 
 func end_phase() -> void:
 	speed_bonus = 0
-	for modifier in attack_modifiers:
+	for modifier in attack_modifiers.duplicate():
 		modifier.spend_use()
 	GameManager.is_current_villain_card_enabled =  true
+	modifiers_changed.emit()
 
 
 
@@ -132,4 +133,28 @@ func heal(amount_to_heal: int) -> void:
 
 func get_bonus_speed(_bonus_speed: int) -> void:
 	speed_bonus += _bonus_speed
+	modifiers_changed.emit()
 	GameManager.add_debug("Villain gets bonus speed for %s" % [str(_bonus_speed)], GameManager.LogSource.VILLAIN)
+
+
+func take_status(status: Status) -> void:
+	var new_status: Status = status.duplicate(true)
+	statuses.append(new_status)
+	new_status.status_depleted.connect(remove_status)
+	await _VillainVisuals.add_status(new_status)
+
+
+func tick_statuses(villain: Villain, hero: Hero) -> void:
+	for status in statuses:
+		status.on_tick(villain, hero)
+
+
+func take_attack_modifier(modifier: AttackModifier) -> void:
+	attack_modifiers.append(modifier)
+	modifier.attack_modifier_depleted.connect(remove_attack_modifier)
+	modifiers_changed.emit()
+
+	
+func remove_attack_modifier(modifier: AttackModifier) -> void:
+	attack_modifiers.erase(modifier)
+	modifiers_changed.emit()

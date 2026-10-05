@@ -12,6 +12,7 @@ signal stance_changed
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var health_label: Label = %HealthLabel
 @onready var health_delta: Label = %DeltaHealth
+@onready var _Statuses: HBoxContainer = %Statuses
 
 var _hero: Hero
 
@@ -26,6 +27,7 @@ func _ready() -> void:
 	armor_label.text = "%d / %d" % [_hero.armor, _hero.max_armor]
 	armor_delta.text = ""
 	change_stance(_hero.current_stance)
+	_add_modifier_icons()
 	
 
 func setup(hero: Hero) -> HeroVisuals:
@@ -93,3 +95,14 @@ func _format_delta_text(delta: int) -> String:
 	else:
 		delta_string = str(delta)
 	return delta_string
+
+
+func add_status(status: Status) -> void:
+	var new_status_icon: StatusIcon = StatusIcon.new_status_icon(status)
+	_Statuses.add_child(new_status_icon)
+
+
+func _add_modifier_icons() -> void:
+	_Statuses.add_child(DamageModificationIcon.new_icon(_hero))
+	_Statuses.add_child(BonusSpeedIcon.new_icon(_hero))
+	_Statuses.add_child(IgnoreArmorIcon.new_icon(_hero))

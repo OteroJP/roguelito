@@ -18,7 +18,7 @@ deck = ExtResource("3_5vw27")
 metadata/_custom_type_script = "uid://boop60gqxkjeu"
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
-viewport_path = NodePath("SubViewport")
+viewport_path = NodePath("SubViewportContainer/SubViewport")
 
 [node name="Control" type="Control" unique_id=489232660]
 layout_mode = 3
@@ -31,20 +31,32 @@ script = ExtResource("1_7mycd")
 villain = ExtResource("2_272bh")
 hero = SubResource("Resource_t6oic")
 
-[node name="SubViewport" type="SubViewport" parent="." unique_id=684047473]
-size = Vector2i(1152, 648)
-
-[node name="DungeonRoom" parent="SubViewport" unique_id=1410852599 instance=ExtResource("5_4c57u")]
-unique_name_in_owner = true
-
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1721460229]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("ViewportTexture_fc3ap")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=945183587]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+mouse_target = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=684047473]
+size = Vector2i(1152, 648)
+
+[node name="DungeonRoom" parent="SubViewportContainer/SubViewport" unique_id=1410852599 instance=ExtResource("5_4c57u")]
+unique_name_in_owner = true
 
 [node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=2087657242]
 layout_mode = 1
@@ -53,6 +65,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="PlayingArea" parent="HBoxContainer" unique_id=969993662 instance=ExtResource("6_efxa6")]
 unique_name_in_owner = true

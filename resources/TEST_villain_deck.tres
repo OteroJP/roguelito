@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Deck" format=3 uid="uid://lr7q675r0g8d"]
+
+[ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://game_specific/cards/_card_data.gd" id="1_beler"]
+[ext_resource type="Resource" uid="uid://b5sme4he233c5" path="res://resources/cards/villain/envenenar.tres" id="5_yvivc"]
+[ext_resource type="Script" uid="uid://ba84e8ikj4p01" path="res://game_specific/deck.gd" id="12_maexa"]
+
+[resource]
+script = ExtResource("12_maexa")
+card_set = Dictionary[ExtResource("1_beler"), int]({
+ExtResource("5_yvivc"): 5
+})
+initial_hand_size = 3
+max_hand_size = 6
+metadata/_custom_type_script = "uid://ba84e8ikj4p01"

@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="Status" format=3 uid="uid://oh6cpopiudge"]
 
 [ext_resource type="Script" uid="uid://cgoqmau02v2a4" path="res://game_specific/statuses/status.gd" id="1_1ewur"]
+[ext_resource type="Texture2D" uid="uid://m2y4o76rt8r2" path="res://assets/missing_image.png" id="1_s75vj"]
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="2_prca7"]
 [ext_resource type="Script" uid="uid://c3sjwk5s36yda" path="res://game_specific/effects/villain_speeds.gd" id="3_prca7"]
 
@@ -13,5 +14,4 @@ metadata/_custom_type_script = "uid://c3sjwk5s36yda"
 script = ExtResource("1_1ewur")
 name = "Speed Card"
 status_effects = Array[ExtResource("2_prca7")]([SubResource("Resource_s75vj")])
-effect_text = "Villain gains 2 speed"
 metadata/_custom_type_script = "uid://cgoqmau02v2a4"

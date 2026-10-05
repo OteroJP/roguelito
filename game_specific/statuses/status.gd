@@ -4,8 +4,10 @@ extends Resource
 ## Use a duration of -1 for infinite statuses
 
 signal status_depleted(status: Status)
+signal status_ticked
 
 @export var name: String = "Generic"
+@export var art: Texture2D = UIAssets.ICON_PLACEHOLDER
 @export var duration: int = 1
 @export var status_effects: Array[Effect]:
 	set(value):
@@ -30,7 +32,7 @@ func on_tick(villain: Villain, hero: Hero) -> void:
 		duration -= 1
 		if duration <= 0:
 			status_depleted.emit(self)
-
+	status_ticked.emit()
 
 func resolve_status_effects(villain: Villain, hero: Hero):
 	for effect in status_effects:
@@ -74,13 +76,13 @@ func _is_local_effect(effect: Effect) -> bool:
 
 
 func _validate_property(property: Dictionary) -> void:
-	if property.name == "card_text":
+	if property.name == "effect_text":
 		property.usage |= PROPERTY_USAGE_READ_ONLY
 		property.usage &= ~PROPERTY_USAGE_STORAGE
 
 
 func _set(property: StringName, value: Variant) -> bool:
-	if property == &"card_text":
+	if property == &"effect_text":
 		return false
 	if _refreshing or _ignores_refresh(property):
 		return false
@@ -90,7 +92,9 @@ func _set(property: StringName, value: Variant) -> bool:
 
 
 func _get(property: StringName) -> Variant:
-	if property == &"card_text":
+	if property == &"effect_text":
+		if Engine.is_editor_hint():
+			_watch_effects()
 		return _compose_effect_text()
 	return null
 

@@ -53,13 +53,9 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=355097596]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer" unique_id=694198486]
-layout_mode = 2
-text = "Statuses"
-horizontal_alignment = 1
-
 [node name="Statuses" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer" unique_id=1157024398]
-custom_minimum_size = Vector2(0, 20)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer" unique_id=918700499]
@@ -148,18 +144,3 @@ layout_mode = 2
 text = "1/3"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer" unique_id=1389875597]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer2" unique_id=1935310671]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer" unique_id=1144431632]
-layout_mode = 2
-text = "Modifiers"
-horizontal_alignment = 1
-
-[node name="Statuses" type="HBoxContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer" unique_id=870567126]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
