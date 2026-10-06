@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://c5tgbsgyt6cl4"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_edn6f"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="2_vxs8g"]
+[ext_resource type="Script" uid="uid://dex2jmcgp44cv" path="res://game_specific/effects/hero_attacks.gd" id="2_xlq8k"]
+[ext_resource type="Script" uid="uid://biptpxhw0tg43" path="res://game_specific/effects/hero_attacks_basic.gd" id="3_ucdfy"]
+
+[sub_resource type="Resource" id="Resource_g4e7p"]
+script = ExtResource("2_xlq8k")
+damage = 1
+metadata/_custom_type_script = "uid://dex2jmcgp44cv"
+
+[sub_resource type="Resource" id="Resource_uva5i"]
+script = ExtResource("3_ucdfy")
+metadata/_custom_type_script = "uid://biptpxhw0tg43"
+
+[resource]
+script = ExtResource("2_vxs8g")
+stance_for_bonus = 1
+stance_after_clash = 1
+name = "Ataque Veloz"
+speed = 6
+bonus_effects = Array[ExtResource("1_edn6f")]([SubResource("Resource_g4e7p")])
+effects = Array[ExtResource("1_edn6f")]([SubResource("Resource_uva5i")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

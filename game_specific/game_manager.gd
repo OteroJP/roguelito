@@ -54,19 +54,21 @@ func play_hero_card(card: HeroCardData) -> void:
 func execute_faster_card() -> void:
 	#TODO this could be cleaner
 	if (card_resolve_queue[0] == current_villain_card):
+		GameManager.add_debug("------------------", LogSource.VILLAIN)
 		if current_villain_card_enabled():
-			GameManager.add_debug("VILLAIN GOES FIRST:", LogSource.VILLAIN)
+			GameManager.add_debug("Resolve %s" % current_villain_card.name, LogSource.VILLAIN)
 			await playing_area.resolve_villain_card()
 			await current_villain_card.on_clash(villain, hero)
 		else:
-			GameManager.add_debug("VILLAIN WAS CANCELLED!:", LogSource.VILLAIN)
+			GameManager.add_debug("CANCELLED!:", LogSource.VILLAIN)
 	if (card_resolve_queue[0] == current_hero_card):
+		GameManager.add_debug("------------------", LogSource.HERO)
 		if current_hero_card_enabled():
-			GameManager.add_debug("HERO GOES FIRST:", LogSource.HERO)
+			GameManager.add_debug("Resolve %s" % current_hero_card.name, LogSource.HERO)
 			await playing_area.resolve_hero_card()
 			await current_hero_card.on_clash(villain, hero)
 		else:
-			GameManager.add_debug("HERO WAS CANCELLED!:", LogSource.HERO)
+			GameManager.add_debug("CANCELLED!:", LogSource.HERO)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
@@ -74,19 +76,21 @@ func execute_faster_card() -> void:
 func execute_slower_card() -> void:
 	#TODO this could be cleaner
 	if (card_resolve_queue[1] == current_villain_card):
+		GameManager.add_debug("------------------", LogSource.VILLAIN)
 		if is_current_villain_card_enabled:
-			GameManager.add_debug("VILLAIN GOES SECOND:", LogSource.VILLAIN)
+			GameManager.add_debug("Resolve %s" % current_villain_card.name, LogSource.VILLAIN)
 			await playing_area.resolve_villain_card()
 			await current_villain_card.on_clash(villain, hero)
 		else:
-			GameManager.add_debug("VILLAIN WAS CANCELLED!", LogSource.VILLAIN)
+			GameManager.add_debug("CANCELLED!", LogSource.VILLAIN)
 	if (card_resolve_queue[1] == current_hero_card):
+		GameManager.add_debug("------------------", LogSource.HERO)
 		if is_current_hero_card_enabled:
-			GameManager.add_debug("HERO GOES SECOND:", LogSource.HERO)
+			GameManager.add_debug("Resolve %s" % current_hero_card.name, LogSource.HERO)
 			await playing_area.resolve_hero_card()
 			await current_hero_card.on_clash(villain, hero)
 		else:
-			GameManager.add_debug("HERO WAS CANCELLED!", LogSource.HERO)
+			GameManager.add_debug("CANCELLED!", LogSource.HERO)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	

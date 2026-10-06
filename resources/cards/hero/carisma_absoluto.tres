@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://dvhsncxqdwopr"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_mpaw1"]
+[ext_resource type="Script" uid="uid://dsn81nnd0sen4" path="res://game_specific/effects/hero_heals.gd" id="2_amtjh"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="2_dkip0"]
+[ext_resource type="Script" uid="uid://biptpxhw0tg43" path="res://game_specific/effects/hero_attacks_basic.gd" id="3_amtjh"]
+
+[sub_resource type="Resource" id="Resource_ot4iw"]
+script = ExtResource("2_amtjh")
+metadata/_custom_type_script = "uid://dsn81nnd0sen4"
+
+[sub_resource type="Resource" id="Resource_8bspj"]
+script = ExtResource("3_amtjh")
+multiplier = 2
+metadata/_custom_type_script = "uid://biptpxhw0tg43"
+
+[resource]
+script = ExtResource("2_dkip0")
+stance_for_bonus = 1
+stance_after_clash = 1
+removable = false
+name = "Carisma Absoluto"
+speed = 2
+bonus_effects = Array[ExtResource("1_mpaw1")]([SubResource("Resource_ot4iw")])
+effects = Array[ExtResource("1_mpaw1")]([SubResource("Resource_8bspj")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

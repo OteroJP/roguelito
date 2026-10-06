@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://bpr5yjponn2df"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_i2hbb"]
+[ext_resource type="Script" uid="uid://q0qolf0cd6lj" path="res://game_specific/effects/hero_armors.gd" id="2_g0j0t"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="2_hx5uy"]
+[ext_resource type="Script" uid="uid://4guceegxiae2" path="res://game_specific/effects/hero_attacks_armor.gd" id="3_4vhuk"]
+
+[sub_resource type="Resource" id="Resource_xsbpy"]
+script = ExtResource("2_g0j0t")
+amount_to_armor = 1
+metadata/_custom_type_script = "uid://q0qolf0cd6lj"
+
+[sub_resource type="Resource" id="Resource_h8rch"]
+script = ExtResource("3_4vhuk")
+metadata/_custom_type_script = "uid://4guceegxiae2"
+
+[resource]
+script = ExtResource("2_hx5uy")
+stance_for_bonus = 1
+stance_after_clash = 1
+name = "Escudazo"
+speed = 2
+bonus_effects = Array[ExtResource("1_i2hbb")]([SubResource("Resource_xsbpy")])
+effects = Array[ExtResource("1_i2hbb")]([SubResource("Resource_h8rch")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HeroRemoveStatus" format=3 uid="uid://bdymq2rl8ycnq"]
+
+[ext_resource type="Script" uid="uid://cg0ocgwuidmrf" path="res://game_specific/effects/hero_remove_status.gd" id="1_4rxyo"]
+
+[resource]
+script = ExtResource("1_4rxyo")
+metadata/_custom_type_script = "uid://cg0ocgwuidmrf"

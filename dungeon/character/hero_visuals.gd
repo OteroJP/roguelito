@@ -12,6 +12,7 @@ signal stance_changed
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var health_label: Label = %HealthLabel
 @onready var health_delta: Label = %DeltaHealth
+@onready var damage_label: Label = %Damage
 @onready var _Statuses: HBoxContainer = %Statuses
 
 var _hero: Hero
@@ -64,6 +65,7 @@ func update() -> void:
 		absf(health_bar.value - _hero.health)
 	)
 	health_label.text = "%d / %d" % [_hero.health, _hero.max_health]
+	damage_label.text = "%d / %d" % [_hero.basic_damage, _hero.max_basic_damage]
 	#await animation_tween.finished
 	#health_bar.value = _hero.health
 

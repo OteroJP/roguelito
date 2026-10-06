@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://bqi8de36ncato"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_qk2e7"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="2_7yei8"]
+[ext_resource type="Script" uid="uid://q0qolf0cd6lj" path="res://game_specific/effects/hero_armors.gd" id="2_h241g"]
+[ext_resource type="Script" uid="uid://bevu0c882qeey" path="res://game_specific/effects/hero_immune.gd" id="3_sil67"]
+
+[sub_resource type="Resource" id="Resource_jvwn0"]
+script = ExtResource("2_h241g")
+amount_to_armor = 1
+metadata/_custom_type_script = "uid://q0qolf0cd6lj"
+
+[sub_resource type="Resource" id="Resource_2a0ce"]
+script = ExtResource("3_sil67")
+metadata/_custom_type_script = "uid://bevu0c882qeey"
+
+[resource]
+script = ExtResource("2_7yei8")
+stance_for_bonus = 2
+stance_after_clash = 2
+name = "Defensa"
+speed = 2
+bonus_effects = Array[ExtResource("1_qk2e7")]([SubResource("Resource_jvwn0")])
+effects = Array[ExtResource("1_qk2e7")]([SubResource("Resource_2a0ce")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

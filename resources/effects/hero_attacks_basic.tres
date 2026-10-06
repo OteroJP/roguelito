@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HeroAttacksBasic" format=3 uid="uid://dlx6jugcert0h"]
+
+[ext_resource type="Script" uid="uid://biptpxhw0tg43" path="res://game_specific/effects/hero_attacks_basic.gd" id="1_2f4un"]
+
+[resource]
+script = ExtResource("1_2f4un")
+metadata/_custom_type_script = "uid://biptpxhw0tg43"

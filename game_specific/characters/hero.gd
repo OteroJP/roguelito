@@ -63,11 +63,11 @@ func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	var incoming_damage := damage
 	if not ignores_armor:
 		var absorbed_damage := mini(armor, incoming_damage)
-		GameManager.add_debug("Hero's armor absorbs %s damage" % [str(absorbed_damage)], GameManager.LogSource.HERO)
+		GameManager.add_debug("Armor absorbed %s damage" % [str(absorbed_damage)], GameManager.LogSource.HERO)
 		armor -= absorbed_damage
 		incoming_damage -= absorbed_damage
 	health -= incoming_damage
-	GameManager.add_debug("Hero suffers %s damage" % [str(incoming_damage)], GameManager.LogSource.HERO)
+	GameManager.add_debug("Suffered %s damage" % [str(incoming_damage)], GameManager.LogSource.HERO)
 	character_stats_changed.emit()
 
 
@@ -87,37 +87,40 @@ func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = fa
 	var new_attack: Attack = Attack.new(target, damage, ignores_armor)
 	for modifier in attack_modifiers:
 		modifier.modify_attack(new_attack)
+	GameManager.add_debug("Attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)], GameManager.LogSource.HERO)		
 	target.take_attack(new_attack)
-	GameManager.add_debug("Hero attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)], GameManager.LogSource.HERO)
 
 	
 func increase_max_armor(increase: int) -> void:
 	max_armor += increase
+	GameManager.add_debug("Increases max armor by %s" % str(increase), GameManager.LogSource.HERO)
 	
 	
 func increase_max_health(increase: int) -> void:
 	max_health += increase	
-	
+	GameManager.add_debug("Increases max health by %s" % str(increase), GameManager.LogSource.HERO)	
 	
 func increase_max_basic_damage(increase: int) -> void:
 	max_basic_damage += increase
-	
+	GameManager.add_debug("Increases max basic damage by %s" % str(increase), GameManager.LogSource.HERO)
+
 	
 func heal(amount_to_heal: int) -> void:
 	health = min((health + amount_to_heal), max_health)
 	character_stats_changed.emit()
-	GameManager.add_debug("Hero heals for %s" % [str(amount_to_heal)], GameManager.LogSource.HERO)
+	GameManager.add_debug("Heals for %s" % [str(amount_to_heal)], GameManager.LogSource.HERO)
 
 
 func get_bonus_speed(_bonus_speed: int) -> void:
 	speed_bonus += _bonus_speed
 	modifiers_changed.emit()
-	GameManager.add_debug("Hero gets bonus speed for %s" % [str(_bonus_speed)], GameManager.LogSource.HERO)
+	GameManager.add_debug("Gets %s bonus speed" % [str(_bonus_speed)], GameManager.LogSource.HERO)
 
 
 func set_armor(new_armor) -> void:
 	armor = min(new_armor, max_armor)
 	character_stats_changed.emit()
+	GameManager.add_debug("Changed armor to %s" % str(new_armor), GameManager.LogSource.HERO)
 
 
 func take_status(status: Status) -> void:
@@ -125,10 +128,13 @@ func take_status(status: Status) -> void:
 	statuses.append(new_status)
 	new_status.status_depleted.connect(remove_status)
 	await _hero_visuals.add_status(new_status)
-
+	GameManager.add_debug("Took a %s status" % new_status.name, GameManager.LogSource.HERO)
 
 func tick_statuses(villain: Villain, hero: Hero) -> void:
+	if statuses.is_empty():
+		return
 	for status in statuses:
+		GameManager.add_debug("Ticked %s status" % status.name, GameManager.LogSource.HERO)
 		await status.on_tick(villain, hero)
 
 
@@ -136,6 +142,7 @@ func take_attack_modifier(modifier: AttackModifier) -> void:
 	attack_modifiers.append(modifier)
 	modifier.attack_modifier_depleted.connect(remove_attack_modifier)
 	modifiers_changed.emit()
+	GameManager.add_debug("Got a combat modifier", GameManager.LogSource.HERO)	
 	
 	
 func remove_attack_modifier(modifier: AttackModifier) -> void:

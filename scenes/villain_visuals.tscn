@@ -1,13 +1,11 @@
 [gd_scene format=3 uid="uid://cs4gqthniprqk"]
 
 [ext_resource type="Script" uid="uid://k8dc6rewmx6n" path="res://dungeon/character/villain_visuals.gd" id="1_xt270"]
+[ext_resource type="StyleBox" uid="uid://b3umaj11b87yh" path="res://assets/villain_first_phase.tres" id="2_e5u3b"]
 [ext_resource type="Texture2D" uid="uid://c1teqyuhv6yl8" path="res://assets/villain/symbol_heart.png" id="2_mpbht"]
 [ext_resource type="Texture2D" uid="uid://cdoo4w6ycumq6" path="res://assets/villain/villain_hands.png" id="4_xt270"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_japx7"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htno0"]
-bg_color = Color(0.2503098, 0.0004813075, 0.71974313, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6otb"]
 bg_color = Color(0.2509804, 0.6745098, 0.72156864, 1)
@@ -87,7 +85,7 @@ custom_maximum_size = Vector2(200, 30)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_japx7")
-theme_override_styles/fill = SubResource("StyleBoxFlat_htno0")
+theme_override_styles/fill = ExtResource("2_e5u3b")
 show_percentage = false
 
 [node name="HealthLabel" type="Label" parent="StatsAndAbilities/HealthContainer/CenterContainer" unique_id=1240624598]
@@ -145,6 +143,28 @@ theme_override_font_sizes/font_size = 28
 text = "Discard: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Separator" type="PanelContainer" parent="." unique_id=1117393306]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Separator" unique_id=758194481]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Separator/MarginContainer" unique_id=574022428]
+layout_mode = 2
+
+[node name="Spellbook" type="VBoxContainer" parent="Separator/MarginContainer/VBoxContainer" unique_id=1540790274]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Separator/MarginContainer/VBoxContainer" unique_id=1844103401]
+layout_mode = 2
+text = "SPELLS"
 
 [node name="HandContainer" type="MarginContainer" parent="." unique_id=718987366]
 custom_minimum_size = Vector2(515, 0)
@@ -247,24 +267,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
-
-[node name="Separator" type="PanelContainer" parent="." unique_id=1117393306]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Separator" unique_id=758194481]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 16
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Separator/MarginContainer" unique_id=574022428]
-layout_mode = 2
-
-[node name="Spellbook" type="VBoxContainer" parent="Separator/MarginContainer/VBoxContainer" unique_id=1540790274]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 10
 
 [node name="Control" type="Control" parent="." unique_id=1839454495]
 visible = false

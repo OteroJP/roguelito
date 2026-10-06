@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Status" format=3 uid="uid://bbflc1aapsjom"]
+
+[ext_resource type="Texture2D" uid="uid://i76vgcpfi8jd" path="res://assets/speed.png" id="1_o6ewt"]
+[ext_resource type="Script" uid="uid://cgoqmau02v2a4" path="res://game_specific/statuses/status.gd" id="2_ke40u"]
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="3_8oeyo"]
+[ext_resource type="Script" uid="uid://75idusarf2yl" path="res://game_specific/effects/hero_speeds.gd" id="4_o6ewt"]
+
+[sub_resource type="Resource" id="Resource_ke40u"]
+script = ExtResource("4_o6ewt")
+speed_modification = 2
+metadata/_custom_type_script = "uid://75idusarf2yl"
+
+[resource]
+script = ExtResource("2_ke40u")
+name = "Speed Card"
+art = ExtResource("1_o6ewt")
+status_effects = Array[ExtResource("3_8oeyo")]([SubResource("Resource_ke40u")])
+metadata/_custom_type_script = "uid://cgoqmau02v2a4"

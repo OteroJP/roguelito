@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://h7mg623nobsv"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_wm63x"]
+[ext_resource type="Script" uid="uid://dsn81nnd0sen4" path="res://game_specific/effects/hero_heals.gd" id="2_c14lg"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="2_duac0"]
+[ext_resource type="Script" uid="uid://cu1qv12btinag" path="res://game_specific/effects/hero_improve_stat.gd" id="3_3w8xd"]
+
+[sub_resource type="Resource" id="Resource_wevbr"]
+script = ExtResource("2_c14lg")
+amount_to_heal = 1
+metadata/_custom_type_script = "uid://dsn81nnd0sen4"
+
+[sub_resource type="Resource" id="Resource_dnbsk"]
+script = ExtResource("3_3w8xd")
+stat_to_improve = 1
+amount_to_improve = 1
+metadata/_custom_type_script = "uid://cu1qv12btinag"
+
+[resource]
+script = ExtResource("2_duac0")
+stance_for_bonus = 3
+stance_after_clash = 3
+name = "Intimidación"
+speed = 4
+bonus_effects = Array[ExtResource("1_wm63x")]([SubResource("Resource_wevbr")])
+effects = Array[ExtResource("1_wm63x")]([SubResource("Resource_dnbsk")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

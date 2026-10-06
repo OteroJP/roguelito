@@ -4,7 +4,7 @@ extends CardData
 
 @export var stance_for_bonus: Hero.Stance
 @export var stance_after_clash: Hero.Stance
-
+@export var removable: bool = true
 
 func on_play(villain: Villain, hero: Hero):
 	pass
@@ -12,10 +12,9 @@ func on_play(villain: Villain, hero: Hero):
 
 func on_clash(villain: Villain, hero: Hero):
 	if hero.is_in_stance(stance_for_bonus):
-		GameManager.add_debug("STANCE BONUS:", GameManager.LogSource.HERO)
+		GameManager.add_debug("Stance bonus effects triggered!", GameManager.LogSource.HERO)
 		for effect in bonus_effects:
 			await effect.on_clash(villain, hero)
-	GameManager.add_debug("REGULAR EFFECT:", GameManager.LogSource.HERO)
 	for effect in effects:
 		await effect.on_clash(villain, hero)
 

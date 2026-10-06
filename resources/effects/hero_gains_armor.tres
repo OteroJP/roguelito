@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HeroArmors" format=3 uid="uid://dfvxlw7msiooc"]
+
+[ext_resource type="Script" uid="uid://q0qolf0cd6lj" path="res://game_specific/effects/hero_armors.gd" id="1_lbgju"]
+
+[resource]
+script = ExtResource("1_lbgju")
+metadata/_custom_type_script = "uid://q0qolf0cd6lj"

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://byjl8ihbnlnod"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_oltwb"]
+[ext_resource type="Script" uid="uid://dex2jmcgp44cv" path="res://game_specific/effects/hero_attacks.gd" id="2_ql2tp"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="2_t458f"]
+[ext_resource type="Script" uid="uid://weq3qyrfv4m8" path="res://game_specific/effects/cancel_villain_card.gd" id="3_kwcx1"]
+
+[sub_resource type="Resource" id="Resource_pnl3y"]
+script = ExtResource("2_ql2tp")
+damage = 1
+metadata/_custom_type_script = "uid://dex2jmcgp44cv"
+
+[sub_resource type="Resource" id="Resource_m7vtp"]
+script = ExtResource("3_kwcx1")
+metadata/_custom_type_script = "uid://weq3qyrfv4m8"
+
+[resource]
+script = ExtResource("2_t458f")
+stance_for_bonus = 2
+stance_after_clash = 2
+removable = false
+name = "Cara de Buen Tipo"
+speed = 4
+bonus_effects = Array[ExtResource("1_oltwb")]([SubResource("Resource_pnl3y")])
+effects = Array[ExtResource("1_oltwb")]([SubResource("Resource_m7vtp")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"

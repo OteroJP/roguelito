@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HeroImproves" format=3 uid="uid://dvsaf1sag7yef"]
+
+[ext_resource type="Script" uid="uid://cu1qv12btinag" path="res://game_specific/effects/hero_improve_stat.gd" id="1_ew12k"]
+
+[resource]
+script = ExtResource("1_ew12k")
+metadata/_custom_type_script = "uid://cu1qv12btinag"

@@ -74,7 +74,6 @@ func add_to_hand(cards: Array[CardData]) -> void:
 	
 #
 func choose_card() -> CardData:
-	GameManager.add_debug("Choosing card", GameManager.LogSource.VILLAIN)
 	_multi_select = false
 	_set_hand_interactable(true)
 	await _ConfirmButton.pressed
@@ -188,7 +187,6 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 
 
 func cast_spells() -> void:
-	GameManager.add_debug("Activating spells", GameManager.LogSource.VILLAIN)
 	_set_spells_interactable(true)
 	await _SpellConfirmBtn.pressed
 	_set_spells_interactable(false)
@@ -234,7 +232,7 @@ func _update_counters() -> void:
 	_HealthBar.value = _villain.health
 	_HealthBar.max_value = _villain.max_health
 	_HealthLabel.text = "%d / %d" % [_villain.health, _villain.max_health]	
-	_HealthBar.add_theme_stylebox_override("fill", UIAssets.VILLAIN_SECOND_PHASE_STYLEBOX) if _villain.is_in_second_phase() else _HealthBar.remove_theme_stylebox_override("fill")
+	_HealthBar.add_theme_stylebox_override("fill", UIAssets.VILLAIN_SECOND_PHASE_STYLEBOX) if _villain.is_in_second_phase() else _HealthBar.add_theme_stylebox_override("fill", UIAssets.VILLAIN_FIRST_PHASE_STYLEBOX)
 	_ManaBar.value = _villain.mana
 	_ManaBar.max_value = _villain.max_mana
 	_ManaLabel.text = "%d / %d" % [_villain.mana, _villain.max_mana]

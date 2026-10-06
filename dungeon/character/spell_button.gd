@@ -33,6 +33,7 @@ func get_effects() -> Array[Effect]:
 func _pressed() -> void:
 	_used_this_turn = true
 	pressed.emit(_data)
+	GameManager.add_debug("Used %s spell." % _data.name, GameManager.LogSource.VILLAIN)
 	_refresh_enabled()
 	
 

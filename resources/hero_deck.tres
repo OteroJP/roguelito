@@ -2,17 +2,23 @@
 
 [ext_resource type="Script" uid="uid://7h66ml10ba7k" path="res://game_specific/cards/_card_data.gd" id="1_wapdo"]
 [ext_resource type="Script" uid="uid://ba84e8ikj4p01" path="res://game_specific/deck.gd" id="2_1jeib"]
-[ext_resource type="Resource" uid="uid://cy1d3f3ifdend" path="res://resources/cards/hero/test/Damage 2 + Cancel v2.tres" id="2_pabrw"]
-[ext_resource type="Resource" uid="uid://cdsq210ad1jij" path="res://resources/cards/hero/test/Damage 2 + Cancel.tres" id="3_twe6g"]
-[ext_resource type="Resource" uid="uid://dwy6r11wlrxo2" path="res://resources/cards/hero/test/Damage 2 + Damage Immune v2.tres" id="4_xevnd"]
-[ext_resource type="Resource" uid="uid://chp8l03w8l6eq" path="res://resources/cards/hero/test/Damage 2 + Damage Immune.tres" id="5_r5nxa"]
+[ext_resource type="Resource" uid="uid://bvt7veunit85l" path="res://resources/cards/hero/ataque_firme.tres" id="2_qtj6r"]
+[ext_resource type="Resource" uid="uid://c5tgbsgyt6cl4" path="res://resources/cards/hero/ataque_veloz.tres" id="3_ptv3v"]
+[ext_resource type="Resource" uid="uid://bqi8de36ncato" path="res://resources/cards/hero/defensa.tres" id="4_1rwb4"]
+[ext_resource type="Resource" uid="uid://bpr5yjponn2df" path="res://resources/cards/hero/escudazo.tres" id="5_0mj3s"]
+[ext_resource type="Resource" uid="uid://h7mg623nobsv" path="res://resources/cards/hero/intimidacion.tres" id="6_k3o55"]
+[ext_resource type="Resource" uid="uid://dtuq0qxxje3q" path="res://resources/cards/hero/pocion_curativa.tres" id="7_kisep"]
+[ext_resource type="Resource" uid="uid://bpcuw8q8tepw8" path="res://resources/cards/hero/refuerzo.tres" id="8_uk2yy"]
 
 [resource]
 script = ExtResource("2_1jeib")
 card_set = Dictionary[ExtResource("1_wapdo"), int]({
-ExtResource("2_pabrw"): 1,
-ExtResource("3_twe6g"): 1,
-ExtResource("4_xevnd"): 1,
-ExtResource("5_r5nxa"): 1
+ExtResource("2_qtj6r"): 1,
+ExtResource("3_ptv3v"): 1,
+ExtResource("4_1rwb4"): 1,
+ExtResource("5_0mj3s"): 1,
+ExtResource("6_k3o55"): 1,
+ExtResource("7_kisep"): 1,
+ExtResource("8_uk2yy"): 1
 })
 metadata/_custom_type_script = "uid://ba84e8ikj4p01"

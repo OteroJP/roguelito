@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="HeroCardData" format=3 uid="uid://btvuag2sv51u7"]
+
+[ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_b11u4"]
+[ext_resource type="Script" uid="uid://biptpxhw0tg43" path="res://game_specific/effects/hero_attacks_basic.gd" id="2_e2l67"]
+[ext_resource type="Script" uid="uid://cmovdds4b6lbu" path="res://game_specific/cards/hero_card_data.gd" id="2_wrf5w"]
+[ext_resource type="Script" uid="uid://dsn81nnd0sen4" path="res://game_specific/effects/hero_heals.gd" id="3_h4j5s"]
+[ext_resource type="Script" uid="uid://cg0ocgwuidmrf" path="res://game_specific/effects/hero_remove_status.gd" id="4_s2jpw"]
+[ext_resource type="Resource" uid="uid://csjb7yuc4ph4a" path="res://resources/statuses/poison.tres" id="5_tl08o"]
+
+[sub_resource type="Resource" id="Resource_2hats"]
+script = ExtResource("2_e2l67")
+metadata/_custom_type_script = "uid://biptpxhw0tg43"
+
+[sub_resource type="Resource" id="Resource_pm02n"]
+script = ExtResource("3_h4j5s")
+amount_to_heal = 3
+metadata/_custom_type_script = "uid://dsn81nnd0sen4"
+
+[sub_resource type="Resource" id="Resource_pj6vq"]
+script = ExtResource("4_s2jpw")
+status_to_remove = ExtResource("5_tl08o")
+metadata/_custom_type_script = "uid://cg0ocgwuidmrf"
+
+[resource]
+script = ExtResource("2_wrf5w")
+stance_for_bonus = 2
+stance_after_clash = 2
+removable = false
+name = "Compañerismo"
+speed = 6
+bonus_effects = Array[ExtResource("1_b11u4")]([SubResource("Resource_2hats")])
+effects = Array[ExtResource("1_b11u4")]([SubResource("Resource_pm02n"), SubResource("Resource_pj6vq")])
+metadata/_custom_type_script = "uid://cmovdds4b6lbu"
