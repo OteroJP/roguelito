@@ -26,8 +26,8 @@ func _set(property: StringName, value: Variant) -> bool:
 	if get(property) != value:
 		_queue_refresh()
 	return false
-	
-	
+
+
 func _get(property: StringName) -> Variant:
 	if property == &"effect_text":
 		return _effect_text()
@@ -58,20 +58,21 @@ func _refresh_inspector() -> void:
 @abstract func _effect_text() -> String
 
 
-func on_play(villain: Villain, hero: Hero):
-	pass
+func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
+	return AuditOutcome.new()
 
 
-func on_clash(villain: Villain, hero: Hero):
-	pass
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	return outcome
 
 
-func after_clash(villain: Villain, hero: Hero):
-	pass
+func after_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	return AuditOutcome.new()
 
 
-func on_discard(villain: Villain, hero: Hero):
-	pass
+func on_discard(villain: Villain, hero: Hero) -> AuditOutcome:
+	return AuditOutcome.new()
 
 
 func text() -> String:

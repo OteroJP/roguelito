@@ -2,9 +2,14 @@
 class_name VillainPierce
 extends Effect
 
-func on_clash(villain: Villain, hero: Hero):
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	var pierce_modifier: PierceModifier = PierceModifier.new()
-	villain.take_attack_modifier(pierce_modifier)
+	outcome.append(villain.take_attack_modifier(pierce_modifier))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

@@ -1,6 +1,9 @@
 class_name SpellButton
 extends TextureButton
 
+signal spell_chosen(spell: VillainSpell)
+signal interaction_logged(entry: AuditLogEntry)
+
 @onready var label: Label = %Count
 @onready var symbol_texture: TextureRect = %Symbol
 @onready var bonus_texture: TextureRect = %Bonus
@@ -32,10 +35,10 @@ func get_effects() -> Array[Effect]:
 
 func _pressed() -> void:
 	_used_this_turn = true
-	pressed.emit(_data)
-	_villain.audit_report.add("Used %s spell." % _data.name, AuditLogEntry.Source.VILLAIN)
+	spell_chosen.emit(_data)
+	interaction_logged.emit(AuditLogEntry.new("Used %s spell." % _data.name, AuditLogEntry.Source.VILLAIN))
 	_refresh_enabled()
-	
+
 
 func enable_spell_cast(enabled: bool) -> void:
 	_outside_spell_window = not enabled
@@ -53,4 +56,4 @@ static func new_spell_button(data: VillainSpell, villain: Villain) -> SpellButto
 	button._villain = villain
 	button.name = "%s Spell" % str(button._data.name)
 	return button
-	
+

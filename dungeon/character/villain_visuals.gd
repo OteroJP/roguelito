@@ -1,5 +1,8 @@
 class_name VillainVisuals extends HBoxContainer
 
+signal interaction_logged(entry: AuditLogEntry)
+signal spell_resolution_finished
+
 #signal hand_changed()
 
 var _deck: Deck
@@ -33,7 +36,10 @@ var _selected_cards: Array[CardData] = []
 var _selection_limit: int = 1
 var _multi_select: bool = false
 var _discard_prompt: Label
-	
+var _spell_outcome: AuditOutcome = AuditOutcome.new()
+var _pending_spell_resolutions: int = 0
+
+
 func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
 	_CurrentSymbol.texture = null
@@ -44,12 +50,14 @@ func _ready() -> void:
 	for spell: VillainSpell in _villain.spells:
 		var new_spell_btn = SpellButton.new_spell_button(spell, _villain)
 		_Spellbook.add_child(new_spell_btn)
-		new_spell_btn.pressed.connect(_villain.resolve_spell)
+		new_spell_btn.spell_chosen.connect(_resolve_spell)
+		new_spell_btn.interaction_logged.connect(_on_interaction_logged)
 		new_spell_btn._refresh_enabled()
 	_HealthDelta.text = ""
 	_ManaDelta.text = ""
 	_add_modifier_icons()
 	_update_counters
+
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
 	_deck = new_deck
@@ -57,6 +65,8 @@ func prepare(new_deck: Deck, villain: Villain) -> void:
 	_villain = villain
 
 #TODO revisar esto
+
+
 func add_to_hand(cards: Array[CardData]) -> void:
 	var card_nodes: Array[Control] = []
 
@@ -67,12 +77,14 @@ func add_to_hand(cards: Array[CardData]) -> void:
 		card.offset_transform_enabled = true
 		card.offset_transform_visual_only = true
 		card_nodes.append(card) 	#TODO: think a zero-copy, statically typed solution bypassing current GDScript limitations
-	
+
 	await get_tree().create_timer(GameManager.ux_delay).timeout # Wait until the HBoxContainer has arranged its children.
 	var animated_translation: Tween = _translation_tween(card_nodes)
 	await animated_translation.finished
-	
+
 #
+
+
 func choose_card() -> CardData:
 	_multi_select = false
 	_set_hand_interactable(true)
@@ -84,7 +96,7 @@ func choose_card() -> CardData:
 
 
 func choose_cards(amount: int) -> Array[CardData]:
-	_villain.audit_report.add("Choosing cards to discard", AuditLogEntry.Source.VILLAIN)
+	interaction_logged.emit(AuditLogEntry.new("Choosing cards to discard", AuditLogEntry.Source.VILLAIN))
 	_multi_select = true
 	_selection_limit = amount
 	_selected_cards.clear()
@@ -104,7 +116,7 @@ func choose_cards(amount: int) -> Array[CardData]:
 
 
 func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[CardData]:
-	_villain.audit_report.add("Choosing cards from discard", AuditLogEntry.Source.VILLAIN)
+	interaction_logged.emit(AuditLogEntry.new("Choosing cards from discard", AuditLogEntry.Source.VILLAIN))
 	var selected: Array[CardData] = []
 	var card_nodes: Array[VillainCard] = []
 	var layer := CanvasLayer.new()
@@ -186,13 +198,31 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 	return picked
 
 
-func cast_spells() -> void:
+func cast_spells() -> AuditOutcome:
+	_spell_outcome = AuditOutcome.new()
+	_pending_spell_resolutions = 0
 	_set_spells_interactable(true)
 	await _SpellConfirmBtn.pressed
 	_set_spells_interactable(false)
+	while _pending_spell_resolutions > 0:
+		await spell_resolution_finished
+	return _spell_outcome
+
+
+func _resolve_spell(spell: VillainSpell) -> void:
+	_pending_spell_resolutions += 1
+	_spell_outcome.append(await _villain.resolve_spell(spell))
+	_pending_spell_resolutions -= 1
+	spell_resolution_finished.emit()
+
+
+func _on_interaction_logged(entry: AuditLogEntry) -> void:
+	interaction_logged.emit(entry)
 
 
 #TODO revisar esto
+
+
 func remove_from_hand(card_data: CardData) -> void:
 	#TODO animaciones sonidos y todo eso
 	var card_to_remove: VillainCard = _find_card_in_hand(card_data)
@@ -231,7 +261,7 @@ func _update_counters() -> void:
 	#)
 	_HealthBar.value = _villain.health
 	_HealthBar.max_value = _villain.max_health
-	_HealthLabel.text = "%d / %d" % [_villain.health, _villain.max_health]	
+	_HealthLabel.text = "%d / %d" % [_villain.health, _villain.max_health]
 	_HealthBar.add_theme_stylebox_override("fill", UIAssets.VILLAIN_SECOND_PHASE_STYLEBOX) if _villain.is_in_second_phase() else _HealthBar.add_theme_stylebox_override("fill", UIAssets.VILLAIN_FIRST_PHASE_STYLEBOX)
 	_ManaBar.value = _villain.mana
 	_ManaBar.max_value = _villain.max_mana
@@ -260,10 +290,10 @@ func _set_hand_interactable(enabled: bool) -> void:
 	for card: VillainCard in _Hand.get_children():
 		card.set_process_input(enabled)
 		if enabled:
-			card.card_clicked.connect(_chose_card)		
+			card.card_clicked.connect(_chose_card)
 		else:
-			card.card_clicked.disconnect(_chose_card)		
-	
+			card.card_clicked.disconnect(_chose_card)
+
 
 func _chose_card(card: CardData) -> void:
 	if _multi_select:
@@ -360,21 +390,21 @@ func _cancel_selection() -> void:
 	_CancelButton.set_process_input(false)
 	_ConfirmButton.set_process_input(false)
 	_refresh_discard_prompt()
-	
-	
+
+
 func change_current_symbol(new_symbol: Villain.Symbol) -> void:
 	_CurrentSymbol.texture = get_symbol_asset(new_symbol)
 	_SymbolCompleted.texture = null
-	
-	
+
+
 func change_completed_symbol(new_symbol: Villain.Symbol) -> void:
 	_SymbolCompleted.texture = get_symbol_asset(new_symbol)
-	
+
 
 func get_symbol_asset(symbol: Villain.Symbol) -> Texture2D:
 	return UIAssets.SYMBOL_LIBRARY[symbol]
-	
-	
+
+
 func _translation_tween(control_nodes: Array[Control]) -> Tween:
 	const DELAY_FACTOR: float = 0.08
 	var tween: Tween = create_tween()
@@ -389,8 +419,8 @@ func _translation_tween(control_nodes: Array[Control]) -> Tween:
 			i*DELAY_FACTOR
 		)
 	return tween
-	
-	
+
+
 func translation_tweener(
 		tween: Tween,
 		control: Control,
@@ -428,7 +458,7 @@ func translation_tweener(
 	.set_ease(Tween.EASE_OUT)
 	)
 
-	
+
 func _format_delta_text(delta: int) -> String:
 	var delta_string: String
 	if delta > 0:

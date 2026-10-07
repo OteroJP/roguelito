@@ -20,73 +20,81 @@ func prepare(_playing_area: PlayingArea, _hero: Hero, _villain: Villain, _ux_del
 
 
 func sort_cards() -> void:
-	card_resolve_queue = _sort_cards_by_fastest()	
-	
+	card_resolve_queue = _sort_cards_by_fastest()
 
-func play_villain_card(card: VillainCardData) -> void:
+
+func play_villain_card(card: VillainCardData) -> AuditOutcome:
 	current_villain_card = card
-	card.on_play(villain, hero)
+	var outcome := await card.on_play(villain, hero)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
+	return outcome
 
 
-func play_hero_card(card: HeroCardData) -> void:
+func play_hero_card(card: HeroCardData) -> AuditOutcome:
 	current_hero_card = card
-	card.on_play(villain, hero)
+	var outcome := await card.on_play(villain, hero)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
+	return outcome
 
 
-func execute_faster_card() -> void:
+func execute_faster_card() -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	#TODO this could be cleaner
 	if (card_resolve_queue[0] == current_villain_card):
-		villain.audit_report.add("------------------", AuditLogEntry.Source.VILLAIN)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.VILLAIN)
 		if current_villain_card_enabled():
-			villain.audit_report.add("Resolve %s" % current_villain_card.name, AuditLogEntry.Source.VILLAIN)
+			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
 			await playing_area.resolve_villain_card()
-			await current_villain_card.on_clash(villain, hero)
+			outcome.append(await current_villain_card.on_clash(villain, hero))
 		else:
-			villain.audit_report.add("CANCELLED!:", AuditLogEntry.Source.VILLAIN)
+			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN, 0, "", "", true)
 	if (card_resolve_queue[0] == current_hero_card):
-		hero.audit_report.add("------------------", AuditLogEntry.Source.HERO)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.HERO)
 		if current_hero_card_enabled():
-			hero.audit_report.add("Resolve %s" % current_hero_card.name, AuditLogEntry.Source.HERO)
+			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
 			await playing_area.resolve_hero_card()
-			await current_hero_card.on_clash(villain, hero)
+			outcome.append(await current_hero_card.on_clash(villain, hero))
 		else:
-			hero.audit_report.add("CANCELLED!:", AuditLogEntry.Source.HERO)
+			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.HERO, 0, "", "", true)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
+	return outcome
 
 
-func execute_slower_card() -> void:
+func execute_slower_card() -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	#TODO this could be cleaner
 	if (card_resolve_queue[1] == current_villain_card):
-		villain.audit_report.add("------------------", AuditLogEntry.Source.VILLAIN)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.VILLAIN)
 		if is_current_villain_card_enabled:
-			villain.audit_report.add("Resolve %s" % current_villain_card.name, AuditLogEntry.Source.VILLAIN)
+			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
 			await playing_area.resolve_villain_card()
-			await current_villain_card.on_clash(villain, hero)
+			outcome.append(await current_villain_card.on_clash(villain, hero))
 		else:
-			villain.audit_report.add("CANCELLED!", AuditLogEntry.Source.VILLAIN)
+			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN)
 	if (card_resolve_queue[1] == current_hero_card):
-		hero.audit_report.add("------------------", AuditLogEntry.Source.HERO)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.HERO)
 		if is_current_hero_card_enabled:
-			hero.audit_report.add("Resolve %s" % current_hero_card.name, AuditLogEntry.Source.HERO)
+			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
 			await playing_area.resolve_hero_card()
-			await current_hero_card.on_clash(villain, hero)
+			outcome.append(await current_hero_card.on_clash(villain, hero))
 		else:
-			hero.audit_report.add("CANCELLED!", AuditLogEntry.Source.HERO)
+			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.HERO)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
-	
-	
-func end_phase() -> void:
+	return outcome
+
+
+func end_phase() -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	for card in card_resolve_queue:
-		card.after_clash(villain, hero)
-	hero.end_phase()
-	await villain.end_phase()
+		outcome.append(await card.after_clash(villain, hero))
+	outcome.append(hero.end_phase())
+	outcome.append(await villain.end_phase())
 	await get_tree().create_timer(GameManager.ux_delay).timeout
+	return outcome
 
 
 func _sort_cards_by_fastest() -> Array[CardData]:
@@ -100,7 +108,7 @@ func _sort_cards_by_fastest() -> Array[CardData]:
 
 func current_villain_card_enabled() -> bool:
 	return is_current_villain_card_enabled
-	
-	
+
+
 func current_hero_card_enabled() -> bool:
 	return is_current_hero_card_enabled

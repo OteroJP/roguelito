@@ -5,8 +5,13 @@ extends Effect
 
 @export var speed_modification: int
 
-func on_clash(villain: Villain, hero: Hero):
-	hero.get_bonus_speed(speed_modification)
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	outcome.append(hero.get_bonus_speed(speed_modification))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

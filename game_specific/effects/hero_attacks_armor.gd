@@ -7,9 +7,14 @@ extends Effect
 
 var armor_damage_text: String
 
-func on_clash(villain: Villain, hero: Hero):
-	hero.perform_attack(villain, hero.max_armor + bonus_damage, ignores_armor)
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	outcome.append(hero.perform_attack(villain, hero.max_armor + bonus_damage, ignores_armor))
 	armor_damage_text = str(hero.max_armor)
+
+	return outcome
+
 
 func _effect_text() -> String:
 	var text := "Hero attacks for its max. armor (%s)" % armor_damage_text

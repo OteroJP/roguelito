@@ -7,12 +7,18 @@ extends Effect
 @export var bonus_threshold: int
 
 #TODO refactor to new attack system
-func on_clash(villain: Villain, hero: Hero):
+
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	if (hero.health <= threshold or
 		(hero.health <= bonus_threshold and
 		villain.is_in_second_phase())
 		):
 		hero.set_health(new_health)
+
+
+	return outcome
 
 
 func _effect_text() -> String:

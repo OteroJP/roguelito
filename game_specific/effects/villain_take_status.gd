@@ -4,8 +4,13 @@ extends Effect
 
 @export var status: Status
 
-func on_clash(villain: Villain, hero: Hero):
-	villain.take_status(status)
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	outcome.append(await villain.take_status(status))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

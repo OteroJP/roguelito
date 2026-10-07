@@ -84,3 +84,7 @@ class DialogPhase extends LoopPhase:
 
 	func get_report() -> AuditReport:
 		return _report
+
+
+	func get_audit_header() -> String:
+		return "Dialog starting"

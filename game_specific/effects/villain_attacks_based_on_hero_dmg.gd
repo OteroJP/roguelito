@@ -6,9 +6,14 @@ extends Effect
 
 var _hero_max_basic_damage: int = 0
 
-func on_clash(villain: Villain, hero: Hero):
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	_hero_max_basic_damage = hero.max_basic_damage
-	villain.perform_attack(hero, hero.max_basic_damage, ignores_armor)
+	outcome.append(villain.perform_attack(hero, hero.max_basic_damage, ignores_armor))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

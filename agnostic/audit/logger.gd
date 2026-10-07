@@ -34,6 +34,22 @@ func display_report(report: AuditReport) -> void:
 	_combat_log.append_report(formatted_report)
 
 
+func display_entry(entry: AuditLogEntry) -> void:
+	_combat_log.append_report(_format_entry(entry.line, entry.source))
+
+
+func display_phase_header(header: String) -> void:
+	var formatted_header := _format_entry("-------", AuditLogEntry.Source.GAME)
+	formatted_header += _format_entry(header, AuditLogEntry.Source.GAME)
+	_combat_log.append_report(formatted_header)
+
+
+func display_cycle_header(round_number: int) -> void:
+	var formatted_header := _format_entry("---------------------------", AuditLogEntry.Source.GAME)
+	formatted_header += _format_entry("Round %d" % round_number, AuditLogEntry.Source.GAME)
+	_combat_log.append_report(formatted_header)
+
+
 func log(line: String, source: AuditLogEntry.Source = AuditLogEntry.Source.GAME) -> void:
 	_combat_log.append_report(_format_entry(line, source))
 

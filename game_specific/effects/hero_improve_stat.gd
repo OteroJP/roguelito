@@ -9,17 +9,22 @@ enum Stat {HEALTH, BASIC_ATTACK, ARMOR}
 
 var stat_text: String
 
-func on_clash(villain: Villain, hero: Hero):
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	match stat_to_improve:
 		Stat.HEALTH:
-			hero.increase_max_health(amount_to_improve)
+			outcome.append(hero.increase_max_health(amount_to_improve))
 			stat_text = "its max health"
 		Stat.ARMOR:
-			hero.increase_max_armor(amount_to_improve)
+			outcome.append(hero.increase_max_armor(amount_to_improve))
 			stat_text = "its max armor"
 		Stat.BASIC_ATTACK:
-			hero.increase_max_basic_damage(amount_to_improve)
+			outcome.append(hero.increase_max_basic_damage(amount_to_improve))
 			stat_text = "its max basic damage"
+
+	return outcome
+
 
 func _effect_text() -> String:
 	return "Hero improves %s by %s" % [stat_text, str(amount_to_improve)]

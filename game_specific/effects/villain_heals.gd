@@ -5,8 +5,14 @@ extends Effect
 @export var amount_to_heal: int
 
 #TODO refactor to new attack system
-func on_clash(villain: Villain, hero: Hero):
-	villain.heal(amount_to_heal)
+
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	outcome.append(villain.heal(amount_to_heal))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

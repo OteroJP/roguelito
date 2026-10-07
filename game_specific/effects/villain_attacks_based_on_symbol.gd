@@ -8,12 +8,17 @@ extends Effect
 @export var damage_under_threshold: int = 0
 @export var damage_over_threshold: int = 1
 
-func on_clash(villain: Villain, hero: Hero):
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	if (symbol == Villain.Symbol.NONE or
 	villain.symbol_count[symbol] < threshold):
-		villain.perform_attack(hero, damage_under_threshold, ignores_armor)
+		outcome.append(villain.perform_attack(hero, damage_under_threshold, ignores_armor))
 	else:
-		villain.perform_attack(hero, damage_over_threshold, ignores_armor)
+		outcome.append(villain.perform_attack(hero, damage_over_threshold, ignores_armor))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

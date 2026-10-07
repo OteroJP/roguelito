@@ -26,17 +26,21 @@ var _refreshing: bool = false
 var _localize_enabled: bool = false
 
 
-func on_tick(villain: Villain, hero: Hero) -> void:
-	await resolve_status_effects(villain, hero)
+func on_tick(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := await resolve_status_effects(villain, hero)
 	if duration != -1:
 		duration -= 1
 		if duration <= 0:
 			status_depleted.emit(self)
 	status_ticked.emit()
+	return outcome
 
-func resolve_status_effects(villain: Villain, hero: Hero) -> void:
+
+func resolve_status_effects(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	for effect in status_effects:
-		await effect.on_clash(villain, hero)
+		outcome.append(await effect.on_clash(villain, hero))
+	return outcome
 
 
 func _init() -> void:

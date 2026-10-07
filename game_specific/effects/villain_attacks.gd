@@ -5,8 +5,13 @@ extends Effect
 @export var damage: int
 @export var ignores_armor: bool = false
 
-func on_clash(villain: Villain, hero: Hero):
-	villain.perform_attack(hero, damage, ignores_armor)
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	outcome.append(villain.perform_attack(hero, damage, ignores_armor))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

@@ -11,19 +11,24 @@ func _init(
 	) -> void:
 	_villain = villain_character
 	_playing_area = playing_area
-	
-	
+
+
 func run() -> void:
-	await _villain.draw()
+	start_report()
+	_report.append(await _villain.draw())
 	if _have_loop_ended.call():
 		return
-	await _villain.cast_spells()
+	_report.append(await _villain.cast_spells())
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
-	await _villain.play_card() # Mandatory: Player selects a card to play, may undo, and the confirms.	
+	_report.append(await _villain.play_card()) # Mandatory: Player selects a card to play, may undo, and the confirms.
 	await _playing_area.add_villain_card(GameManager.current_villain_card)
-	#await _playing_area.get_tree().process_frame 
+	#await _playing_area.get_tree().process_frame
 
 
 func get_report() -> AuditReport:
 	return _report
+
+
+func get_audit_header() -> String:
+	return "Player turn starting"

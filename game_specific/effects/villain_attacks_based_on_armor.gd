@@ -6,11 +6,16 @@ extends Effect
 @export var bonus_multiplier: int = 2
 @export var ignores_armor: bool = false
 
-func on_clash(villain: Villain, hero: Hero):
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	if villain.is_in_second_phase():
-		villain.perform_attack(hero, hero.max_armor * bonus_multiplier, ignores_armor)
+		outcome.append(villain.perform_attack(hero, hero.max_armor * bonus_multiplier, ignores_armor))
 	else:
-		villain.perform_attack(hero, hero.max_armor * multiplier, ignores_armor)
+		outcome.append(villain.perform_attack(hero, hero.max_armor * multiplier, ignores_armor))
+
+
+	return outcome
 
 
 func _effect_text() -> String:

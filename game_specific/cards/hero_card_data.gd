@@ -6,26 +6,30 @@ extends CardData
 @export var stance_after_clash: Hero.Stance
 @export var removable: bool = true
 
-func on_play(villain: Villain, hero: Hero):
-	pass
+
+func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
+	return AuditOutcome.new()
 
 
-func on_clash(villain: Villain, hero: Hero):
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	if hero.is_in_stance(stance_for_bonus):
-		hero.audit_report.add("Stance bonus effects triggered!", AuditLogEntry.Source.HERO)
+		outcome.add(AuditEvent.Kind.STANCE_BONUS_TRIGGERED, AuditLogEntry.Source.HERO)
 		for effect in bonus_effects:
-			await effect.on_clash(villain, hero)
+			outcome.append(await effect.on_clash(villain, hero))
 	for effect in effects:
-		await effect.on_clash(villain, hero)
+		outcome.append(await effect.on_clash(villain, hero))
+	return outcome
 
 
-func after_clash(villain: Villain, hero: Hero):
+func after_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 	hero.change_stance(stance_after_clash)
 	resolved.emit(self)
-	
-	
-func on_discard(villain: Villain, hero: Hero):
-	pass
+	return AuditOutcome.new()
+
+
+func on_discard(villain: Villain, hero: Hero) -> AuditOutcome:
+	return AuditOutcome.new()
 
 
 func _bonus_color() -> Color:

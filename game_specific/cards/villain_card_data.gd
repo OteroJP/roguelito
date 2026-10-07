@@ -5,28 +5,34 @@ extends CardData
 @export var symbol_to_complete: Villain.Symbol
 @export var symbol_to_spawn: Villain.Symbol
 
-func on_play(villain: Villain, hero: Hero):
-	villain.complete_symbol(symbol_to_complete)
+
+func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	await villain.complete_symbol(symbol_to_complete)
 	if villain.matches_current_symbol(symbol_to_complete):
-		villain.resolve_symbol_bonus()
+		outcome.append(await villain.resolve_symbol_bonus())
+	return outcome
 
 
-func on_clash(villain: Villain, hero: Hero):
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	if villain.is_in_second_phase():
-		villain.audit_report.add("2nd Phase bonus effects triggered!:", AuditLogEntry.Source.VILLAIN)
+		outcome.add(AuditEvent.Kind.SECOND_PHASE_BONUS_TRIGGERED, AuditLogEntry.Source.VILLAIN)
 		for effect in bonus_effects:
-			await effect.on_clash(villain, hero)
+			outcome.append(await effect.on_clash(villain, hero))
 	for effect in effects:
-		await effect.on_clash(villain, hero)
+		outcome.append(await effect.on_clash(villain, hero))
+	return outcome
 
 
-func after_clash(villain: Villain, hero: Hero):
+func after_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 	villain.change_symbol(symbol_to_spawn)
 	resolved.emit(self)
-	
-	
-func on_discard(villain: Villain, hero: Hero):
-	pass
+	return AuditOutcome.new()
+
+
+func on_discard(villain: Villain, hero: Hero) -> AuditOutcome:
+	return AuditOutcome.new()
 
 
 func _bonus_color() -> Color:

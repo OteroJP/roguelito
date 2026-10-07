@@ -15,30 +15,33 @@ var speed_bonus: int
 
 @abstract func prepare() -> Node
 
-@abstract func play_card() -> void
+@abstract func play_card() -> AuditOutcome
 
-@abstract func draw() -> void
+@abstract func draw() -> AuditOutcome
 
-@abstract func end_phase() -> void
+@abstract func end_phase() -> AuditOutcome
 
-@abstract func take_damage(damage: int, ignores_armor: bool) -> void
+@abstract func take_damage(damage: int, ignores_armor: bool) -> AuditOutcome
 
-@abstract func take_attack(attack: Attack) -> void
-	
-@abstract func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = false) -> void
-	
-@abstract func heal(amount_to_heal: int) -> void
 
-@abstract func take_attack_modifier(modifier: AttackModifier) -> void
-	
+@abstract func take_attack(attack: Attack) -> AuditOutcome
+
+
+@abstract func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = false) -> AuditOutcome
+
+@abstract func heal(amount_to_heal: int) -> AuditOutcome
+
+
+@abstract func take_attack_modifier(modifier: AttackModifier) -> AuditOutcome
+
 @abstract func remove_attack_modifier(modifier: AttackModifier) -> void
 
-@abstract func tick_statuses(villain: Villain, hero: Hero) -> void
+@abstract func tick_statuses(villain: Villain, hero: Hero) -> AuditOutcome
 
-@abstract func take_status(status: Status) -> void
+
+@abstract func take_status(status: Status) -> AuditOutcome
 
 
 func remove_status(status_to_remove: Status) -> void:
 	statuses.erase(status_to_remove)
 	#Entiendo que siendo q son ref counted no necesitan free
-	

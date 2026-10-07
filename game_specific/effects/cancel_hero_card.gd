@@ -2,9 +2,14 @@
 class_name CancelHero
 extends Effect
 
-func on_clash(villain: Villain, hero: Hero):
+
+func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
 	GameManager.is_current_hero_card_enabled = false
-	hero.audit_report.add("Hero card is cancelled!", AuditLogEntry.Source.HERO)
+	outcome.add(AuditEvent.Kind.CARD_CANCELLED, AuditLogEntry.Source.HERO)
+
+
+	return outcome
 
 
 func _effect_text() -> String:
