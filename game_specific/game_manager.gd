@@ -43,7 +43,7 @@ func execute_faster_card() -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	#TODO this could be cleaner
 	if (card_resolve_queue[0] == current_villain_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.VILLAIN)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
 		if current_villain_card_enabled():
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
 			await playing_area.resolve_villain_card()
@@ -51,7 +51,7 @@ func execute_faster_card() -> AuditOutcome:
 		else:
 			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN, 0, "", "", true)
 	if (card_resolve_queue[0] == current_hero_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.HERO)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
 		if current_hero_card_enabled():
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
 			await playing_area.resolve_hero_card()
@@ -67,7 +67,7 @@ func execute_slower_card() -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	#TODO this could be cleaner
 	if (card_resolve_queue[1] == current_villain_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.VILLAIN)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
 		if is_current_villain_card_enabled:
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
 			await playing_area.resolve_villain_card()
@@ -75,7 +75,7 @@ func execute_slower_card() -> AuditOutcome:
 		else:
 			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN)
 	if (card_resolve_queue[1] == current_hero_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.HERO)
+		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
 		if is_current_hero_card_enabled:
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
 			await playing_area.resolve_hero_card()

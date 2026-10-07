@@ -66,7 +66,7 @@ func _format_event(event: AuditEvent) -> String:
 		AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR:
 			return "------------------"
 		AuditEvent.Kind.CARD_RESOLVING:
-			return "Resolve %s" % event.subject
+			return "Resolving card: %s" % event.subject
 		AuditEvent.Kind.HERO_DEFEATED:
 			return "Hero defeated!"
 		AuditEvent.Kind.PLAYER_LOST:
