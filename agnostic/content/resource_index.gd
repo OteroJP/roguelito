@@ -7,27 +7,19 @@ const SLOT_STABLE: String = "stable"
 const SLOT_BACKUP: String = "backup"
 
 
-@export_group("MISCLEANEO")
-@export var fix_borders: bool
-#@export var camera: CameraSettings
-#@export var player_state: PlayerState
-#@export var store_settings: StoreSettings
-#@export var race_settings: RaceSettings
+@export_group("CHARACTERS")
+@export var hero: Hero
+@export var villain: Villain
 
-#@export_group("CANICAS")
-#@export var marbles: Dictionary[StringName, MarbleStats] = {}
+@export_group("CARDS")
+@export var hero_cards: Array[HeroCardData] = []
+@export var villain_cards: Array[VillainCardData] = []
 
-#@export_group("ÍTEMS")
-#@export var ítems: Dictionary[StringName, ItemResource] = {}
-
-#@export_group("OBSTÁCULOS")
-#@export var obstacles: Dictionary[StringName, ObstacleData] = {}
-
-#@export_group("ZONE BEHAVIORS")
-#@export var zone_behaviors: Dictionary[StringName, ZoneBehavior] = {}
-
-#@export_group("MARBLE MODIFIERS")
-#@export var marble_modifiers: Dictionary[StringName, MarbleModifier] = {}
+@export_group("CONTENT")
+@export var spells: Array[VillainSpell] = []
+@export var statuses: Array[Status] = []
+@export var symbol_bonuses: Array[SymbolBonus] = []
+@export var effects: Array[Effect] = []
 
 @export_category("ACTIONS")
 @export_tool_button("Save as Stable (and Stable as Backup)", "Save")
@@ -42,48 +34,58 @@ var _btn_reset_to_backup: Callable = reset_to_backup
 
 func save_as_stable() -> void:
 	_for_each_tracked(_promote_one)
-	print("ResourceIndex: saved Test as Stable (previous Stable → Backup).")
+	print("ResourceIndex: saved tracked resources as Stable (previous Stable → Backup).")
 
 
 func reset_to_stable() -> void:
 	_for_each_tracked(func(group: String, key: StringName, live: Resource) -> void:
 		_reset_one(group, key, live, SLOT_STABLE)
 	)
-	print("ResourceIndex: reset Test from Stable.")
+	print("ResourceIndex: reset tracked resources from Stable.")
 
 
 func reset_to_backup() -> void:
 	_for_each_tracked(func(group: String, key: StringName, live: Resource) -> void:
 		_reset_one(group, key, live, SLOT_BACKUP)
 	)
-	print("ResourceIndex: reset Test from Backup.")
+	print("ResourceIndex: reset tracked resources from Backup.")
 
 
 func _for_each_tracked(action: Callable) -> void:
-	_for_each_single(action, "misc", &"camera", player_state)
-	_for_each_single(action, "misc", &"player_state", player_state)
-	_for_each_single(action, "misc", &"store_settings", store_settings)
-	_for_each_single(action, "misc", &"race_settings", race_settings)
-	_for_each_group(action, "marbles", marbles)
-	_for_each_group(action, "items", ítems)
-	_for_each_group(action, "obstacles", obstacles)
-	_for_each_group(action, "zone_behaviors", zone_behaviors)
-	_for_each_group(action, "marble_modifiers", marble_modifiers)
+	_for_each_single(action, "hero", hero)
+	_for_each_single(action, "villain", villain)
+	_for_each_group(action, "hero_cards", hero_cards)
+	_for_each_group(action, "villain_cards", villain_cards)
+	_for_each_group(action, "spells", spells)
+	_for_each_group(action, "statuses", statuses)
+	_for_each_group(action, "symbol_bonuses", symbol_bonuses)
+	_for_each_group(action, "effects", effects)
 
-func _for_each_single(action: Callable, group: String, key: StringName, live: Resource) -> void:
+
+func _for_each_single(action: Callable, group: String, live: Resource) -> void:
 	if live == null:
-		push_warning("ResourceIndex: %s '%s' is null, skipped." % [group, key])
+		push_warning("ResourceIndex: %s is null, skipped." % group)
 		return
-	action.call(group, key, live)
+	action.call(group, _resource_key(live), live)
 
 
-func _for_each_group(action: Callable, group: String, dict: Dictionary) -> void:
-	for key in dict:
-		var live: Resource = dict[key]
+func _for_each_group(action: Callable, group: String, resources: Array) -> void:
+	for live: Resource in resources:
 		if live == null:
-			push_warning("ResourceIndex: %s '%s' is null, skipped." % [group, key])
+			push_warning("ResourceIndex: %s contains a null resource, skipped." % group)
 			continue
-		action.call(group, key, live)
+		action.call(group, _resource_key(live), live)
+
+
+func _resource_key(resource: Resource) -> StringName:
+	var resource_path := resource.resource_path
+	if resource_path.begins_with("res://resources/"):
+		resource_path = resource_path.trim_prefix("res://resources/")
+	if resource_path.ends_with(".tres") or resource_path.ends_with(".res"):
+		resource_path = resource_path.get_basename()
+	if resource_path.is_empty():
+		resource_path = resource.resource_name
+	return StringName(resource_path)
 
 
 func _promote_one(group: String, key: StringName, live: Resource) -> void:
@@ -107,9 +109,9 @@ func _reset_one(group: String, key: StringName, live: Resource, slot: String) ->
 
 
 func _snapshot_path(slot: String, group: String, key: StringName) -> String:
-	var safe_key := String(key).validate_filename()
+	var safe_key := String(key).replace("/", "__").replace("\\", "__").validate_filename()
 	if safe_key.is_empty():
-		safe_key = String(key).replace("/", "_").replace("\\", "_").replace(":", "_")
+		safe_key = String(key).replace("/", "__").replace("\\", "__").replace(":", "_")
 	return "%s/%s/%s/%s.tres" % [SNAPSHOTS_ROOT, slot, group, safe_key]
 
 
