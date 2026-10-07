@@ -84,7 +84,7 @@ func choose_card() -> CardData:
 
 
 func choose_cards(amount: int) -> Array[CardData]:
-	GameManager.add_debug("Choosing cards to discard", GameManager.LogSource.VILLAIN)
+	_villain.audit_report.add("Choosing cards to discard", AuditLogEntry.Source.VILLAIN)
 	_multi_select = true
 	_selection_limit = amount
 	_selected_cards.clear()
@@ -104,7 +104,7 @@ func choose_cards(amount: int) -> Array[CardData]:
 
 
 func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[CardData]:
-	GameManager.add_debug("Choosing cards from discard", GameManager.LogSource.VILLAIN)
+	_villain.audit_report.add("Choosing cards from discard", AuditLogEntry.Source.VILLAIN)
 	var selected: Array[CardData] = []
 	var card_nodes: Array[VillainCard] = []
 	var layer := CanvasLayer.new()

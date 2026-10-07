@@ -12,7 +12,7 @@ func on_play(villain: Villain, hero: Hero):
 
 func on_clash(villain: Villain, hero: Hero):
 	if hero.is_in_stance(stance_for_bonus):
-		GameManager.add_debug("Stance bonus effects triggered!", GameManager.LogSource.HERO)
+		hero.audit_report.add("Stance bonus effects triggered!", AuditLogEntry.Source.HERO)
 		for effect in bonus_effects:
 			await effect.on_clash(villain, hero)
 	for effect in effects:

@@ -15,7 +15,7 @@ func _init(
 
 	
 func run() -> void:
-	GameManager.add_debug("---------------------------------------------------------", GameManager.LogSource.GAME)
+	_report.add("---------------------------------------------------------", AuditLogEntry.Source.GAME)
 	await _hero.draw() # Hero shows stance
 	await _hero.tick_statuses(_villain, _hero)
 
@@ -26,9 +26,13 @@ func run() -> void:
 		return
 	await _playing_area.update()
 	await _hero.play_card() # Hero picks random card to play
-	GameManager.add_debug("Played a hidden card", GameManager.LogSource.HERO)
+	_report.add("Played a hidden card", AuditLogEntry.Source.HERO)
 	await _playing_area.add_hero_card(GameManager.current_hero_card)
 	if _have_loop_ended.call():
 		return
 	#phase_ended.emit()
+
+
+func get_report() -> AuditReport:
+	return _report
 	

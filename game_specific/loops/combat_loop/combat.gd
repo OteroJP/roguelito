@@ -34,9 +34,9 @@ func run() -> void:
 	while not _should_end():
 		_current_phase = (_current_phase + 1) % _phases.size()
 		var phase = _phases[_current_phase]
-		GameLogger.print("next phase is starting [ %s ]" % phase.get_script().get_global_name())
+		print("next phase is starting [ %s ]" % phase.get_script().get_global_name())
 		await phase.run()
-	GameLogger.print("Combat loop ended")
+	print("Combat loop ended")
 
 
 func _should_end() -> bool:

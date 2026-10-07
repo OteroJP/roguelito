@@ -30,3 +30,7 @@ func run() -> void:
 	await GameManager.end_phase()
 	
 	await _playing_area.clear()
+
+
+func get_report() -> AuditReport:
+	return _report

@@ -7,6 +7,7 @@ const VILLAIN_CARDS: PackedScene = preload("uid://cs4gqthniprqk")
 
 var current_symbol: Symbol
 var _VillainVisuals: VillainVisuals
+var audit_report: AuditReport
 
 @export var mana: int
 @export var max_mana: int
@@ -38,14 +39,14 @@ func play_card() -> void: #CardData
 	deck.play(card)
 	await _VillainVisuals.remove_from_hand(card)
 	await GameManager.play_villain_card(card)
-	GameManager.add_debug("Played %s" % card.name, GameManager.LogSource.VILLAIN)
+	audit_report.add("Played %s" % card.name, AuditLogEntry.Source.VILLAIN)
 
 
 func draw() -> void:
 	if not deck.may_draw(1): # Si no le quedan cartas, pierde 1 de vida, mezcla su descarte en un nuevo mazo y roba.
 		deck.reshuffle()
 		take_damage(1)
-		GameManager.add_debug("No cards left, take damage and reshuffle", GameManager.LogSource.VILLAIN)
+		audit_report.add("No cards left, take damage and reshuffle", AuditLogEntry.Source.VILLAIN)
 	var card_data: CardData = deck.draw()
 	await _VillainVisuals.add_to_hand([card_data])
 
@@ -83,7 +84,7 @@ func complete_symbol(new_symbol: Symbol) -> void:
 func resolve_symbol_bonus() -> void:
 	for symbol_bonus in symbol_bonuses:
 		if symbol_bonus.symbol == current_symbol:
-			GameManager.add_debug("Resolves %s bonus effect" % Symbol.keys()[current_symbol], GameManager.LogSource.VILLAIN)
+			audit_report.add("Resolves %s bonus effect" % Symbol.keys()[current_symbol], AuditLogEntry.Source.VILLAIN)
 			for bonus in symbol_bonus.bonuses:
 				await bonus.on_clash(GameManager.villain, GameManager.hero)
 	symbol_count[current_symbol] += 1
@@ -111,7 +112,7 @@ func take_cards_from_discard(amount: int) -> void:
 	var cards: Array[CardData] = await _VillainVisuals.choose_cards_from_discard(deck.display_discard_pile(), to_take)
 	deck.take_from_discard(cards)
 	await _VillainVisuals.add_to_hand(cards)
-	GameManager.add_debug("Takes %s cards from the discard" % str(cards.size()), GameManager.LogSource.VILLAIN)
+	audit_report.add("Takes %s cards from the discard" % str(cards.size()), AuditLogEntry.Source.VILLAIN)
 
 
 func discard_from_hand(amount: int) -> void:
@@ -122,14 +123,14 @@ func discard_from_hand(amount: int) -> void:
 	for card: CardData in cards:
 		deck.discard(card)
 		_VillainVisuals.remove_from_hand(card)
-	GameManager.add_debug("Discards %s cards" % str(cards.size()), GameManager.LogSource.VILLAIN)
+	audit_report.add("Discards %s cards" % str(cards.size()), AuditLogEntry.Source.VILLAIN)
 
 
 
 func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	var incoming_damage := damage
 	health -= incoming_damage
-	GameManager.add_debug("Suffers %s damage" % str(incoming_damage), GameManager.LogSource.VILLAIN)
+	audit_report.add("Suffers %s damage" % str(incoming_damage), AuditLogEntry.Source.VILLAIN)
 	character_stats_changed.emit()
 	
 
@@ -143,7 +144,7 @@ func perform_attack(target: Character, damage: int = 0, ignores_armor: bool = fa
 	var new_attack: Attack = Attack.new(target, damage, ignores_armor)
 	for modifier in attack_modifiers:
 		modifier.modify_attack(new_attack)
-	GameManager.add_debug("Attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)], GameManager.LogSource.VILLAIN)
+	audit_report.add("Attacks %s for %s with pierce %s" % [target.character_name, str(damage), str(ignores_armor)], AuditLogEntry.Source.VILLAIN)
 	target.take_attack(new_attack)
 
 
@@ -151,13 +152,13 @@ func heal(amount_to_heal: int) -> void:
 	health = min((health + amount_to_heal), max_health)
 	amount_to_heal
 	character_stats_changed.emit()
-	GameManager.add_debug("Heals for %s" % [str(amount_to_heal)], GameManager.LogSource.VILLAIN)
+	audit_report.add("Heals for %s" % [str(amount_to_heal)], AuditLogEntry.Source.VILLAIN)
 
 
 func get_bonus_speed(_bonus_speed: int) -> void:
 	speed_bonus += _bonus_speed
 	modifiers_changed.emit()
-	GameManager.add_debug("Gets bonus speed for %s" % [str(_bonus_speed)], GameManager.LogSource.VILLAIN)
+	audit_report.add("Gets bonus speed for %s" % [str(_bonus_speed)], AuditLogEntry.Source.VILLAIN)
 
 
 func take_status(status: Status) -> void:
@@ -171,7 +172,7 @@ func tick_statuses(villain: Villain, hero: Hero) -> void:
 	if statuses.is_empty():
 		return
 	for status in statuses:
-		GameManager.add_debug("Ticked %s status" % status.name, GameManager.LogSource.VILLAIN)
+		audit_report.add("Ticked %s status" % status.name, AuditLogEntry.Source.VILLAIN)
 		await status.on_tick(villain, hero)
 
 

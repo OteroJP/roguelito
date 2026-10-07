@@ -80,3 +80,7 @@ class DialogPhase extends LoopPhase:
 		await _display_node.get_tree().create_timer(GameManager.ux_delay).timeout
 		await _display_node.show_dialog()
 		_display_node.hide()
+
+
+	func get_report() -> AuditReport:
+		return _report

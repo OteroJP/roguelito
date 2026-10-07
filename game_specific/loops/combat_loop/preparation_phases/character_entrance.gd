@@ -14,6 +14,10 @@ func _init(
 
 func run() -> void:
 	#VFX de arribo del héroe y el villano
-		#Aparece manos del villano
-		#Fade in héroe al fondo de la pantalla
+	#Aparece manos del villano
+	#Fade in héroe al fondo de la pantalla
 	pass
+
+
+func get_report() -> AuditReport:
+	return _report

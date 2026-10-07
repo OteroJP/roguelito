@@ -29,6 +29,10 @@ func append(line: String, color: String, tag: String) -> void:
 	_body.append_text("[color=%s][lb]%s[rb] %s[/color]\n" % [color, tag, safe_line])
 
 
+func append_report(report: String) -> void:
+	_body.append_text(report)
+
+
 func clear() -> void:
 	_body.clear()
 
