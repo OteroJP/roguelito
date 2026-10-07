@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Hero" format=3 uid="uid://cxa0xfdjgfaer"]
+
+[ext_resource type="Resource" uid="uid://bd76ry0mpjv76" path="res://resources/hero_deck.tres" id="1_21fyp"]
+[ext_resource type="Script" uid="uid://boop60gqxkjeu" path="res://game_specific/characters/hero.gd" id="2_wvuy1"]
+
+[resource]
+script = ExtResource("2_wvuy1")
+max_basic_damage = 4
+basic_damage = 1
+max_armor = 3
+armor = 1
+character_name = "HERO"
+max_health = 7
+health = 4
+deck = ExtResource("1_21fyp")
+metadata/_custom_type_script = "uid://boop60gqxkjeu"
