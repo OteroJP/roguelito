@@ -30,6 +30,29 @@ func prepare() -> void:
 		_hand.append(_card_pile.pop_front())
 
 
+func save_turn_state() -> Dictionary:
+	return {
+		"card_pile": _card_pile.duplicate(),
+		"hand": _hand.duplicate(),
+		"playing_area": _playing_area.duplicate(),
+		"discard_pile": _discard_pile.duplicate(),
+	}
+
+
+func restore_turn_state(state: Dictionary) -> void:
+	for card: CardData in _playing_area:
+		if card.resolved.is_connected(resolve):
+			card.resolved.disconnect(resolve)
+	_card_pile = state["card_pile"].duplicate()
+	_hand = state["hand"].duplicate()
+	_playing_area = state["playing_area"].duplicate()
+	_discard_pile = state["discard_pile"].duplicate()
+	for card: CardData in _playing_area:
+		if not card.resolved.is_connected(resolve):
+			card.resolved.connect(resolve)
+	cards_moved.emit()
+
+
 func reshuffle() -> void:
 	add_to_card_pile(_discard_pile)
 	_discard_pile.clear()

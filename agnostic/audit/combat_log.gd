@@ -5,6 +5,8 @@ const _TOGGLE_ACTION := "toggle_combat_log"
 
 var _legend: RichTextLabel
 var _body: RichTextLabel
+var _entries: Array[String] = []
+var _last_turn_entry: int = 0
 
 
 func _ready() -> void:
@@ -26,15 +28,33 @@ func set_legend(bbcode: String) -> void:
 
 func append(line: String, color: String, tag: String) -> void:
 	var safe_line := line.replace("[", "[lb]")
-	_body.append_text("[color=%s][lb]%s[rb] %s[/color]\n" % [color, tag, safe_line])
+	_append_entry("[color=%s][lb]%s[rb] %s[/color]\n" % [color, tag, safe_line])
 
 
 func append_report(report: String) -> void:
-	_body.append_text(report)
+	_append_entry(report)
+
+
+func make_last_turn() -> void:
+	_last_turn_entry = _entries.size()
+
+
+func erase_last_turn() -> void:
+	_entries.resize(_last_turn_entry)
+	_body.clear()
+	for entry: String in _entries:
+		_body.append_text(entry)
 
 
 func clear() -> void:
+	_entries.clear()
+	_last_turn_entry = 0
 	_body.clear()
+
+
+func _append_entry(entry: String) -> void:
+	_entries.append(entry)
+	_body.append_text(entry)
 
 
 func _ensure_toggle_action() -> void:

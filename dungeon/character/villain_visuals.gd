@@ -7,6 +7,7 @@ signal spell_resolution_finished
 
 var _deck: Deck
 var _chosen_card: CardData
+var _combat_input: CombatInput
 
 @onready var _DeckContainer: MarginContainer = %DeckContainer
 @onready var _HandContainer: MarginContainer = %HandContainer
@@ -42,6 +43,8 @@ var _pending_spell_resolutions: int = 0
 
 func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
+	_ConfirmButton.pressed.connect(_submit_confirm_action)
+	_SpellConfirmBtn.pressed.connect(_submit_confirm_action)
 	_CurrentSymbol.texture = null
 	_SymbolCompleted.texture = null
 	for bonus: SymbolBonus in _villain.symbol_bonuses:
@@ -64,6 +67,10 @@ func prepare(new_deck: Deck, villain: Villain) -> void:
 	_deck.cards_moved.connect(_update_counters)
 	_villain = villain
 
+
+func set_combat_input(combat_input: CombatInput) -> void:
+	_combat_input = combat_input
+
 #TODO revisar esto
 
 
@@ -85,10 +92,40 @@ func add_to_hand(cards: Array[CardData]) -> void:
 #
 
 
+func restore_hand(cards: Array[CardData]) -> void:
+	_set_hand_interactable(false)
+	for child: Node in _Hand.get_children():
+		_Hand.remove_child(child)
+		child.queue_free()
+	if _discard_prompt != null:
+		_discard_prompt.queue_free()
+		_discard_prompt = null
+	_chosen_card = null
+	_selected_cards.clear()
+	_multi_select = false
+	_selection_limit = 1
+	_CancelButton.hide()
+	_ConfirmButton.hide()
+	_ConfirmButton.text = "CONFIRM"
+	_CancelButton.set_process_input(false)
+	_ConfirmButton.set_process_input(false)
+	await get_tree().process_frame
+	for data: CardData in cards:
+		var card := VillainCard.new_villain_card(data as VillainCardData)
+		_Hand.add_child(card)
+		card.offset_transform_enabled = true
+		card.offset_transform_visual_only = true
+	_update_counters()
+
+
 func choose_card() -> CardData:
 	_multi_select = false
 	_set_hand_interactable(true)
-	await _ConfirmButton.pressed
+	var confirmed := await _wait_for_confirmation()
+	if not confirmed:
+		_cancel_selection(false)
+		_set_hand_interactable(false)
+		return null
 	var card_selected: CardData = _chosen_card
 	if card_selected != null:
 		_log_card_interaction("confirmed", card_selected)
@@ -110,11 +147,12 @@ func choose_cards(amount: int) -> Array[CardData]:
 	_Hand.get_parent().move_child(_discard_prompt, 0)
 	_ConfirmButton.text = "DISCARD"
 	_set_hand_interactable(true)
-	await _ConfirmButton.pressed
+	var confirmed := await _wait_for_confirmation()
 	var picked: Array[CardData] = []
-	picked.assign(_selected_cards)
-	for card: CardData in picked:
-		_log_card_interaction("confirmed", card)
+	if confirmed:
+		picked.assign(_selected_cards)
+		for card: CardData in picked:
+			_log_card_interaction("confirmed", card)
 	_finish_card_choice()
 	return picked
 
@@ -195,11 +233,13 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 				_toggle_listed_card(clicked, selected, amount, card_nodes, confirm, prompt)
 		)
 
-	await confirm.pressed
+	confirm.pressed.connect(_submit_confirm_action)
+	var confirmed := await _wait_for_confirmation()
 	var picked: Array[CardData] = []
-	picked.assign(selected)
-	for card: CardData in picked:
-		_log_card_interaction("confirmed", card)
+	if confirmed:
+		picked.assign(selected)
+		for card: CardData in picked:
+			_log_card_interaction("confirmed", card)
 	layer.queue_free()
 	return picked
 
@@ -208,11 +248,24 @@ func cast_spells() -> AuditOutcome:
 	_spell_outcome = AuditOutcome.new()
 	_pending_spell_resolutions = 0
 	_set_spells_interactable(true)
-	await _SpellConfirmBtn.pressed
+	await _wait_for_confirmation()
 	_set_spells_interactable(false)
 	while _pending_spell_resolutions > 0:
 		await spell_resolution_finished
 	return _spell_outcome
+
+
+func _submit_confirm_action() -> void:
+	if _combat_input != null:
+		_combat_input.submit_action(CombatInput.Command.CONFIRM)
+
+
+func _wait_for_confirmation() -> bool:
+	if _combat_input == null:
+		push_error("VillainVisuals: CombatInput was not assigned before waiting for input.")
+		return false
+	var command: int = await _combat_input.wait_for_command()
+	return command == CombatInput.Command.CONFIRM
 
 
 func _resolve_spell(spell: VillainSpell) -> void:
@@ -296,9 +349,11 @@ func _set_hand_interactable(enabled: bool) -> void:
 	for card: VillainCard in _Hand.get_children():
 		card.set_process_input(enabled)
 		if enabled:
-			card.card_clicked.connect(_chose_card)
+			if not card.card_clicked.is_connected(_chose_card):
+				card.card_clicked.connect(_chose_card)
 		else:
-			card.card_clicked.disconnect(_chose_card)
+			if card.card_clicked.is_connected(_chose_card):
+				card.card_clicked.disconnect(_chose_card)
 
 
 func _chose_card(card: CardData) -> void:
@@ -496,6 +551,14 @@ func _format_delta_text(delta: int) -> String:
 func add_status(status: Status) -> void:
 	var new_status_icon: StatusIcon = StatusIcon.new_status_icon(status)
 	_Statuses.add_child(new_status_icon)
+
+
+func restore_statuses(restored_statuses: Array[Status]) -> void:
+	for child: Node in _Statuses.get_children():
+		if child is StatusIcon:
+			child.queue_free()
+	for status: Status in restored_statuses:
+		add_status(status)
 
 
 func _add_modifier_icons() -> void:

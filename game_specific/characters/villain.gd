@@ -38,6 +38,8 @@ func prepare() -> VillainVisuals:
 func play_card() -> AuditOutcome: #CardData
 	var outcome := AuditOutcome.new()
 	var card: CardData = await _VillainVisuals.choose_card()
+	if card == null:
+		return outcome
 	deck.play(card)
 	await _VillainVisuals.remove_from_hand(card)
 	outcome.append(await GameManager.play_villain_card(card))
@@ -59,6 +61,33 @@ func draw() -> AuditOutcome:
 func show_hand() -> void:
 	#TESTING
 	await _VillainVisuals.add_to_hand(deck.display_hand())
+
+
+func save_turn_state() -> Dictionary:
+	var state := super.save_turn_state()
+	state["mana"] = mana
+	state["max_mana"] = max_mana
+	state["second_phase_min"] = second_phase_min
+	state["second_phase_max"] = second_phase_max
+	state["immune_to_damage"] = immune_to_damage
+	state["current_symbol"] = current_symbol
+	state["symbol_count"] = symbol_count.duplicate()
+	return state
+
+
+func restore_turn_state(state: Dictionary) -> void:
+	super.restore_turn_state(state)
+	mana = state["mana"]
+	max_mana = state["max_mana"]
+	second_phase_min = state["second_phase_min"]
+	second_phase_max = state["second_phase_max"]
+	immune_to_damage = state["immune_to_damage"]
+	current_symbol = state["current_symbol"]
+	symbol_count = state["symbol_count"].duplicate()
+	if _VillainVisuals != null:
+		_VillainVisuals.restore_statuses(statuses)
+		_VillainVisuals.change_current_symbol(current_symbol)
+		_VillainVisuals._update_counters()
 
 
 func cast_spells() -> AuditOutcome:

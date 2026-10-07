@@ -54,6 +54,31 @@ func is_in_stance(stance_to_check: Stance) -> bool:
 	return true if current_stance == stance_to_check else false
 
 
+func save_turn_state() -> Dictionary:
+	var state := super.save_turn_state()
+	state["max_basic_damage"] = max_basic_damage
+	state["basic_damage"] = basic_damage
+	state["max_armor"] = max_armor
+	state["armor"] = armor
+	state["immune_to_damage"] = immune_to_damage
+	state["current_stance"] = current_stance
+	return state
+
+
+func restore_turn_state(state: Dictionary) -> void:
+	super.restore_turn_state(state)
+	max_basic_damage = state["max_basic_damage"]
+	basic_damage = state["basic_damage"]
+	max_armor = state["max_armor"]
+	armor = state["armor"]
+	immune_to_damage = state["immune_to_damage"]
+	current_stance = state["current_stance"]
+	if _hero_visuals != null:
+		_hero_visuals.restore_statuses(statuses)
+		_hero_visuals.change_stance(current_stance)
+		_hero_visuals.update()
+
+
 func end_phase() -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	speed_bonus = 0

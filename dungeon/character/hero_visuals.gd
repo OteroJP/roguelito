@@ -104,6 +104,14 @@ func add_status(status: Status) -> void:
 	_Statuses.add_child(new_status_icon)
 
 
+func restore_statuses(restored_statuses: Array[Status]) -> void:
+	for child: Node in _Statuses.get_children():
+		if child is StatusIcon:
+			child.queue_free()
+	for status: Status in restored_statuses:
+		add_status(status)
+
+
 func _add_modifier_icons() -> void:
 	_Statuses.add_child(DamageModificationIcon.new_icon(_hero))
 	_Statuses.add_child(BonusSpeedIcon.new_icon(_hero))

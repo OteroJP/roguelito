@@ -48,6 +48,11 @@ func display_cycle_header(round_number: int) -> void:
 	var formatted_header := _format_entry("---------------------------", AuditLogEntry.Source.GAME)
 	formatted_header += _format_entry("Round %d" % round_number, AuditLogEntry.Source.GAME)
 	_combat_log.append_report(formatted_header)
+	_combat_log.make_last_turn()
+
+
+func erase_last_turn() -> void:
+	_combat_log.erase_last_turn()
 
 
 func log(line: String, source: AuditLogEntry.Source = AuditLogEntry.Source.GAME) -> void:

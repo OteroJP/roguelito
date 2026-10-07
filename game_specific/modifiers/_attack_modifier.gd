@@ -22,3 +22,21 @@ func _init(_uses_left: int = 1, _damage_modification: int = 0, _ignores_armor: b
 	
 func spend_use() -> void:
 	uses_left -= 1
+
+
+func save_turn_state() -> Dictionary:
+	return {
+		"script": get_script(),
+		"uses_left": uses_left,
+		"damage_modification": damage_modification,
+		"ignores_armor": ignores_armor,
+	}
+
+
+static func from_turn_state(state: Dictionary) -> AttackModifier:
+	var modifier_script: Script = state["script"]
+	var modifier := modifier_script.new() as AttackModifier
+	modifier.uses_left = state["uses_left"]
+	modifier.damage_modification = state["damage_modification"]
+	modifier.ignores_armor = state["ignores_armor"]
+	return modifier
