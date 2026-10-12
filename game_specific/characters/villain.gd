@@ -63,27 +63,27 @@ func show_hand() -> void:
 	await _VillainVisuals.add_to_hand(deck.display_hand())
 
 
-func save_turn_state() -> Dictionary:
-	var state := super.save_turn_state()
-	state["mana"] = mana
-	state["max_mana"] = max_mana
-	state["second_phase_min"] = second_phase_min
-	state["second_phase_max"] = second_phase_max
-	state["immune_to_damage"] = immune_to_damage
-	state["current_symbol"] = current_symbol
-	state["symbol_count"] = symbol_count.duplicate()
-	return state
+func create_state_copy() -> Villain:
+	var copy := super.create_state_copy() as Villain
+	copy.current_symbol = current_symbol
+	copy.mana = mana
+	copy.max_mana = max_mana
+	copy.second_phase_min = second_phase_min
+	copy.second_phase_max = second_phase_max
+	copy.immune_to_damage = immune_to_damage
+	copy.symbol_count = symbol_count.duplicate()
+	return copy
 
 
-func restore_turn_state(state: Dictionary) -> void:
-	super.restore_turn_state(state)
-	mana = state["mana"]
-	max_mana = state["max_mana"]
-	second_phase_min = state["second_phase_min"]
-	second_phase_max = state["second_phase_max"]
-	immune_to_damage = state["immune_to_damage"]
-	current_symbol = state["current_symbol"]
-	symbol_count = state["symbol_count"].duplicate()
+func restore_villain_state_from(source: Villain) -> void:
+	restore_character_state_from(source)
+	mana = source.mana
+	max_mana = source.max_mana
+	second_phase_min = source.second_phase_min
+	second_phase_max = source.second_phase_max
+	immune_to_damage = source.immune_to_damage
+	current_symbol = source.current_symbol
+	symbol_count = source.symbol_count.duplicate()
 	if _VillainVisuals != null:
 		_VillainVisuals.restore_statuses(statuses)
 		_VillainVisuals.change_current_symbol(current_symbol)

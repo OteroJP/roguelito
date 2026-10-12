@@ -8,7 +8,9 @@ var _combat_loop: CombatLoop
 var _combat_input: CombatInput
 var _logger: GameLogger
 var _villain_visuals: VillainVisuals
-var _turn_state: Dictionary = {}
+var _hero_state: Hero
+var _villain_state: Villain
+var _game_manager_state: Dictionary = {}
 
 @onready var villain_container: MarginContainer = %InteractiveContainer
 @onready var dungeon: Node2D = %DungeonRoom
@@ -71,21 +73,19 @@ func _prepare_room() -> void:
 
 
 func _save_turn_state() -> void:
-	_turn_state = {
-		"hero": hero.save_turn_state(),
-		"villain": villain.save_turn_state(),
-		"game_manager": GameManager.save_turn_state(),
-	}
+	_hero_state = hero.create_state_copy()
+	_villain_state = villain.create_state_copy()
+	_game_manager_state = GameManager.save_turn_state()
 
 
 func _restore_turn_state() -> void:
-	if _turn_state.is_empty():
+	if _hero_state == null or _villain_state == null or _game_manager_state.is_empty():
 		push_warning("CombatRoom: no saved turn state to restore.")
 		return
 	_combat_input.clear()
-	hero.restore_turn_state(_turn_state["hero"])
-	villain.restore_turn_state(_turn_state["villain"])
-	GameManager.restore_turn_state(_turn_state["game_manager"])
+	hero.restore_hero_state_from(_hero_state)
+	villain.restore_villain_state_from(_villain_state)
+	GameManager.restore_turn_state(_game_manager_state)
 	await _villain_visuals.restore_hand(villain.deck.display_hand())
 	await playing_area.clear()
 	await playing_area.update()

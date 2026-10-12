@@ -54,25 +54,25 @@ func is_in_stance(stance_to_check: Stance) -> bool:
 	return true if current_stance == stance_to_check else false
 
 
-func save_turn_state() -> Dictionary:
-	var state := super.save_turn_state()
-	state["max_basic_damage"] = max_basic_damage
-	state["basic_damage"] = basic_damage
-	state["max_armor"] = max_armor
-	state["armor"] = armor
-	state["immune_to_damage"] = immune_to_damage
-	state["current_stance"] = current_stance
-	return state
+func create_state_copy() -> Hero:
+	var copy := super.create_state_copy() as Hero
+	copy.max_basic_damage = max_basic_damage
+	copy.basic_damage = basic_damage
+	copy.max_armor = max_armor
+	copy.armor = armor
+	copy.immune_to_damage = immune_to_damage
+	copy.current_stance = current_stance
+	return copy
 
 
-func restore_turn_state(state: Dictionary) -> void:
-	super.restore_turn_state(state)
-	max_basic_damage = state["max_basic_damage"]
-	basic_damage = state["basic_damage"]
-	max_armor = state["max_armor"]
-	armor = state["armor"]
-	immune_to_damage = state["immune_to_damage"]
-	current_stance = state["current_stance"]
+func restore_hero_state_from(source: Hero) -> void:
+	restore_character_state_from(source)
+	max_basic_damage = source.max_basic_damage
+	basic_damage = source.basic_damage
+	max_armor = source.max_armor
+	armor = source.armor
+	immune_to_damage = source.immune_to_damage
+	current_stance = source.current_stance
 	if _hero_visuals != null:
 		_hero_visuals.restore_statuses(statuses)
 		_hero_visuals.change_stance(current_stance)

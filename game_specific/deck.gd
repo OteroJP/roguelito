@@ -30,23 +30,23 @@ func prepare() -> void:
 		_hand.append(_card_pile.pop_front())
 
 
-func save_turn_state() -> Dictionary:
-	return {
-		"card_pile": _card_pile.duplicate(),
-		"hand": _hand.duplicate(),
-		"playing_area": _playing_area.duplicate(),
-		"discard_pile": _discard_pile.duplicate(),
-	}
+func create_state_copy() -> Deck:
+	var copy := duplicate() as Deck
+	copy._card_pile = _card_pile.duplicate()
+	copy._hand = _hand.duplicate()
+	copy._playing_area = _playing_area.duplicate()
+	copy._discard_pile = _discard_pile.duplicate()
+	return copy
 
 
-func restore_turn_state(state: Dictionary) -> void:
+func restore_state_from(source: Deck) -> void:
 	for card: CardData in _playing_area:
 		if card.resolved.is_connected(resolve):
 			card.resolved.disconnect(resolve)
-	_card_pile = state["card_pile"].duplicate()
-	_hand = state["hand"].duplicate()
-	_playing_area = state["playing_area"].duplicate()
-	_discard_pile = state["discard_pile"].duplicate()
+	_card_pile = source._card_pile.duplicate()
+	_hand = source._hand.duplicate()
+	_playing_area = source._playing_area.duplicate()
+	_discard_pile = source._discard_pile.duplicate()
 	for card: CardData in _playing_area:
 		if not card.resolved.is_connected(resolve):
 			card.resolved.connect(resolve)

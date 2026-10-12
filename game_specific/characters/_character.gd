@@ -13,6 +13,23 @@ var attack_modifiers: Array[AttackModifier]
 
 var speed_bonus: int
 
+
+func create_state_copy() -> Character:
+	var copy := duplicate() as Character
+	copy.character_name = character_name
+	copy.max_health = max_health
+	copy.health = health
+	copy.deck = deck.create_state_copy() if deck != null else null
+	copy.statuses.clear()
+	for status: Status in statuses:
+		copy.statuses.append(status.duplicate(true) as Status)
+	copy.attack_modifiers.clear()
+	for modifier: AttackModifier in attack_modifiers:
+		copy.attack_modifiers.append(modifier.create_state_copy())
+	copy.speed_bonus = speed_bonus
+	return copy
+
+
 @abstract func prepare() -> Node
 
 @abstract func play_card() -> AuditOutcome
@@ -47,39 +64,26 @@ func remove_status(status_to_remove: Status) -> void:
 	#Entiendo que siendo q son ref counted no necesitan free
 
 
-func save_turn_state() -> Dictionary:
-	var status_states: Array[Status] = []
-	for status: Status in statuses:
-		status_states.append(status.duplicate(true) as Status)
-	var modifier_states: Array[Dictionary] = []
-	for modifier: AttackModifier in attack_modifiers:
-		modifier_states.append(modifier.save_turn_state())
-	return {
-		"character_name": character_name,
-		"max_health": max_health,
-		"health": health,
-		"speed_bonus": speed_bonus,
-		"deck": deck.save_turn_state(),
-		"statuses": status_states,
-		"attack_modifiers": modifier_states,
-	}
-
-
-func restore_turn_state(state: Dictionary) -> void:
-	character_name = state["character_name"]
-	max_health = state["max_health"]
-	health = state["health"]
-	speed_bonus = state["speed_bonus"]
-	deck.restore_turn_state(state["deck"])
+func restore_character_state_from(source: Character) -> void:
+	character_name = source.character_name
+	max_health = source.max_health
+	health = source.health
+	if source.deck == null:
+		deck = null
+	elif deck == null:
+		deck = source.deck.create_state_copy()
+	else:
+		deck.restore_state_from(source.deck)
 	statuses.clear()
-	for status: Status in state["statuses"]:
+	for status: Status in source.statuses:
 		var restored_status := status.duplicate(true) as Status
 		statuses.append(restored_status)
 		restored_status.status_depleted.connect(remove_status)
 	attack_modifiers.clear()
-	for modifier_state: Dictionary in state["attack_modifiers"]:
-		var modifier := AttackModifier.from_turn_state(modifier_state)
-		attack_modifiers.append(modifier)
-		modifier.attack_modifier_depleted.connect(remove_attack_modifier)
+	for modifier: AttackModifier in source.attack_modifiers:
+		var restored_modifier := modifier.create_state_copy()
+		attack_modifiers.append(restored_modifier)
+		restored_modifier.attack_modifier_depleted.connect(remove_attack_modifier)
+	speed_bonus = source.speed_bonus
 	character_stats_changed.emit()
 	modifiers_changed.emit()
