@@ -6,8 +6,10 @@ class_name CombatRoom extends Node
 
 var _combat_loop: CombatLoop
 var _combat_input: CombatInput
+var _combat_manager: CombatManager
 var _logger: GameLogger
-var _villain_visuals: VillainVisuals
+var _hero_adapter: HeroVisualAdapter
+var _villain_adapter: VillainVisualAdapter
 var _hero_state: Hero
 var _villain_state: Villain
 var _game_manager_state: Dictionary = {}
@@ -38,7 +40,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func start_combat() -> void:
 	#TBD initial combat animations
-	await villain.show_hand() #TODO modify this
+	await _villain_adapter.show_hand() #TODO modify this
 	_logger.display_cycle_header(_combat_loop.round_number)
 	await _combat_loop.run()
 	_logger.log("Combat loop ended")
@@ -54,12 +56,12 @@ func _prepare_room() -> void:
 	)
 	playing_area.clear()
 	_logger.log("Preparing hero, decks and villain")
-	_villain_visuals = villain.prepare()
-	_villain_visuals.set_combat_input(_combat_input)
-	_villain_visuals.interaction_logged.connect(_logger.display_entry)
-	villain_container.add_child(_villain_visuals)
-	var new_hero: HeroVisuals = hero.prepare()
-	dungeon.add_child(new_hero)
+	_combat_manager = CombatManager.new()
+	_villain_adapter = VillainVisualAdapter.new(villain, villain_container, _combat_input)
+	_villain_adapter.interaction_logged.connect(_logger.display_entry)
+	_hero_adapter = HeroVisualAdapter.new(hero, dungeon)
+	GameManager.set_villain_port(_villain_adapter)
+	GameManager.set_hero_port(_hero_adapter)
 
 	_combat_loop = CombatLoop.new(
 		_prepare_end_conditions(),
@@ -83,10 +85,9 @@ func _restore_turn_state() -> void:
 		push_warning("CombatRoom: no saved turn state to restore.")
 		return
 	_combat_input.clear()
-	hero.restore_hero_state_from(_hero_state)
-	villain.restore_villain_state_from(_villain_state)
+	await _hero_adapter.update_character(_hero_state)
+	await _villain_adapter.update_character(_villain_state)
 	GameManager.restore_turn_state(_game_manager_state)
-	await _villain_visuals.restore_hand(villain.deck.display_hand())
 	await playing_area.clear()
 	await playing_area.update()
 	_logger.erase_last_turn()
@@ -108,8 +109,8 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 
 func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
-		UpkeepLoop.new(hero, villain, playing_area),
-		PlayerTurn.new(villain, playing_area, _combat_input),
+		UpkeepLoop.new(_hero_adapter, hero, villain, _combat_manager, playing_area),
+		PlayerTurn.new(_villain_adapter, playing_area, _combat_input),
 		Resolution.new(playing_area)
 		]
 	return phases

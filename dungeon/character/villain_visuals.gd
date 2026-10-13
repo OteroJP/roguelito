@@ -59,12 +59,11 @@ func _ready() -> void:
 	_HealthDelta.text = ""
 	_ManaDelta.text = ""
 	_add_modifier_icons()
-	_update_counters
+	_update_counters()
 
 
 func prepare(new_deck: Deck, villain: Villain) -> void:
 	_deck = new_deck
-	_deck.cards_moved.connect(_update_counters)
 	_villain = villain
 
 
@@ -115,6 +114,10 @@ func restore_hand(cards: Array[CardData]) -> void:
 		_Hand.add_child(card)
 		card.offset_transform_enabled = true
 		card.offset_transform_visual_only = true
+	_update_counters()
+
+
+func refresh_stats() -> void:
 	_update_counters()
 
 

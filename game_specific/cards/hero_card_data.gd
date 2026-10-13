@@ -22,8 +22,7 @@ func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 	return outcome
 
 
-func after_clash(villain: Villain, hero: Hero) -> AuditOutcome:
-	hero.change_stance(stance_after_clash)
+func after_clash(_villain: Villain, _hero: Hero) -> AuditOutcome:
 	resolved.emit(self)
 	return AuditOutcome.new()
 

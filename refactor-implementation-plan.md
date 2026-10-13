@@ -6,9 +6,9 @@ The same-type character state-copy and restore methods are already in place. Kee
 
 ## 1. Introduce ports and `CombatManager`
 
-- [ ] **1. Add both role-specific ports.** Define separate Hero and Villain contracts for the operations phases and effects need.
-- [ ] **2. Add `CombatManager`.** Make it a combat-scoped object, not an autoload. Give it the initial interface for managing ordered effect batches and combat-owned state.
-- [ ] **3. Implement both visual adapters and connect the first phases.** Have `CombatRoom` create the adapters and pass them to `PlayerTurn` and `UpkeepLoop`. Move the visual setup, presentation, and waits for those flows out of `Hero` and `Villain` as they move behind the adapters.
+- [x] **1. Add both role-specific ports.** Define separate Hero and Villain contracts for the operations phases and effects need.
+- [x] **2. Add `CombatManager`.** Make it a combat-scoped object, not an autoload. Give it the initial interface for managing ordered effect batches and combat-owned state.
+- [x] **3. Implement both visual adapters and connect the first phases.** Have `CombatRoom` create the adapters and pass them to `PlayerTurn` and `UpkeepLoop`. Move the visual setup, presentation, and waits for those flows out of `Hero` and `Villain` as they move behind the adapters.
 - [ ] **4. Connect `Resolution` to the ports and manager.** Route card effect execution through the new interfaces while keeping card ordering and resolution ownership in `GameManager` for now. `CombatRoom` passes the manager to `GameManager` during setup, like `ux_delay`; the manager is not an autoload. The later resolution macrostep removes this temporary reference.
 - [ ] **5. Establish the shared effect flow.** Effects receive the relevant ports and `CombatManager`. They request any player choice through a port, apply domain changes, and clear temporary decision data. Phases decide when and in what order effect batches run; `CombatManager` executes each ordered batch sequentially. Cards and statuses provide effects but do not carry ports.
 - [ ] **6. Convert direct data-changing effects.** Move attacks, damage, healing, stat changes, and similar effects to the shared flow.

@@ -1,17 +1,17 @@
 class_name PlayerTurn extends LoopPhase
 
 
-var _villain: Villain
+var _villain: VillainPort
 var _playing_area: PlayingArea
 var _combat_input: CombatInput
 
 
 func _init(
-	villain_character: Villain,
+	villain_port: VillainPort,
 	playing_area: PlayingArea,
 	combat_input: CombatInput
 	) -> void:
-	_villain = villain_character
+	_villain = villain_port
 	_playing_area = playing_area
 	_combat_input = combat_input
 

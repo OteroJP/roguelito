@@ -8,9 +8,21 @@ extends CardData
 
 func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
-	await villain.complete_symbol(symbol_to_complete)
-	if villain.matches_current_symbol(symbol_to_complete):
-		outcome.append(await villain.resolve_symbol_bonus())
+	villain.symbol_completed.emit(symbol_to_complete)
+	if symbol_to_complete == Villain.Symbol.NONE or villain.current_symbol != symbol_to_complete:
+		return outcome
+	for symbol_bonus: SymbolBonus in villain.symbol_bonuses:
+		if symbol_bonus.symbol != symbol_to_complete:
+			continue
+		outcome.add(
+			AuditEvent.Kind.SYMBOL_BONUS_RESOLVED,
+			AuditLogEntry.Source.VILLAIN,
+			0,
+			Villain.Symbol.keys()[symbol_to_complete]
+		)
+		for bonus: Effect in symbol_bonus.bonuses:
+			outcome.append(await bonus.on_clash(villain, hero))
+	villain.symbol_count[symbol_to_complete] += 1
 	return outcome
 
 
@@ -26,7 +38,7 @@ func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 
 
 func after_clash(villain: Villain, hero: Hero) -> AuditOutcome:
-	villain.change_symbol(symbol_to_spawn)
+	villain.current_symbol = symbol_to_spawn
 	resolved.emit(self)
 	return AuditOutcome.new()
 

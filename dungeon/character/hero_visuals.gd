@@ -28,12 +28,10 @@ func _ready() -> void:
 	armor_label.text = "%d / %d" % [_hero.armor, _hero.max_armor]
 	armor_delta.text = ""
 	change_stance(_hero.current_stance)
-	_add_modifier_icons()
 	
 
 func setup(hero: Hero) -> HeroVisuals:
 	_hero = hero
-	_hero.character_stats_changed.connect(update)
 	return self
 
 
@@ -44,7 +42,10 @@ func play_card():
 
 
 func update() -> void:
-	_shake_sprite()
+	await _shake_sprite()
+	name_label.text = _hero.character_name
+	health_bar.max_value = _hero.max_health
+	armor_bar.max_value = _hero.max_armor
 	var delta_armor_value = int(_hero.armor - armor_bar.value)
 	if delta_armor_value != 0:
 		armor_delta.text = _format_delta_text(delta_armor_value)
@@ -55,19 +56,23 @@ func update() -> void:
 		health_delta.text = _format_delta_text(delta_health_value)
 		var health_delta_tween: Tween = await LabelAnimation.animate_label_num_delta(health_delta)
 
-	var armor_bar_tween: Tween = RangeAnimation.animate_range_decrease(
-		armor_bar,
-		absf(armor_bar.value - _hero.armor)
-	)
+	var armor_bar_tween: Tween = null
+	if delta_armor_value > 0:
+		armor_bar_tween = RangeAnimation.animate_range_increase(armor_bar, delta_armor_value)
+	elif delta_armor_value < 0:
+		armor_bar_tween = RangeAnimation.animate_range_decrease(armor_bar, absf(delta_armor_value))
 	armor_label.text = "%d / %d" % [_hero.armor, _hero.max_armor]
-	var health_bar_tween: Tween = RangeAnimation.animate_range_decrease(
-		health_bar,
-		absf(health_bar.value - _hero.health)
-	)
+	var health_bar_tween: Tween = null
+	if delta_health_value > 0:
+		health_bar_tween = RangeAnimation.animate_range_increase(health_bar, delta_health_value)
+	elif delta_health_value < 0:
+		health_bar_tween = RangeAnimation.animate_range_decrease(health_bar, absf(delta_health_value))
 	health_label.text = "%d / %d" % [_hero.health, _hero.max_health]
 	damage_label.text = "%d / %d" % [_hero.basic_damage, _hero.max_basic_damage]
-	#await animation_tween.finished
-	#health_bar.value = _hero.health
+	if armor_bar_tween != null:
+		await armor_bar_tween.finished
+	if health_bar_tween != null:
+		await health_bar_tween.finished
 
 
 func change_stance(new_stance: Hero.Stance) -> void:
@@ -110,9 +115,3 @@ func restore_statuses(restored_statuses: Array[Status]) -> void:
 			child.queue_free()
 	for status: Status in restored_statuses:
 		add_status(status)
-
-
-func _add_modifier_icons() -> void:
-	_Statuses.add_child(DamageModificationIcon.new_icon(_hero))
-	_Statuses.add_child(BonusSpeedIcon.new_icon(_hero))
-	_Statuses.add_child(IgnoreArmorIcon.new_icon(_hero))

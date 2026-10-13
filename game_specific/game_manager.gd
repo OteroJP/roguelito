@@ -2,6 +2,8 @@ extends Node
 
 var villain: Villain
 var hero: Hero
+var villain_port: VillainPort
+var hero_port: HeroPort
 #TODO These should be tuples?
 var current_villain_card: VillainCardData
 var is_current_villain_card_enabled: bool = true
@@ -17,6 +19,14 @@ func prepare(_playing_area: PlayingArea, _hero: Hero, _villain: Villain, _ux_del
 	hero = _hero
 	villain = _villain
 	ux_delay = _ux_delay
+
+
+func set_villain_port(port: VillainPort) -> void:
+	villain_port = port
+
+
+func set_hero_port(port: HeroPort) -> void:
+	hero_port = port
 
 
 func save_turn_state() -> Dictionary:
@@ -108,9 +118,12 @@ func execute_slower_card() -> AuditOutcome:
 func end_phase() -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	for card in card_resolve_queue:
+		if card is HeroCardData:
+			await hero_port.change_stance(card.stance_after_clash)
 		outcome.append(await card.after_clash(villain, hero))
 	outcome.append(hero.end_phase())
-	outcome.append(await villain.end_phase())
+	is_current_villain_card_enabled = true
+	outcome.append(await villain_port.end_phase())
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	return outcome
 

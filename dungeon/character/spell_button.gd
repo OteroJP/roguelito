@@ -17,7 +17,6 @@ var _outside_spell_window: bool = true
 func _ready() -> void:
 	texture_normal = _data.btn_asset
 	texture_disabled = _data.btn_asset_disabled
-	_villain.character_stats_changed.connect(_refresh_enabled)
 	_refresh_enabled()
 
 
