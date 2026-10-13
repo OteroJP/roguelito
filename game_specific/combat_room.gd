@@ -48,15 +48,16 @@ func start_combat() -> void:
 
 
 func _prepare_room() -> void:
+	_combat_manager = CombatManager.new()
 	GameManager.prepare(
 		playing_area,
 		hero,
 		villain,
-		ux_delay
+		ux_delay,
+		_combat_manager
 	)
 	playing_area.clear()
 	_logger.log("Preparing hero, decks and villain")
-	_combat_manager = CombatManager.new()
 	_villain_adapter = VillainVisualAdapter.new(villain, villain_container, _combat_input)
 	_villain_adapter.interaction_logged.connect(_logger.display_entry)
 	_hero_adapter = HeroVisualAdapter.new(hero, dungeon)

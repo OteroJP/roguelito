@@ -4,6 +4,7 @@ var villain: Villain
 var hero: Hero
 var villain_port: VillainPort
 var hero_port: HeroPort
+var combat_manager: CombatManager
 #TODO These should be tuples?
 var current_villain_card: VillainCardData
 var is_current_villain_card_enabled: bool = true
@@ -14,11 +15,18 @@ var playing_area: PlayingArea
 var ux_delay: float
 
 
-func prepare(_playing_area: PlayingArea, _hero: Hero, _villain: Villain, _ux_delay: float) -> void:
+func prepare(
+	_playing_area: PlayingArea,
+	_hero: Hero,
+	_villain: Villain,
+	_ux_delay: float,
+	_combat_manager: CombatManager
+) -> void:
 	playing_area = _playing_area
 	hero = _hero
 	villain = _villain
 	ux_delay = _ux_delay
+	combat_manager = _combat_manager
 
 
 func set_villain_port(port: VillainPort) -> void:
