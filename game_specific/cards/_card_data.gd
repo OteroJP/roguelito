@@ -146,10 +146,22 @@ func _bonus_color() -> Color:
 	return Color.WHITE
 
 
-@abstract func on_play(villain: Villain, hero: Hero) -> AuditOutcome
+@abstract func on_play(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome
 
 
-@abstract func on_clash(villain: Villain, hero: Hero) -> AuditOutcome
+@abstract func on_clash(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome
 
 
 @abstract func after_clash(villain: Villain, hero: Hero) -> AuditOutcome

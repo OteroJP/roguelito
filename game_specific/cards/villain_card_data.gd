@@ -6,7 +6,13 @@ extends CardData
 @export var symbol_to_spawn: Villain.Symbol
 
 
-func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
+func on_play(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	villain.symbol_completed.emit(symbol_to_complete)
 	if symbol_to_complete == Villain.Symbol.NONE or villain.current_symbol != symbol_to_complete:
@@ -20,20 +26,25 @@ func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
 			0,
 			Villain.Symbol.keys()[symbol_to_complete]
 		)
-		for bonus: Effect in symbol_bonus.bonuses:
-			outcome.append(await bonus.on_clash(villain, hero))
+		outcome.append(
+			await combat_manager.run_effect_batch(symbol_bonus.bonuses, villain_port, hero_port)
+		)
 	villain.symbol_count[symbol_to_complete] += 1
 	return outcome
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func on_clash(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	if villain.is_in_second_phase():
 		outcome.add(AuditEvent.Kind.SECOND_PHASE_BONUS_TRIGGERED, AuditLogEntry.Source.VILLAIN)
-		for effect in bonus_effects:
-			outcome.append(await effect.on_clash(villain, hero))
-	for effect in effects:
-		outcome.append(await effect.on_clash(villain, hero))
+		outcome.append(await combat_manager.run_effect_batch(bonus_effects, villain_port, hero_port))
+	outcome.append(await combat_manager.run_effect_batch(effects, villain_port, hero_port))
 	return outcome
 
 

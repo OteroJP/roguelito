@@ -19,12 +19,10 @@ func draw() -> AuditOutcome:
 	return outcome
 
 
-func play_card() -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	var only_card_in_hand = deck.pick_random_card()
-	deck.play(only_card_in_hand)
-	outcome.append(await GameManager.play_hero_card(only_card_in_hand))
-	return outcome
+func play_card() -> HeroCardData:
+	var card := deck.pick_random_card() as HeroCardData
+	deck.play(card)
+	return card
 
 
 func change_stance(target_stance: Stance) -> void:

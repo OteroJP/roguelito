@@ -62,9 +62,43 @@ func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
 	return AuditOutcome.new()
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func on_clash(
+	villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
+	var outcome: AuditOutcome = await _ask_for_interaction(
+		villain_port,
+		hero_port,
+		combat_manager
+	)
+	var villain := villain_port.get_character()
+	var hero := hero_port.get_character()
+	outcome.append(
+		await _on_clash(villain, hero, villain_port, hero_port, combat_manager)
+	)
+	await villain_port.update_character(villain)
+	await hero_port.update_character(hero)
+	villain_port.sync_combat_indicators(
+		combat_manager.statuses_for(villain_port),
+		combat_manager.attack_modifiers_for(villain_port),
+		combat_manager.speed_bonus_for(villain_port)
+	)
+	hero_port.sync_combat_indicators(
+		combat_manager.statuses_for(hero_port),
+		combat_manager.attack_modifiers_for(hero_port),
+		combat_manager.speed_bonus_for(hero_port)
+	)
+	_clear_effect_data()
 	return outcome
+
+
+func _ask_for_interaction(
+	_villain_port: VillainPort,
+	_hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
+	return AuditOutcome.new()
 
 
 func after_clash(villain: Villain, hero: Hero) -> AuditOutcome:
@@ -73,6 +107,18 @@ func after_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 
 func on_discard(villain: Villain, hero: Hero) -> AuditOutcome:
 	return AuditOutcome.new()
+
+
+@abstract func _on_clash(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome
+
+
+@abstract func _clear_effect_data() -> void
 
 
 func text() -> String:

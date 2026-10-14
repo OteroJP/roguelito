@@ -33,7 +33,8 @@ func run() -> void:
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
 	await _playing_area.update()
-	_report.append(await _hero_port.play_card()) # Hero picks random card to play
+	var hero_card: HeroCardData = await _hero_port.play_card()
+	_report.append(await GameManager.play_hero_card(hero_card))
 	_report.add("Played a hidden card", AuditLogEntry.Source.HERO)
 	await _playing_area.add_hero_card(GameManager.current_hero_card)
 	if _have_loop_ended.call():

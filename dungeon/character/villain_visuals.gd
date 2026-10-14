@@ -1,7 +1,7 @@
 class_name VillainVisuals extends HBoxContainer
 
 signal interaction_logged(entry: AuditLogEntry)
-signal spell_resolution_finished
+signal spell_chosen(spell: VillainSpell)
 
 #signal hand_changed()
 
@@ -37,8 +37,9 @@ var _selected_cards: Array[CardData] = []
 var _selection_limit: int = 1
 var _multi_select: bool = false
 var _discard_prompt: Label
-var _spell_outcome: AuditOutcome = AuditOutcome.new()
-var _pending_spell_resolutions: int = 0
+var _damage_modification_icon: DamageModificationIcon
+var _bonus_speed_icon: BonusSpeedIcon
+var _ignore_armor_icon: IgnoreArmorIcon
 
 
 func _ready() -> void:
@@ -53,7 +54,7 @@ func _ready() -> void:
 	for spell: VillainSpell in _villain.spells:
 		var new_spell_btn = SpellButton.new_spell_button(spell, _villain)
 		_Spellbook.add_child(new_spell_btn)
-		new_spell_btn.spell_chosen.connect(_resolve_spell)
+		new_spell_btn.spell_chosen.connect(_on_spell_chosen)
 		new_spell_btn.interaction_logged.connect(_on_interaction_logged)
 		new_spell_btn._refresh_enabled()
 	_HealthDelta.text = ""
@@ -247,15 +248,24 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 	return picked
 
 
-func cast_spells() -> AuditOutcome:
-	_spell_outcome = AuditOutcome.new()
-	_pending_spell_resolutions = 0
+func begin_spell_selection() -> void:
 	_set_spells_interactable(true)
-	await _wait_for_confirmation()
-	_set_spells_interactable(false)
-	while _pending_spell_resolutions > 0:
-		await spell_resolution_finished
-	return _spell_outcome
+	pause_spell_selection()
+
+
+func resume_spell_selection() -> void:
+	_set_spell_input_enabled(true)
+	_SpellConfirmBtn.show()
+
+
+func pause_spell_selection() -> void:
+	_set_spell_input_enabled(false)
+	_SpellConfirmBtn.hide()
+
+
+func end_spell_selection() -> void:
+	_set_spell_input_enabled(false)
+	_SpellConfirmBtn.hide()
 
 
 func _submit_confirm_action() -> void:
@@ -267,15 +277,20 @@ func _wait_for_confirmation() -> bool:
 	if _combat_input == null:
 		push_error("VillainVisuals: CombatInput was not assigned before waiting for input.")
 		return false
+	if _combat_input.reset_requested:
+		return false
 	var command: int = await _combat_input.wait_for_command()
 	return command == CombatInput.Command.CONFIRM
 
 
-func _resolve_spell(spell: VillainSpell) -> void:
-	_pending_spell_resolutions += 1
-	_spell_outcome.append(await _villain.resolve_spell(spell))
-	_pending_spell_resolutions -= 1
-	spell_resolution_finished.emit()
+func _on_spell_chosen(spell: VillainSpell) -> void:
+	pause_spell_selection()
+	spell_chosen.emit(spell)
+
+
+func refresh_spell_availability() -> void:
+	for spell_button: SpellButton in _Spellbook.get_children():
+		spell_button._refresh_enabled()
 
 
 func _on_interaction_logged(entry: AuditLogEntry) -> void:
@@ -345,7 +360,11 @@ func _find_card_in_hand(data: CardData) -> VillainCard:
 func _set_spells_interactable(enabled: bool) -> void:
 	for spell_button: SpellButton in _Spellbook.get_children():
 		spell_button.enable_spell_cast(enabled)
-	_SpellConfirmBtn.show() if enabled else _SpellConfirmBtn.hide()
+
+
+func _set_spell_input_enabled(enabled: bool) -> void:
+	for spell_button: SpellButton in _Spellbook.get_children():
+		spell_button.set_spell_cast_enabled(enabled)
 
 
 func _set_hand_interactable(enabled: bool) -> void:
@@ -564,7 +583,21 @@ func restore_statuses(restored_statuses: Array[Status]) -> void:
 		add_status(status)
 
 
+func sync_combat_indicators(
+	statuses: Array[Status],
+	attack_modifiers: Array[AttackModifier],
+	speed_bonus: int
+) -> void:
+	restore_statuses(statuses)
+	_damage_modification_icon.set_modifiers(attack_modifiers)
+	_bonus_speed_icon.set_speed_bonus(speed_bonus)
+	_ignore_armor_icon.set_modifiers(attack_modifiers)
+
+
 func _add_modifier_icons() -> void:
-	_Statuses.add_child(DamageModificationIcon.new_icon(_villain))
-	_Statuses.add_child(BonusSpeedIcon.new_icon(_villain))
-	_Statuses.add_child(IgnoreArmorIcon.new_icon(_villain))
+	_damage_modification_icon = DamageModificationIcon.new_icon(_villain.character_name)
+	_bonus_speed_icon = BonusSpeedIcon.new_icon(_villain.character_name)
+	_ignore_armor_icon = IgnoreArmorIcon.new_icon(_villain.character_name)
+	_Statuses.add_child(_damage_modification_icon)
+	_Statuses.add_child(_bonus_speed_icon)
+	_Statuses.add_child(_ignore_armor_icon)

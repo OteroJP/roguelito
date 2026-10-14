@@ -5,10 +5,12 @@ const HERO_SCENE: PackedScene = preload("uid://dsakfrfgkdj8u")
 
 var _hero: Hero
 var _hero_visuals: HeroVisuals
+var _playing_area: PlayingArea
 
 
-func _init(hero: Hero, visual_parent: Node) -> void:
+func _init(hero: Hero, visual_parent: Node, playing_area: PlayingArea) -> void:
 	_hero = hero
+	_playing_area = playing_area
 	_hero.prepare()
 	_hero_visuals = HERO_SCENE.instantiate() as HeroVisuals
 	_hero_visuals.setup(_hero)
@@ -17,6 +19,11 @@ func _init(hero: Hero, visual_parent: Node) -> void:
 
 func get_character() -> Hero:
 	return _hero.create_state_copy()
+
+
+func prepare_for_combat() -> void:
+	# HeroVisuals initializes its presentation when it enters the scene tree.
+	pass
 
 
 func update_character(character: Hero) -> void:
@@ -33,12 +40,25 @@ func draw() -> AuditOutcome:
 	return await _hero.draw()
 
 
-func play_card() -> AuditOutcome:
-	var outcome: AuditOutcome = await _hero.play_card()
+func play_card() -> HeroCardData:
+	var card: HeroCardData = _hero.play_card()
 	await _synchronize_presentation()
 	_hero_visuals.play_card()
 	await _hero_visuals.played_card_anim_finished
-	return outcome
+	return card
+
+
+func sync_combat_indicators(
+	statuses: Array[Status],
+	_attack_modifiers: Array[AttackModifier],
+	_speed_bonus: int
+) -> void:
+	# TODO: Add Hero modifier and speed indicators in a future macrostep.
+	_hero_visuals.restore_statuses(statuses)
+
+
+func reveal_played_card() -> void:
+	_playing_area.enable_hero_card_visibility(true)
 
 
 func _synchronize_presentation() -> void:

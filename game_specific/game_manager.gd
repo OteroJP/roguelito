@@ -61,7 +61,7 @@ func sort_cards() -> void:
 
 func play_villain_card(card: VillainCardData) -> AuditOutcome:
 	current_villain_card = card
-	var outcome := await card.on_play(villain, hero)
+	var outcome := await card.on_play(villain, hero, villain_port, hero_port, combat_manager)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	return outcome
@@ -69,7 +69,7 @@ func play_villain_card(card: VillainCardData) -> AuditOutcome:
 
 func play_hero_card(card: HeroCardData) -> AuditOutcome:
 	current_hero_card = card
-	var outcome := await card.on_play(villain, hero)
+	var outcome := await card.on_play(villain, hero, villain_port, hero_port, combat_manager)
 	await playing_area.update()
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	return outcome
@@ -83,7 +83,11 @@ func execute_faster_card() -> AuditOutcome:
 		if current_villain_card_enabled():
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
 			await playing_area.resolve_villain_card()
-			outcome.append(await current_villain_card.on_clash(villain, hero))
+			outcome.append(
+				await current_villain_card.on_clash(
+					villain, hero, villain_port, hero_port, combat_manager
+				)
+			)
 		else:
 			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN, 0, "", "", true)
 	if (card_resolve_queue[0] == current_hero_card):
@@ -91,7 +95,11 @@ func execute_faster_card() -> AuditOutcome:
 		if current_hero_card_enabled():
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
 			await playing_area.resolve_hero_card()
-			outcome.append(await current_hero_card.on_clash(villain, hero))
+			outcome.append(
+				await current_hero_card.on_clash(
+					villain, hero, villain_port, hero_port, combat_manager
+				)
+			)
 		else:
 			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.HERO, 0, "", "", true)
 	await playing_area.update()
@@ -107,7 +115,11 @@ func execute_slower_card() -> AuditOutcome:
 		if is_current_villain_card_enabled:
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
 			await playing_area.resolve_villain_card()
-			outcome.append(await current_villain_card.on_clash(villain, hero))
+			outcome.append(
+				await current_villain_card.on_clash(
+					villain, hero, villain_port, hero_port, combat_manager
+				)
+			)
 		else:
 			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN)
 	if (card_resolve_queue[1] == current_hero_card):
@@ -115,7 +127,11 @@ func execute_slower_card() -> AuditOutcome:
 		if is_current_hero_card_enabled:
 			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
 			await playing_area.resolve_hero_card()
-			outcome.append(await current_hero_card.on_clash(villain, hero))
+			outcome.append(
+				await current_hero_card.on_clash(
+					villain, hero, villain_port, hero_port, combat_manager
+				)
+			)
 		else:
 			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.HERO)
 	await playing_area.update()
@@ -138,7 +154,10 @@ func end_phase() -> AuditOutcome:
 
 func _sort_cards_by_fastest() -> Array[CardData]:
 	var sorted_cards: Array[CardData]
-	if (current_hero_card.speed + hero.speed_bonus) > (current_villain_card.speed + villain.speed_bonus):
+	if (
+		current_hero_card.speed + combat_manager.speed_bonus_for(hero_port)
+		> current_villain_card.speed + combat_manager.speed_bonus_for(villain_port)
+	):
 		sorted_cards = [current_hero_card, current_villain_card]
 	else:
 		sorted_cards = [current_villain_card, current_hero_card]

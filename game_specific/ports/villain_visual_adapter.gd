@@ -7,10 +7,18 @@ const VILLAIN_SCENE: PackedScene = preload("uid://cs4gqthniprqk")
 
 var _villain: Villain
 var _villain_visuals: VillainVisuals
+var _combat_input: CombatInput
+var _pending_spells: Array[VillainSpell] = []
+var _spell_selection_complete: bool = false
 
 
-func _init(villain: Villain, visual_parent: Node, combat_input: CombatInput) -> void:
+func _init(
+	villain: Villain,
+	visual_parent: Node,
+	combat_input: CombatInput
+) -> void:
 	_villain = villain
+	_combat_input = combat_input
 	_villain.prepare()
 	_villain_visuals = VILLAIN_SCENE.instantiate() as VillainVisuals
 	_villain_visuals.prepare(_villain.deck, _villain)
@@ -18,6 +26,7 @@ func _init(villain: Villain, visual_parent: Node, combat_input: CombatInput) -> 
 	_villain.symbol_completed.connect(_on_symbol_completed)
 	_villain_visuals.set_combat_input(combat_input)
 	_villain_visuals.interaction_logged.connect(_forward_interaction_logged)
+	_villain_visuals.spell_chosen.connect(_on_spell_chosen)
 	visual_parent.add_child(_villain_visuals)
 	_villain_visuals.change_current_symbol(_villain.current_symbol)
 
@@ -31,6 +40,18 @@ func update_character(character: Villain) -> void:
 	await _synchronize_presentation()
 
 
+func sync_combat_indicators(
+	statuses: Array[Status],
+	attack_modifiers: Array[AttackModifier],
+	speed_bonus: int
+) -> void:
+	_villain_visuals.sync_combat_indicators(
+		statuses,
+		attack_modifiers,
+		speed_bonus
+	)
+
+
 func draw() -> AuditOutcome:
 	var previous_hand_size := _villain.deck.cards_in_hand()
 	var outcome: AuditOutcome = await _villain.draw()
@@ -42,10 +63,45 @@ func draw() -> AuditOutcome:
 	return outcome
 
 
-func cast_spells() -> AuditOutcome:
-	var outcome: AuditOutcome = await _villain_visuals.cast_spells()
-	await _synchronize_hand_and_stats()
-	return outcome
+func begin_spell_selection() -> void:
+	_spell_selection_complete = false
+	_pending_spells.clear()
+	_villain_visuals.begin_spell_selection()
+
+
+func spells_chosen() -> bool:
+	return _spell_selection_complete
+
+
+func choose_spell() -> VillainSpell:
+	_villain_visuals.resume_spell_selection()
+	while true:
+		var command: int = await _combat_input.wait_for_command()
+		match command:
+			CombatInput.Command.SPELL_CHOSEN:
+				if not _pending_spells.is_empty():
+					_villain_visuals.pause_spell_selection()
+					return _pending_spells.pop_front()
+			CombatInput.Command.CONFIRM:
+				finish_spell_selection()
+				return null
+			CombatInput.Command.RESET:
+				_villain_visuals.end_spell_selection()
+				return null
+	return null
+
+
+func finish_spell_selection() -> void:
+	_spell_selection_complete = true
+	_villain_visuals.end_spell_selection()
+
+
+func _on_spell_chosen(spell: VillainSpell) -> void:
+	_villain.spend_mana(spell.mana_cost)
+	_villain_visuals.refresh_stats()
+	_villain_visuals.refresh_spell_availability()
+	_pending_spells.append(spell)
+	_combat_input.submit_action(CombatInput.Command.SPELL_CHOSEN)
 
 
 func play_card() -> AuditOutcome:
@@ -111,16 +167,9 @@ func discard_from_hand(amount: int) -> AuditOutcome:
 	return outcome
 
 
-# TODO: Keep the adapter's public API limited to VillainPort; move this operation behind the port contract.
-func show_hand() -> void:
+func prepare_for_combat() -> void:
 	await _villain_visuals.add_to_hand(_villain.deck.display_hand())
 	_villain_visuals.refresh_stats()
-
-
-# TODO: Keep the adapter's public API limited to VillainPort; move this operation behind the port contract.
-func restore_hand(cards: Array[CardData]) -> void:
-	await _villain_visuals.restore_hand(cards)
-	_villain_visuals.change_current_symbol(_villain.current_symbol)
 
 
 func _synchronize_presentation() -> void:

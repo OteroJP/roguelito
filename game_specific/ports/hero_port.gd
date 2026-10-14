@@ -1,7 +1,6 @@
-@abstract class_name HeroPort extends RefCounted
+@abstract class_name HeroPort extends CharacterPort
 
 
-## Returns a working copy. Commit changes through update_character().
 @abstract func get_character() -> Hero
 
 ## Commits a working copy and synchronizes Hero presentation.
@@ -10,8 +9,8 @@
 ## Changes the Hero's stance and synchronizes its presentation.
 @abstract func change_stance(target_stance: Hero.Stance) -> void
 
-## Performs the Hero's draw operation through the selected adapter.
-@abstract func draw() -> AuditOutcome
+## Moves a randomly chosen Hero card to the playing pile and returns it for the phase to process.
+@abstract func play_card() -> HeroCardData
 
-## Performs the Hero's automatic card play through the selected adapter.
-@abstract func play_card() -> AuditOutcome
+## Reveals the Hero's currently played card through the selected adapter.
+@abstract func reveal_played_card() -> void

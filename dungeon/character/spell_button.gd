@@ -45,6 +45,11 @@ func enable_spell_cast(enabled: bool) -> void:
 	_refresh_enabled()
 
 
+func set_spell_cast_enabled(enabled: bool) -> void:
+	_outside_spell_window = not enabled
+	_refresh_enabled()
+
+
 func reset_use() -> void:
 	_used_this_turn = false
 

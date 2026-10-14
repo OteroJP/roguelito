@@ -40,7 +40,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func start_combat() -> void:
 	#TBD initial combat animations
-	await _villain_adapter.show_hand() #TODO modify this
+	_hero_adapter.prepare_for_combat()
+	await _villain_adapter.prepare_for_combat()
 	_logger.display_cycle_header(_combat_loop.round_number)
 	await _combat_loop.run()
 	_logger.log("Combat loop ended")
@@ -48,7 +49,12 @@ func start_combat() -> void:
 
 
 func _prepare_room() -> void:
-	_combat_manager = CombatManager.new()
+	_logger.log("Preparing hero, decks and villain")
+	_hero_adapter = HeroVisualAdapter.new(hero, dungeon, playing_area)
+	_villain_adapter = VillainVisualAdapter.new(
+		villain, villain_container, _combat_input
+	)
+	_combat_manager = CombatManager.new(_hero_adapter, _villain_adapter)
 	GameManager.prepare(
 		playing_area,
 		hero,
@@ -57,10 +63,7 @@ func _prepare_room() -> void:
 		_combat_manager
 	)
 	playing_area.clear()
-	_logger.log("Preparing hero, decks and villain")
-	_villain_adapter = VillainVisualAdapter.new(villain, villain_container, _combat_input)
 	_villain_adapter.interaction_logged.connect(_logger.display_entry)
-	_hero_adapter = HeroVisualAdapter.new(hero, dungeon)
 	GameManager.set_villain_port(_villain_adapter)
 	GameManager.set_hero_port(_hero_adapter)
 
@@ -111,7 +114,13 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
 		UpkeepLoop.new(_hero_adapter, hero, villain, _combat_manager, playing_area),
-		PlayerTurn.new(_villain_adapter, playing_area, _combat_input),
+		PlayerTurn.new(
+			_villain_adapter,
+			_hero_adapter,
+			_combat_manager,
+			playing_area,
+			_combat_input
+		),
 		Resolution.new(playing_area)
 		]
 	return phases

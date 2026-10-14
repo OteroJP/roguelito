@@ -64,13 +64,9 @@ func restore_villain_state_from(source: Villain) -> void:
 	restore_character_state_from(source)
 
 
-func resolve_spell(spell: VillainSpell) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	assert(spell.mana_cost <= mana, "Insufficient mana to cast, spell should've been disabled.")
-	mana -= spell.mana_cost
-	for effect in spell.effects:
-		outcome.append(await effect.on_clash(self, GameManager.hero))
-	return outcome
+func spend_mana(amount: int) -> void:
+	assert(amount <= mana, "Insufficient mana to cast, spell should've been disabled.")
+	mana -= amount
 
 
 func is_in_second_phase() -> bool:

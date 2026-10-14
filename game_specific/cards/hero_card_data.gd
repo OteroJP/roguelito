@@ -7,18 +7,28 @@ extends CardData
 @export var removable: bool = true
 
 
-func on_play(villain: Villain, hero: Hero) -> AuditOutcome:
+func on_play(
+	_villain: Villain,
+	_hero: Hero,
+	_villain_port: VillainPort,
+	_hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
 	return AuditOutcome.new()
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func on_clash(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	if hero.is_in_stance(stance_for_bonus):
 		outcome.add(AuditEvent.Kind.STANCE_BONUS_TRIGGERED, AuditLogEntry.Source.HERO)
-		for effect in bonus_effects:
-			outcome.append(await effect.on_clash(villain, hero))
-	for effect in effects:
-		outcome.append(await effect.on_clash(villain, hero))
+		outcome.append(await combat_manager.run_effect_batch(bonus_effects, villain_port, hero_port))
+	outcome.append(await combat_manager.run_effect_batch(effects, villain_port, hero_port))
 	return outcome
 
 

@@ -6,7 +6,6 @@ extends Control
 @onready var effect_overlay: PanelContainer = %EffectOverlay
 @onready var effect_label: Label = %EffectText
 
-var character: Character
 var _effect_text: String = ""
 
 
@@ -17,9 +16,7 @@ func _ready() -> void:
 	effect_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	effect_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
-	if character:
-		character.modifiers_changed.connect(refresh)
-		refresh()
+	refresh()
 
 
 func refresh() -> void:

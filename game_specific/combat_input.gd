@@ -3,7 +3,7 @@ extends RefCounted
 
 signal command_available
 
-enum Command { CONFIRM, RESET }
+enum Command { CONFIRM, RESET, SPELL_CHOSEN }
 
 var reset_requested: bool = false
 var _commands: Array[int] = []
