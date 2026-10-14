@@ -9,12 +9,30 @@ extends Effect
 var basic_damage: String
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	villain: Villain,
+	hero: Hero,
+	_villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
-	outcome.append(hero.perform_attack(villain, hero.basic_damage + bonus_damage, ignores_armor))
+	outcome.append(
+		combat_manager.perform_attack(
+			hero_port,
+			hero,
+			villain,
+			hero.basic_damage + bonus_damage,
+			ignores_armor
+		)
+	)
 	basic_damage = str(hero.basic_damage * multiplier)
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

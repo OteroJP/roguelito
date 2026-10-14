@@ -5,12 +5,23 @@ extends Effect
 @export var status: Status
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	_villain: Villain,
+	_hero: Hero,
+	_villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
-	outcome.append(await hero.take_status(status))
+	var applied_status := combat_manager.add_status(hero_port, status)
+	outcome.add(AuditEvent.Kind.STATUS_TAKEN, AuditLogEntry.Source.HERO, 0, applied_status.name)
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

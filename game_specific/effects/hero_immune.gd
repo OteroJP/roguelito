@@ -3,12 +3,22 @@ class_name HeroImmune
 extends Effect
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	_villain: Villain,
+	hero: Hero,
+	_villain_port: VillainPort,
+	_hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	hero.immune_to_damage = true
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

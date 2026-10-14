@@ -6,12 +6,23 @@ extends Effect
 @export var speed_modification: int
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	_villain: Villain,
+	_hero: Hero,
+	_villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
-	outcome.append(hero.get_bonus_speed(speed_modification))
+	combat_manager.add_speed_bonus(hero_port, speed_modification)
+	outcome.add(AuditEvent.Kind.BONUS_SPEED_CHANGED, AuditLogEntry.Source.HERO, speed_modification)
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

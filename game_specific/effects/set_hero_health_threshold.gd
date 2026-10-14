@@ -9,7 +9,13 @@ extends Effect
 #TODO refactor to new attack system
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	villain: Villain,
+	hero: Hero,
+	_villain_port: VillainPort,
+	_hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	if (hero.health <= threshold or
 		(hero.health <= bonus_threshold and
@@ -19,6 +25,10 @@ func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

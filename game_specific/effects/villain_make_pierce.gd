@@ -3,13 +3,23 @@ class_name VillainPierce
 extends Effect
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	_villain: Villain,
+	_hero: Hero,
+	villain_port: VillainPort,
+	_hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	var pierce_modifier: PierceModifier = PierceModifier.new()
-	outcome.append(villain.take_attack_modifier(pierce_modifier))
+	combat_manager.add_attack_modifier(villain_port, pierce_modifier)
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

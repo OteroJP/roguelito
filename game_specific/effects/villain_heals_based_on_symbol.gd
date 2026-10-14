@@ -8,7 +8,13 @@ extends Effect
 @export var heal_over_threshold: int = 1
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	villain: Villain,
+	_hero: Hero,
+	_villain_port: VillainPort,
+	_hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	if (symbol == Villain.Symbol.NONE or
 	villain.symbol_count[symbol] < threshold):
@@ -18,6 +24,10 @@ func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

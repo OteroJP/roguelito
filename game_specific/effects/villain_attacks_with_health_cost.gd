@@ -9,9 +9,15 @@ extends Effect
 @export var life_cost_second_main_phase: int = 0
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	_hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
-	outcome.append(villain.perform_attack(hero, damage, ignores_armor))
+	outcome.append(combat_manager.perform_attack(villain_port, villain, hero, damage, ignores_armor))
 	if villain.is_in_second_phase():
 		outcome.append(hero.take_damage(life_cost, true))
 	else:
@@ -19,6 +25,10 @@ func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

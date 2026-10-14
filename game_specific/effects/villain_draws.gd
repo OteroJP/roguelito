@@ -5,13 +5,21 @@ extends Effect
 @export var cards_to_draw: int = 1
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	villain: Villain,
+	_hero: Hero,
+	_villain_port: VillainPort,
+	_hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	for i in cards_to_draw:
-		outcome.append(await villain.draw())
-
-
+		outcome.append(villain.draw())
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

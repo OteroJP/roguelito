@@ -7,15 +7,33 @@ extends Effect
 @export var ignores_armor: bool = false
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	villain: Villain,
+	hero: Hero,
+	villain_port: VillainPort,
+	_hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	if villain.is_in_second_phase():
-		outcome.append(villain.perform_attack(hero, hero.max_armor * bonus_multiplier, ignores_armor))
+		outcome.append(
+			combat_manager.perform_attack(
+				villain_port, villain, hero, hero.max_armor * bonus_multiplier, ignores_armor
+			)
+		)
 	else:
-		outcome.append(villain.perform_attack(hero, hero.max_armor * multiplier, ignores_armor))
+		outcome.append(
+			combat_manager.perform_attack(
+				villain_port, villain, hero, hero.max_armor * multiplier, ignores_armor
+			)
+		)
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

@@ -5,13 +5,23 @@ extends Effect
 @export var damage_modification: int = 1
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	_villain: Villain,
+	_hero: Hero,
+	villain_port: VillainPort,
+	_hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	var damage_modifier: DamageModifier = DamageModifier.new(1, damage_modification)
-	outcome.append(villain.take_attack_modifier(damage_modifier))
+	combat_manager.add_attack_modifier(villain_port, damage_modifier)
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:

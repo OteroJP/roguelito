@@ -5,13 +5,23 @@ extends Effect
 @export var status_to_remove: Status
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _on_clash(
+	_villain: Villain,
+	_hero: Hero,
+	_villain_port: VillainPort,
+	hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
-	for status in hero.statuses:
+	for status: Status in combat_manager.statuses_for(hero_port):
 		if status.name == status_to_remove.name:
-			hero.remove_status(status)
+			combat_manager.remove_status(hero_port, status)
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:
