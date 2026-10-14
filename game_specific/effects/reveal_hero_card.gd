@@ -3,12 +3,30 @@ class_name RevealHero
 extends Effect
 
 
-func on_clash(villain: Villain, hero: Hero) -> AuditOutcome:
+func _ask_for_interaction(
+	_villain_port: VillainPort,
+	hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
+	await hero_port.reveal_played_card()
+	return AuditOutcome.new()
+
+
+func _on_clash(
+	_villain: Villain,
+	_hero: Hero,
+	_villain_port: VillainPort,
+	_hero_port: HeroPort,
+	_combat_manager: CombatManager
+) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
-	GameManager.playing_area.enable_hero_card_visibility(true)
 
 
 	return outcome
+
+
+func _clear_effect_data() -> void:
+	pass
 
 
 func _effect_text() -> String:
