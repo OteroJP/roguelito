@@ -26,26 +26,12 @@ var _refreshing: bool = false
 var _localize_enabled: bool = false
 
 
-func on_tick(
-	villain_port: VillainPort,
-	hero_port: HeroPort,
-	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := await resolve_status_effects(villain_port, hero_port, combat_manager)
+func advance_duration() -> void:
 	if duration != -1:
 		duration -= 1
 		if duration <= 0:
 			status_depleted.emit(self)
 	status_ticked.emit()
-	return outcome
-
-
-func resolve_status_effects(
-	villain_port: VillainPort,
-	hero_port: HeroPort,
-	combat_manager: CombatManager
-) -> AuditOutcome:
-	return await combat_manager.run_effect_batch(status_effects, villain_port, hero_port)
 
 
 func _init() -> void:

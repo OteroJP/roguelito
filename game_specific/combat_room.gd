@@ -113,7 +113,7 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 
 func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
-		UpkeepLoop.new(_hero_adapter, hero, villain, _combat_manager, playing_area),
+		UpkeepLoop.new(_hero_adapter, _villain_adapter, _combat_manager, playing_area),
 		PlayerTurn.new(
 			_villain_adapter,
 			_hero_adapter,

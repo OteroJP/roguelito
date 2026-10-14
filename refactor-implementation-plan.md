@@ -14,8 +14,8 @@ The same-type character state-copy and restore methods are already in place. Kee
 - [x] **6. Convert direct data-changing effects.** Move attacks, damage, healing, stat changes, and similar effects to the shared flow.
 - [x] **7. Convert interaction effects.** Move effects that need player choices or presentation waits to request them through the adapters via ports.
 - [ ] **8. Remove the remaining character-to-visual calls.** Do this after the effect callers have moved to ports, so each removed visual responsibility already has an adapter owner.
-- [ ] **9. Move status ownership and lifecycle to `CombatManager`.** Statuses keep their own duration and effect data; the manager owns the active collection, ticking, and removal. Remove the corresponding character-owned fields and methods as part of this move.
-- [ ] **10. Move attack modifiers and speed bonuses to `CombatManager`.** Modifiers keep their own values and remaining uses. Keep stance, current symbol, and symbol count on the characters; remove the old character-owned modifier and speed APIs as part of this move.
+- [x] **9. Move status ownership and lifecycle to `CombatManager`.** Statuses keep their own duration and effect data; the manager owns the active collection, ticking, and removal. Remove the corresponding character-owned fields and methods as part of this move.
+- [x] **10. Move attack modifiers and speed bonuses to `CombatManager`.** Modifiers keep their own values and remaining uses. Keep stance, current symbol, and symbol count on the characters; remove the old character-owned modifier and speed APIs as part of this move.
 - [ ] **11. Reassign the remaining `end_phase()` and trigger work.** Put each behavior in its owner, then remove the obsolete character methods. Keep phase timing and stance or symbol checks outside the effect implementations.
 - [ ] **12. Update reset and finish the integration.** Save and restore manager state with the typed character copies, resynchronize visuals through the adapters, and confirm the completed macrostep still runs through combat and reset.
 

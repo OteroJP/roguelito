@@ -146,10 +146,21 @@ func end_phase() -> AuditOutcome:
 			await hero_port.change_stance(card.stance_after_clash)
 		outcome.append(await card.after_clash(villain, hero))
 	outcome.append(hero.end_phase())
+	combat_manager.clear_round_modifiers()
+	_sync_combat_indicators(hero_port)
+	_sync_combat_indicators(villain_port)
 	is_current_villain_card_enabled = true
 	outcome.append(await villain_port.end_phase())
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 	return outcome
+
+
+func _sync_combat_indicators(combatant_port: CharacterPort) -> void:
+	combatant_port.sync_combat_indicators(
+		combat_manager.statuses_for(combatant_port),
+		combat_manager.attack_modifiers_for(combatant_port),
+		combat_manager.speed_bonus_for(combatant_port)
+	)
 
 
 func _sort_cards_by_fastest() -> Array[CardData]:

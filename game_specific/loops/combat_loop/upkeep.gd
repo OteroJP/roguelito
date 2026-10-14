@@ -1,22 +1,19 @@
 class_name UpkeepLoop extends LoopPhase
 
-var _hero: Hero
 var _hero_port: HeroPort
-var _villain: Villain
+var _villain_port: VillainPort
 var _combat_manager: CombatManager
 var _playing_area: PlayingArea
 
 
 func _init(
 	hero_port: HeroPort,
-	hero_character: Hero,
-	villain_character: Villain,
+	villain_port: VillainPort,
 	combat_manager: CombatManager,
 	playing_area: PlayingArea
 	) -> void:
 	_hero_port = hero_port
-	_hero = hero_character
-	_villain = villain_character
+	_villain_port = villain_port
 	_combat_manager = combat_manager
 	_playing_area = playing_area
 
@@ -24,12 +21,11 @@ func _init(
 func run() -> void:
 	start_report()
 	_report.append(await _hero_port.draw()) # Hero shows stance
-	# Status ticking moves to CombatManager in a later refactor step.
-	# _report.append(await _combat_manager.tick_statuses(_hero))
+	_report.append(await _combat_manager.tick_statuses(_hero_port))
 
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
-	# _report.append(await _combat_manager.tick_statuses(_villain))
+	_report.append(await _combat_manager.tick_statuses(_villain_port))
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
 	await _playing_area.update()

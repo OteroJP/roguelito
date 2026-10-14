@@ -11,9 +11,13 @@ class CombatantState:
 
 # Keep each combatant's port instance stable for this combat; state is keyed by port identity.
 var _combatant_states: Dictionary[CharacterPort, CombatantState] = {}
+var _hero_port: HeroPort
+var _villain_port: VillainPort
 
 
 func _init(hero_port: HeroPort, villain_port: VillainPort) -> void:
+	_hero_port = hero_port
+	_villain_port = villain_port
 	_combatant_states[hero_port] = CombatantState.new()
 	_combatant_states[villain_port] = CombatantState.new()
 
@@ -45,12 +49,33 @@ func remove_status(combatant_port: CharacterPort, status: Status) -> void:
 	_get_state(combatant_port).statuses.erase(status)
 
 
+func tick_statuses(combatant_port: CharacterPort) -> AuditOutcome:
+	var outcome := AuditOutcome.new()
+	var active_statuses := statuses_for(combatant_port)
+	for status: Status in active_statuses:
+		if not _get_state(combatant_port).statuses.has(status):
+			continue
+		outcome.add(
+			AuditEvent.Kind.STATUS_TICKED,
+			_source_for(combatant_port),
+			0,
+			status.name
+		)
+		outcome.append(await run_effect_batch(status.status_effects, _villain_port, _hero_port))
+		status.advance_duration()
+	return outcome
+
+
 func _on_status_depleted(status: Status, combatant_port: CharacterPort) -> void:
 	remove_status(combatant_port, status)
 
 
 func add_attack_modifier(combatant_port: CharacterPort, modifier: AttackModifier) -> void:
-	_get_state(combatant_port).attack_modifiers.append(modifier)
+	var modifiers := _get_state(combatant_port).attack_modifiers
+	modifiers.append(modifier)
+	var depleted_callback := _on_attack_modifier_depleted.bind(combatant_port)
+	if not modifier.attack_modifier_depleted.is_connected(depleted_callback):
+		modifier.attack_modifier_depleted.connect(depleted_callback)
 
 
 func attack_modifiers_for(combatant_port: CharacterPort) -> Array[AttackModifier]:
@@ -59,6 +84,16 @@ func attack_modifiers_for(combatant_port: CharacterPort) -> Array[AttackModifier
 
 func remove_attack_modifier(combatant_port: CharacterPort, modifier: AttackModifier) -> void:
 	_get_state(combatant_port).attack_modifiers.erase(modifier)
+	var depleted_callback := _on_attack_modifier_depleted.bind(combatant_port)
+	if modifier.attack_modifier_depleted.is_connected(depleted_callback):
+		modifier.attack_modifier_depleted.disconnect(depleted_callback)
+
+
+func _on_attack_modifier_depleted(
+	modifier: AttackModifier,
+	combatant_port: CharacterPort
+) -> void:
+	remove_attack_modifier(combatant_port, modifier)
 
 
 func add_speed_bonus(combatant_port: CharacterPort, amount: int) -> void:
@@ -71,6 +106,18 @@ func speed_bonus_for(combatant_port: CharacterPort) -> int:
 
 func clear_speed_bonus(combatant_port: CharacterPort) -> void:
 	_get_state(combatant_port).speed_bonus = 0
+
+
+func clear_round_modifiers() -> void:
+	_clear_round_modifiers_for(_hero_port)
+	_clear_round_modifiers_for(_villain_port)
+
+
+func _clear_round_modifiers_for(combatant_port: CharacterPort) -> void:
+	var state := _get_state(combatant_port)
+	clear_speed_bonus(combatant_port)
+	for modifier: AttackModifier in state.attack_modifiers.duplicate():
+		modifier.spend_use()
 
 
 
