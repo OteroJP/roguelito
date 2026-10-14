@@ -18,10 +18,10 @@ func _on_clash(
 ) -> AuditOutcome:
 	var outcome := AuditOutcome.new()
 	outcome.append(combat_manager.perform_attack(villain_port, villain, hero, damage, ignores_armor))
+	var health_cost := life_cost
 	if villain.is_in_second_phase():
-		outcome.append(hero.take_damage(life_cost, true))
-	else:
-		outcome.append(hero.take_damage(life_cost_second_main_phase, true))
+		health_cost = life_cost_second_main_phase
+	outcome.append(villain.take_damage(health_cost, true))
 
 
 	return outcome
