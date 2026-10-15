@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://c1j8410hj3ala"]
+
+[ext_resource type="PackedScene" uid="uid://ccytcnnxx1m7g" path="res://assets/villain/art/ref_villain_card.tscn" id="1_evfkx"]
+[ext_resource type="Texture2D" uid="uid://dietla56wdalo" path="res://assets/villain/art/card_villain_front.png" id="2_47lky"]
+[ext_resource type="Texture2D" uid="uid://bi5w816eus4xq" path="res://assets/villain/art/card_villain_symbol.png" id="3_gmu1m"]
+[ext_resource type="Texture2D" uid="uid://b4mexaxh6bru4" path="res://assets/villain/art/card_villain_art.png" id="4_4oby1"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fo0v4"]
+texture = ExtResource("2_47lky")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i4s4l"]
+atlas = ExtResource("3_gmu1m")
+region = Rect2(0, 0, 0, 15)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i4s4l"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fo0v4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb3ub"]
+atlas = ExtResource("3_gmu1m")
+region = Rect2(0, 15, 0, 15)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lfwqu"]
+
+[node name="RefPlayerCard" type="Control" unique_id=1022397110]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RefVillainCard" parent="." unique_id=28326467 instance=ExtResource("1_evfkx")]
+visible = false
+position = Vector2(37, 62)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=278978389]
+texture_filter = 1
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 124.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_fo0v4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1392403188]
+layout_mode = 2
+theme_override_constants/separation = -8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=72509203]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1108590730]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_i4s4l")
+stretch_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=338727583]
+layout_mode = 2
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_i4s4l")
+
+[node name="card_speed" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1959774034]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39, 0.11310001, 0.30231503, 1)
+theme_override_font_sizes/font_size = 17
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1692591495]
+layout_mode = 2
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_fo0v4")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=834589227]
+modulate = Color(0.48560983, 0.48560983, 0.48560983, 1)
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_mb3ub")
+stretch_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=324183893]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lfwqu")
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer" unique_id=1760778344]
+z_index = -1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.73
+texture = ExtResource("4_4oby1")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=2131240876]
+custom_minimum_size = Vector2(58, 25)
+custom_maximum_size = Vector2(58, 31.085)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "cuando efecto 1 entonces coso"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=1133434785]
+layout_mode = 2
+theme_override_constants/separation = 14
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lfwqu")
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1897900685]
+custom_minimum_size = Vector2(58, 25)
+custom_maximum_size = Vector2(58, 31.085)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_colors/font_color = Color(0.27058825, 0.15686275, 0.23529412, 1)
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "cuando efecto 2 entonces coso"
+horizontal_alignment = 1
+autowrap_mode = 2
