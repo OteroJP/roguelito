@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://wym2hikp8j8g"]
+
+[ext_resource type="Texture2D" uid="uid://c05e6ge0c3dmx" path="res://assets/villain/art/villain_scepter_sections.png" id="1_vn00p"]
+
+[node name="RefVillainScepter" type="Node2D" unique_id=503809519]
+
+[node name="vidrioback" type="Sprite2D" parent="." unique_id=50189220]
+texture_filter = 1
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback3" type="Sprite2D" parent="vidrioback" unique_id=1923947430]
+texture_filter = 1
+position = Vector2(0, 24)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback4" type="Sprite2D" parent="vidrioback" unique_id=897886805]
+texture_filter = 1
+position = Vector2(0, 36)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback" type="Sprite2D" parent="vidrioback" unique_id=2102691180]
+texture_filter = 1
+position = Vector2(0, 12)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback5" type="Sprite2D" parent="vidrioback" unique_id=505587273]
+texture_filter = 1
+position = Vector2(0, 72)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback6" type="Sprite2D" parent="vidrioback" unique_id=1728473292]
+texture_filter = 1
+position = Vector2(0, 84)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback7" type="Sprite2D" parent="vidrioback" unique_id=860874151]
+texture_filter = 1
+position = Vector2(0, 60)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback8" type="Sprite2D" parent="vidrioback" unique_id=1824469340]
+texture_filter = 1
+position = Vector2(0, 96)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback9" type="Sprite2D" parent="vidrioback" unique_id=1961357363]
+texture_filter = 1
+position = Vector2(0, 108)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 4
+
+[node name="vidrioback2" type="Sprite2D" parent="vidrioback" unique_id=122140667]
+texture_filter = 1
+position = Vector2(0, 48)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="bloodsection" type="Sprite2D" parent="." unique_id=1779986437]
+texture_filter = 1
+position = Vector2(0, 54)
+scale = Vector2(1, 8)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 1
+
+[node name="bloodtop2" type="Sprite2D" parent="." unique_id=719157534]
+texture_filter = 1
+position = Vector2(0.25, 108)
+scale = Vector2(0.9864865, 1)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 6
+
+[node name="bloodtop" type="Sprite2D" parent="." unique_id=2140309648]
+texture_filter = 1
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 2
+
+[node name="sector3" type="Sprite2D" parent="." unique_id=141226765]
+texture_filter = 1
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector" type="Sprite2D" parent="sector3" unique_id=966875093]
+texture_filter = 1
+position = Vector2(0, 12)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector3" type="Sprite2D" parent="sector3" unique_id=294951641]
+texture_filter = 1
+position = Vector2(0, 24)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector6" type="Sprite2D" parent="sector3" unique_id=1527097889]
+texture_filter = 1
+position = Vector2(0, 60)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector4" type="Sprite2D" parent="sector3" unique_id=370039073]
+texture_filter = 1
+position = Vector2(0, 48)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 7
+
+[node name="sector2" type="Sprite2D" parent="sector3" unique_id=577162819]
+texture_filter = 1
+position = Vector2(0, 36)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector7" type="Sprite2D" parent="sector3" unique_id=1021106896]
+texture_filter = 1
+position = Vector2(0, 84)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector8" type="Sprite2D" parent="sector3" unique_id=1056551761]
+texture_filter = 1
+position = Vector2(0, 96)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector9" type="Sprite2D" parent="sector3" unique_id=1507268281]
+texture_filter = 1
+position = Vector2(0, 72)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector5" type="Sprite2D" parent="sector3" unique_id=733329695]
+texture_filter = 1
+position = Vector2(0, 108)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 5
