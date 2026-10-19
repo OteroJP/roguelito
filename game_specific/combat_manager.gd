@@ -28,14 +28,14 @@ var _villain_port: VillainPort
 func _init(hero_port: HeroPort, villain_port: VillainPort) -> void:
 	_hero_port = hero_port
 	_villain_port = villain_port
-	_combatant_states[hero_port] = CombatantState.new()
-	_combatant_states[villain_port] = CombatantState.new()
+	_set_state(hero_port, CombatantState.new())
+	_set_state(villain_port, CombatantState.new())
 
 
 func create_state_copy() -> CombatManager:
 	var copy := CombatManager.new(_hero_port, _villain_port)
-	copy._combatant_states[_hero_port] = _get_state(_hero_port).create_state_copy()
-	copy._combatant_states[_villain_port] = _get_state(_villain_port).create_state_copy()
+	copy._set_state(_hero_port, _get_state(_hero_port).create_state_copy())
+	copy._set_state(_villain_port, _get_state(_villain_port).create_state_copy())
 	return copy
 
 
@@ -239,6 +239,10 @@ func _get_state(combatant_port: CharacterPort) -> CombatantState:
 		"Combatant port was not registered at initialization."
 	)
 	return _combatant_states[combatant_port] as CombatantState
+
+
+func _set_state(combatant_port: CharacterPort, state: CombatantState) -> void:
+	_combatant_states[combatant_port] = state
 
 
 func _source_for(character_port: CharacterPort) -> AuditLogEntry.Source:
