@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://cpjj8ygh6gt0d"]
+
+[ext_resource type="Texture2D" uid="uid://ca08w4ydmj44b" path="res://dungeon/assets/art/escenario1.png" id="1_u0cfd"]
+[ext_resource type="Texture2D" uid="uid://bnnttf6788dw7" path="res://dungeon/assets/art/escenario1_n.png" id="2_3m8dh"]
+[ext_resource type="Texture2D" uid="uid://bvujajuqnty2j" path="res://dungeon/assets/art/scenario.png" id="3_3m8dh"]
+[ext_resource type="PackedScene" uid="uid://c1j8410hj3ala" path="res://assets/villain/art/ref_player_card.tscn" id="4_4dvji"]
+[ext_resource type="PackedScene" uid="uid://wym2hikp8j8g" path="res://assets/villain/art/ref_villain_scepter.tscn" id="5_614m0"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_fo0v4"]
+diffuse_texture = ExtResource("1_u0cfd")
+normal_texture = ExtResource("2_3m8dh")
+
+[sub_resource type="Gradient" id="Gradient_u0cfd"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_u0cfd"]
+gradient = SubResource("Gradient_u0cfd")
+fill_to = Vector2(0.38737202, 0.50341296)
+
+[node name="RefLair" type="Node2D" unique_id=1717755044]
+
+[node name="pisoide" type="Sprite2D" parent="." unique_id=1781101661]
+texture_filter = 1
+texture = SubResource("CanvasTexture_fo0v4")
+hframes = 2
+
+[node name="columnoides" type="Sprite2D" parent="." unique_id=1264196795]
+texture_filter = 1
+texture = SubResource("CanvasTexture_fo0v4")
+hframes = 2
+frame = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1166991182]
+visible = false
+position = Vector2(-6.0400677, 25.231369)
+rotation = 1.5707964
+scale = Vector2(6.6235256, 10.093458)
+color = Color(1, 0.6, 0, 1)
+energy = 1.99
+texture = SubResource("GradientTexture2D_u0cfd")
+
+[node name="fonditodo" type="Sprite2D" parent="." unique_id=1723161686]
+light_mask = 0
+texture = ExtResource("3_3m8dh")
+
+[node name="RefPlayerCard" parent="." unique_id=1022397110 instance=ExtResource("4_4dvji")]
+offset_left = 4.0
+offset_top = 140.0
+offset_right = 4.0
+offset_bottom = 140.0
+
+[node name="RefVillainScepter" parent="." unique_id=503809519 instance=ExtResource("5_614m0")]
+position = Vector2(-247, -93)

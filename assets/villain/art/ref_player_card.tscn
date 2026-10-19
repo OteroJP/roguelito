@@ -25,6 +25,7 @@ region = Rect2(0, 15, 0, 15)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lfwqu"]
 
 [node name="RefPlayerCard" type="Control" unique_id=1022397110]
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,6 +38,7 @@ visible = false
 position = Vector2(37, 62)
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=278978389]
+z_index = 1
 texture_filter = 1
 layout_mode = 0
 offset_right = 74.0
