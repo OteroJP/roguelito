@@ -27,10 +27,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	var bonus_text := "[color=#%s](%s if Villain in second phase)[/color]" % [UIAssets.VILLAIN_SECOND_PHASE_COLOR, bonus_threshold]
 	return "If Hero's health is equal or less than %s %s, change it to %s" % [threshold, bonus_text, new_health]

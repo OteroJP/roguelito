@@ -31,10 +31,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	var text := "Hero attacks for its basic damage"
 	if multiplier > 1:

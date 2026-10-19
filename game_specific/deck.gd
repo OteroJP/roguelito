@@ -40,16 +40,10 @@ func create_state_copy() -> Deck:
 
 
 func restore_state_from(source: Deck) -> void:
-	for card: CardData in _playing_area:
-		if card.resolved.is_connected(resolve):
-			card.resolved.disconnect(resolve)
 	_card_pile = source._card_pile.duplicate()
 	_hand = source._hand.duplicate()
 	_playing_area = source._playing_area.duplicate()
 	_discard_pile = source._discard_pile.duplicate()
-	for card: CardData in _playing_area:
-		if not card.resolved.is_connected(resolve):
-			card.resolved.connect(resolve)
 	cards_moved.emit()
 
 
@@ -81,13 +75,11 @@ func play(card: CardData) -> void:
 	if card in _hand:
 		_hand.erase(card)
 		_playing_area.append(card)
-		card.resolved.connect(resolve)
 		cards_moved.emit()
 	
 
-func resolve(card: CardData) -> void:
+func discard_played_card(card: CardData) -> void:
 	if card in _playing_area:
-		card.resolved.disconnect(resolve)
 		_playing_area.erase(card)
 		_discard_pile.append(card)
 		cards_moved.emit()
@@ -95,7 +87,6 @@ func resolve(card: CardData) -> void:
 
 func discard(card: CardData) -> void:
 	if card in _hand:
-		card.on_discard(GameManager.villain, GameManager.hero)
 		_hand.erase(card)
 		_discard_pile.append(card)
 		cards_moved.emit()

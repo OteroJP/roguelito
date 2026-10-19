@@ -16,3 +16,14 @@
 	attack_modifiers: Array[AttackModifier],
 	speed_bonus: int
 ) -> void
+
+## Moves a resolved card out of both the domain and visual playing areas.
+@abstract func discard_played_card(card: CardData) -> void
+
+
+## Creates execution instances while preserving the configured effect order.
+func create_effect_copies(configured_effects: Array[Effect]) -> Array[Effect]:
+	var copies: Array[Effect] = []
+	for effect: Effect in configured_effects:
+		copies.append(effect.create_execution_copy())
+	return copies

@@ -39,10 +39,5 @@ func _on_clash(
 	return villain.take_cards_from_discard(_selected_cards)
 
 
-func _clear_effect_data() -> void:
-	_selected_cards.clear()
-	_should_recover = false
-
-
 func _effect_text() -> String:
 	return "Villain takes %d cards from the discard" % cards_to_recover

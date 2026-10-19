@@ -20,10 +20,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	var text := "Villain attacks for %d damage" % damage
 	if ignores_armor:

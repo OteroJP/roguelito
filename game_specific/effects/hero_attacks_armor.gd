@@ -30,10 +30,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	var text := "Hero attacks for its max. armor (%s)" % armor_damage_text
 	if bonus_damage > 0:

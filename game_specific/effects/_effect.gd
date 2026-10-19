@@ -55,6 +55,23 @@ func _refresh_inspector() -> void:
 	_refreshing = false
 
 
+func create_execution_copy() -> Effect:
+	var execution_copy := get_script().new() as Effect
+	for property: Dictionary in get_property_list():
+		var usage: int = property.usage
+		if (usage & PROPERTY_USAGE_SCRIPT_VARIABLE) == 0:
+			continue
+		if (usage & PROPERTY_USAGE_STORAGE) == 0:
+			continue
+
+		var property_name: StringName = property.name
+		var configured_value: Variant = get(property_name)
+		if configured_value is Array or configured_value is Dictionary:
+			configured_value = configured_value.duplicate(true)
+		execution_copy.set(property_name, configured_value)
+	return execution_copy
+
+
 @abstract func _effect_text() -> String
 
 
@@ -89,7 +106,6 @@ func on_clash(
 		combat_manager.attack_modifiers_for(hero_port),
 		combat_manager.speed_bonus_for(hero_port)
 	)
-	_clear_effect_data()
 	return outcome
 
 
@@ -116,9 +132,6 @@ func on_discard(villain: Villain, hero: Hero) -> AuditOutcome:
 	hero_port: HeroPort,
 	combat_manager: CombatManager
 ) -> AuditOutcome
-
-
-@abstract func _clear_effect_data() -> void
 
 
 func text() -> String:

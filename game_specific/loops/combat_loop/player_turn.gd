@@ -4,7 +4,6 @@ class_name PlayerTurn extends LoopPhase
 var _villain: VillainPort
 var _hero: HeroPort
 var _combat_manager: CombatManager
-var _playing_area: PlayingArea
 var _combat_input: CombatInput
 
 
@@ -12,13 +11,11 @@ func _init(
 	villain_port: VillainPort,
 	hero_port: HeroPort,
 	combat_manager: CombatManager,
-	playing_area: PlayingArea,
 	combat_input: CombatInput
 	) -> void:
 	_villain = villain_port
 	_hero = hero_port
 	_combat_manager = combat_manager
-	_playing_area = playing_area
 	_combat_input = combat_input
 
 
@@ -49,7 +46,6 @@ func run() -> void:
 	_report.append(await _villain.play_card()) # Mandatory: Player selects a card to play, may undo, and the confirms.
 	if _combat_input.reset_requested:
 		return
-	await _playing_area.add_villain_card(GameManager.current_villain_card)
 	#await _playing_area.get_tree().process_frame
 
 

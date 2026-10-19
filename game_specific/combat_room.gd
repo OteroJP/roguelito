@@ -12,6 +12,7 @@ var _hero_adapter: HeroVisualAdapter
 var _villain_adapter: VillainVisualAdapter
 var _hero_state: Hero
 var _villain_state: Villain
+var _combat_manager_state: CombatManager
 var _game_manager_state: Dictionary = {}
 
 @onready var villain_container: MarginContainer = %InteractiveContainer
@@ -52,20 +53,15 @@ func _prepare_room() -> void:
 	_logger.log("Preparing hero, decks and villain")
 	_hero_adapter = HeroVisualAdapter.new(hero, dungeon, playing_area)
 	_villain_adapter = VillainVisualAdapter.new(
-		villain, villain_container, _combat_input
+		villain, villain_container, playing_area, _combat_input
 	)
 	_combat_manager = CombatManager.new(_hero_adapter, _villain_adapter)
 	GameManager.prepare(
-		playing_area,
-		hero,
-		villain,
 		ux_delay,
 		_combat_manager
 	)
 	playing_area.clear()
 	_villain_adapter.interaction_logged.connect(_logger.display_entry)
-	GameManager.set_villain_port(_villain_adapter)
-	GameManager.set_hero_port(_hero_adapter)
 
 	_combat_loop = CombatLoop.new(
 		_prepare_end_conditions(),
@@ -81,20 +77,37 @@ func _prepare_room() -> void:
 func _save_turn_state() -> void:
 	_hero_state = hero.create_state_copy()
 	_villain_state = villain.create_state_copy()
+	_combat_manager_state = _combat_manager.create_state_copy()
 	_game_manager_state = GameManager.save_turn_state()
 
 
 func _restore_turn_state() -> void:
-	if _hero_state == null or _villain_state == null or _game_manager_state.is_empty():
+	if (
+		_hero_state == null
+		or _villain_state == null
+		or _combat_manager_state == null
+		or _game_manager_state.is_empty()
+	):
 		push_warning("CombatRoom: no saved turn state to restore.")
 		return
 	_combat_input.clear()
 	await _hero_adapter.update_character(_hero_state)
 	await _villain_adapter.update_character(_villain_state)
+	_combat_manager.restore_state_from(_combat_manager_state)
 	GameManager.restore_turn_state(_game_manager_state)
+	_sync_combat_indicators(_hero_adapter)
+	_sync_combat_indicators(_villain_adapter)
 	await playing_area.clear()
 	await playing_area.update()
 	_logger.erase_last_turn()
+
+
+func _sync_combat_indicators(combatant_port: CharacterPort) -> void:
+	combatant_port.sync_combat_indicators(
+		_combat_manager.statuses_for(combatant_port),
+		_combat_manager.attack_modifiers_for(combatant_port),
+		_combat_manager.speed_bonus_for(combatant_port)
+	)
 
 
 func _end_combat() -> void:
@@ -118,9 +131,8 @@ func _prepare_phases() -> Array[LoopPhase]:
 			_villain_adapter,
 			_hero_adapter,
 			_combat_manager,
-			playing_area,
 			_combat_input
 		),
-		Resolution.new(playing_area)
+		Resolution.new(playing_area, _hero_adapter, _villain_adapter, _combat_manager)
 		]
 	return phases

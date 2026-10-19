@@ -7,6 +7,7 @@ const VILLAIN_SCENE: PackedScene = preload("uid://cs4gqthniprqk")
 
 var _villain: Villain
 var _villain_visuals: VillainVisuals
+var _playing_area: PlayingArea
 var _combat_input: CombatInput
 var _pending_spells: Array[VillainSpell] = []
 var _spell_selection_complete: bool = false
@@ -15,15 +16,15 @@ var _spell_selection_complete: bool = false
 func _init(
 	villain: Villain,
 	visual_parent: Node,
+	playing_area: PlayingArea,
 	combat_input: CombatInput
 ) -> void:
 	_villain = villain
+	_playing_area = playing_area
 	_combat_input = combat_input
 	_villain.prepare()
 	_villain_visuals = VILLAIN_SCENE.instantiate() as VillainVisuals
 	_villain_visuals.prepare(_villain.deck, _villain)
-	_villain.current_symbol_changed.connect(_on_current_symbol_changed)
-	_villain.symbol_completed.connect(_on_symbol_completed)
 	_villain_visuals.set_combat_input(combat_input)
 	_villain_visuals.interaction_logged.connect(_forward_interaction_logged)
 	_villain_visuals.spell_chosen.connect(_on_spell_chosen)
@@ -38,6 +39,16 @@ func get_character() -> Villain:
 func update_character(character: Villain) -> void:
 	_villain.restore_villain_state_from(character)
 	await _synchronize_presentation()
+
+
+func discard_played_card(card: CardData) -> void:
+	_villain.deck.discard_played_card(card)
+	_playing_area.discard_card(card)
+
+
+func set_current_symbol(symbol: Villain.Symbol) -> void:
+	_villain.current_symbol = symbol
+	_villain_visuals.change_current_symbol(symbol)
 
 
 func sync_combat_indicators(
@@ -117,8 +128,13 @@ func play_card() -> AuditOutcome:
 	_villain.deck.play(card)
 	_villain_visuals.refresh_stats()
 	await _villain_visuals.remove_from_hand(card)
-	outcome.append(await GameManager.play_villain_card(card))
+	_villain_visuals.change_completed_symbol(villain_card.symbol_to_complete)
+	GameManager.current_villain_card = villain_card
+	await _playing_area.update()
+	await _playing_area.get_tree().create_timer(GameManager.ux_delay).timeout
 	await _synchronize_hand_and_stats()
+	_villain_visuals.change_current_symbol(_villain.current_symbol)
+	_villain_visuals.change_completed_symbol(villain_card.symbol_to_complete)
 	if matching_symbol_completed:
 		await GameManager.get_tree().create_timer(GameManager.ux_delay).timeout
 	outcome.add(AuditEvent.Kind.CARD_PLAYED, AuditLogEntry.Source.VILLAIN, 0, card.name)
@@ -133,7 +149,7 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 	return await _villain_visuals.choose_cards_from_discard(cards, amount)
 
 
-func end_phase() -> AuditOutcome:
+func discard_over_hand_limit() -> AuditOutcome:
 	var outcome: AuditOutcome = await discard_from_hand(_villain.deck.cards_over_hand_limit())
 	await _synchronize_presentation()
 	return outcome
@@ -183,11 +199,3 @@ func _synchronize_hand_and_stats() -> void:
 
 func _forward_interaction_logged(entry: AuditLogEntry) -> void:
 	interaction_logged.emit(entry)
-
-
-func _on_current_symbol_changed(symbol: Villain.Symbol) -> void:
-	_villain_visuals.change_current_symbol(symbol)
-
-
-func _on_symbol_completed(symbol: Villain.Symbol) -> void:
-	_villain_visuals.change_completed_symbol(symbol)

@@ -3,13 +3,7 @@ extends Character
 
 enum Symbol { NONE, SKULL, OMEGA, HEART }
 
-signal current_symbol_changed(symbol: Symbol)
-signal symbol_completed(symbol: Symbol)
-
-var current_symbol: Symbol = Symbol.NONE:
-	set(value):
-		current_symbol = value
-		current_symbol_changed.emit(value)
+var current_symbol: Symbol = Symbol.NONE
 
 @export var mana: int
 @export var max_mana: int

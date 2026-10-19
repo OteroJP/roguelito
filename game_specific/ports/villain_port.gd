@@ -6,6 +6,9 @@
 ## Commits a working copy to the underlying character.
 @abstract func update_character(character: Villain) -> void
 
+## Changes the current symbol and synchronizes its visual presentation.
+@abstract func set_current_symbol(symbol: Villain.Symbol) -> void
+
 ## Lets the player choose a Villain card and processes that play through the adapter.
 @abstract func play_card() -> AuditOutcome
 
@@ -27,8 +30,8 @@
 ## Requests a selection from the supplied discard-pile cards.
 @abstract func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[CardData]
 
-## Selects and discards cards from the Villain's hand at the end of a phase.
-@abstract func end_phase() -> AuditOutcome
+## Selects and discards cards above the Villain's hand limit.
+@abstract func discard_over_hand_limit() -> AuditOutcome
 
 ## Lets the player or headless adapter choose cards to recover from discard.
 @abstract func take_cards_from_discard(amount: int) -> AuditOutcome

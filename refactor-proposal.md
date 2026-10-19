@@ -51,7 +51,7 @@ The exact capture and commit contract still needs to be defined, especially for 
 
 Effects are executable game rules, not only data. They can directly modify `Hero` or `Villain` state, and they can call character operations that may need player input. They are among the main clients of `Character`. For example, a draw effect changes the deck and hand; a discard-recovery effect needs the player to choose cards.
 
-Therefore, effects will need to be redesigned for this refactor. The proposed `Effect` separates domain changes from coroutine waits through two methods: an abstract `_on_clash(villain, hero)` and a concrete `_ask_for_interaction()`. Effects use character APIs for game rules and adapters for player choices. The base class owns a common `on_clash()` that consumes the ports and coordinates calls to those methods. Each concrete effect keeps its own typed rule implementation. The base `Effect` sequence would:
+An earlier copy-and-commit proposal separated domain changes from coroutine waits through two methods: an abstract `_on_clash(villain, hero)` and a concrete `_ask_for_interaction()`. Effects use character APIs for game rules and adapters for player choices. The base class owns a common `on_clash()` that consumes the ports and coordinates calls to those methods. Each concrete effect keeps its own typed rule implementation. That original `Effect` sequence would:
 
 1. Call `_ask_for_interaction()` with the relevant adapters. Its default implementation does nothing; choice-based effects override it and store the typed choice in non-exported fields.
 2. Get character copies from the adapters and pass those copies, rather than the ports, to the concrete effect’s `_on_clash()`.
@@ -60,9 +60,21 @@ Therefore, effects will need to be redesigned for this refactor. The proposed `E
 
 Effects run sequentially in the current coroutine flow, so temporary typed fields are acceptable for this proposal. Clearing them after every run is mandatory and should be stated in the base class as a comment.
 
+### Command-based alternative
+
+The current direction is to have effects describe requested combat changes as commands, leaving their application and synchronization to `CombatManager`. This replaces the copy-and-commit flow above as the proposed effect design; the earlier flow remains here for comparison.
+
+1. A phase decides when an effect batch runs and its order, then gives the batch to `CombatManager`.
+2. `CombatManager` creates a fresh instance for each configured effect and runs the effects sequentially. An effect that needs player input requests it through the relevant port and awaits the adapter-owned interaction flow.
+3. After any needed interaction, the effect returns a typed `CombatStateChangesCommands` collection. The effect does not receive or call `CombatManager` to apply the changes.
+4. `CombatManager` applies that effect's commands before running the next effect. It resolves relative targets such as `OWNER` and `OPPONENT`, applies shared combat rules such as attacks and modifiers, and keeps character data and adapter presentation synchronized.
+5. Commands remain separate from `AuditOutcome`. The fresh effect instance is discarded after its run, so temporary interaction choices do not carry into another execution.
+
+The command types must cover the changes effects need to request. The exact command set and how effects obtain any read-only combat state they need remain design details for the command macrostep.
+
 ### Effect execution order
 
-Many parts of combat can trigger effects. The phase decides when an effect batch should run and, where relevant, its order (such as the order of cards in Resolution). It passes the batch to the combat-scoped `CombatManager`, which runs the effects in that order. Each effect receives the `CombatManager` along with the relevant character ports, so it can apply combat-owned changes such as adding a status or modifier.
+Many parts of combat can trigger effects. The phase decides when an effect batch should run and, where relevant, its order (such as the order of cards in Resolution). It passes the batch to the combat-scoped `CombatManager`, which runs the effects in that order. In the original copy-and-commit proposal, each effect also receives the `CombatManager`; the command-based alternative above removes that dependency and has the manager apply returned commands.
 
 **Observation:** The visual adapter must receive state changes synchronously enough to enqueue any presentation waits before the phase continues.
 
@@ -74,7 +86,7 @@ The proposed combat-scoped `CombatManager` handles shared combat mechanics witho
 - `Resolution` decides card order and which card resolves. It passes the applicable card effects to `CombatManager` for sequential resolution.
 - `CombatManager` owns the active collections of statuses and attack modifiers and consults/applies those modifiers during attack resolution. A `Status` keeps its own duration and effects; an `AttackModifier` keeps its own modifier values and remaining uses.
 - Stance, current symbol, and symbol count remain character state. Card and symbol conditions select the effects to run; those effects may apply `Status` instances, modifiers, or other changes.
-- Effect resolution uses the appropriate character ports for operations that may require player input or visual synchronization. Effects also receive the `CombatManager` so they can change combat-owned state.
+- In the original copy-and-commit design, effects use ports for player input and receive `CombatManager` for combat-owned changes. In the command-based alternative, effects return commands and `CombatManager` applies them while keeping domain and adapter state synchronized.
 
 `CombatManager` does not select phases, decide card order, or choose which trigger has occurred. Its scope is one combat instance; it is not a global coordinator.
 
@@ -264,4 +276,4 @@ On **2026-10-12**, the project has **89 GDScript files** and **3,511 nonblank, n
 
 ## Other topics
 
-- Consider returning a typed `CombatStateChangesCommands` collection from `Effect.on_clash()` so effects can request combat-state changes without depending directly on `CombatManager`. `CombatManager` would apply each effect's commands before running the next effect in the batch. Keep these commands separate from `AuditOutcome`, which serves reporting. Decide how commands identify their target and whether effects need to read combat-manager state while resolving.
+- The command-based alternative above is the proposed direction for the effect redesign. Use relative targets such as `OWNER` and `OPPONENT`; define the command types and any read-only combat-state access effects need during that macrostep. Keep commands separate from `AuditOutcome`, which serves reporting.

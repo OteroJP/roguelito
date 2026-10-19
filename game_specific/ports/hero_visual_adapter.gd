@@ -31,9 +31,18 @@ func update_character(character: Hero) -> void:
 	await _synchronize_presentation()
 
 
+func discard_played_card(card: CardData) -> void:
+	_hero.deck.discard_played_card(card)
+	_playing_area.discard_card(card)
+
+
 func change_stance(target_stance: Hero.Stance) -> void:
 	_hero.change_stance(target_stance)
 	await _hero_visuals.change_stance(target_stance)
+
+
+func clear_immunity() -> void:
+	_hero.clear_immunity()
 
 
 func draw() -> AuditOutcome:

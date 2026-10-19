@@ -30,7 +30,9 @@ func run() -> void:
 		return
 	await _playing_area.update()
 	var hero_card: HeroCardData = await _hero_port.play_card()
-	_report.append(await GameManager.play_hero_card(hero_card))
+	GameManager.current_hero_card = hero_card
+	await _playing_area.update()
+	await _playing_area.get_tree().create_timer(GameManager.ux_delay).timeout
 	_report.add("Played a hidden card", AuditLogEntry.Source.HERO)
 	await _playing_area.add_hero_card(GameManager.current_hero_card)
 	if _have_loop_ended.call():

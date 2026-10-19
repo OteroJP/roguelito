@@ -45,6 +45,25 @@ func clear() -> void:
 	await get_tree().create_timer(GameManager.ux_delay).timeout
 
 
+func discard_card(card: CardData) -> void:
+	if (
+		card is HeroCardData
+		and _hero_card != null
+		and _hero_card.match_data(card as HeroCardData)
+	):
+		_HeroCardPanel.get_child(0).remove_child(_hero_card)
+		_hero_card.queue_free()
+		_hero_card = null
+	elif (
+		card is VillainCardData
+		and _villain_card != null
+		and _villain_card.match_data(card as VillainCardData)
+	):
+		_VillainCardPanel.get_child(0).remove_child(_villain_card)
+		_villain_card.queue_free()
+		_villain_card = null
+
+
 func resolve_villain_card() -> void:
 	await flash_stylebox_color(_VillainCardPanel, Color.GOLD, Color.WEB_GRAY, 0.5, 1)
 

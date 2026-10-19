@@ -1,9 +1,5 @@
 extends Node
 
-var villain: Villain
-var hero: Hero
-var villain_port: VillainPort
-var hero_port: HeroPort
 var combat_manager: CombatManager
 #TODO These should be tuples?
 var current_villain_card: VillainCardData
@@ -11,30 +7,15 @@ var is_current_villain_card_enabled: bool = true
 var current_hero_card: HeroCardData
 var is_current_hero_card_enabled: bool = true
 var card_resolve_queue: Array[CardData]
-var playing_area: PlayingArea
 var ux_delay: float
 
 
 func prepare(
-	_playing_area: PlayingArea,
-	_hero: Hero,
-	_villain: Villain,
 	_ux_delay: float,
 	_combat_manager: CombatManager
 ) -> void:
-	playing_area = _playing_area
-	hero = _hero
-	villain = _villain
 	ux_delay = _ux_delay
 	combat_manager = _combat_manager
-
-
-func set_villain_port(port: VillainPort) -> void:
-	villain_port = port
-
-
-func set_hero_port(port: HeroPort) -> void:
-	hero_port = port
 
 
 func save_turn_state() -> Dictionary:
@@ -55,115 +36,14 @@ func restore_turn_state(state: Dictionary) -> void:
 	card_resolve_queue = state["card_resolve_queue"].duplicate()
 
 
-func sort_cards() -> void:
-	card_resolve_queue = _sort_cards_by_fastest()
+func sort_cards(hero_port: HeroPort, villain_port: VillainPort) -> void:
+	card_resolve_queue = _sort_cards_by_fastest(hero_port, villain_port)
 
 
-func play_villain_card(card: VillainCardData) -> AuditOutcome:
-	current_villain_card = card
-	var outcome := await card.on_play(villain, hero, villain_port, hero_port, combat_manager)
-	await playing_area.update()
-	await get_tree().create_timer(GameManager.ux_delay).timeout
-	return outcome
-
-
-func play_hero_card(card: HeroCardData) -> AuditOutcome:
-	current_hero_card = card
-	var outcome := await card.on_play(villain, hero, villain_port, hero_port, combat_manager)
-	await playing_area.update()
-	await get_tree().create_timer(GameManager.ux_delay).timeout
-	return outcome
-
-
-func execute_faster_card() -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	#TODO this could be cleaner
-	if (card_resolve_queue[0] == current_villain_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
-		if current_villain_card_enabled():
-			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
-			await playing_area.resolve_villain_card()
-			outcome.append(
-				await current_villain_card.on_clash(
-					villain, hero, villain_port, hero_port, combat_manager
-				)
-			)
-		else:
-			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN, 0, "", "", true)
-	if (card_resolve_queue[0] == current_hero_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
-		if current_hero_card_enabled():
-			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
-			await playing_area.resolve_hero_card()
-			outcome.append(
-				await current_hero_card.on_clash(
-					villain, hero, villain_port, hero_port, combat_manager
-				)
-			)
-		else:
-			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.HERO, 0, "", "", true)
-	await playing_area.update()
-	await get_tree().create_timer(GameManager.ux_delay).timeout
-	return outcome
-
-
-func execute_slower_card() -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	#TODO this could be cleaner
-	if (card_resolve_queue[1] == current_villain_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
-		if is_current_villain_card_enabled:
-			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.VILLAIN, 0, current_villain_card.name)
-			await playing_area.resolve_villain_card()
-			outcome.append(
-				await current_villain_card.on_clash(
-					villain, hero, villain_port, hero_port, combat_manager
-				)
-			)
-		else:
-			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.VILLAIN)
-	if (card_resolve_queue[1] == current_hero_card):
-		outcome.add(AuditEvent.Kind.CARD_RESOLUTION_SEPARATOR, AuditLogEntry.Source.GAME)
-		if is_current_hero_card_enabled:
-			outcome.add(AuditEvent.Kind.CARD_RESOLVING, AuditLogEntry.Source.HERO, 0, current_hero_card.name)
-			await playing_area.resolve_hero_card()
-			outcome.append(
-				await current_hero_card.on_clash(
-					villain, hero, villain_port, hero_port, combat_manager
-				)
-			)
-		else:
-			outcome.add(AuditEvent.Kind.CARD_SKIPPED, AuditLogEntry.Source.HERO)
-	await playing_area.update()
-	await get_tree().create_timer(GameManager.ux_delay).timeout
-	return outcome
-
-
-func end_phase() -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	for card in card_resolve_queue:
-		if card is HeroCardData:
-			await hero_port.change_stance(card.stance_after_clash)
-		outcome.append(await card.after_clash(villain, hero))
-	outcome.append(hero.end_phase())
-	combat_manager.clear_round_modifiers()
-	_sync_combat_indicators(hero_port)
-	_sync_combat_indicators(villain_port)
-	is_current_villain_card_enabled = true
-	outcome.append(await villain_port.end_phase())
-	await get_tree().create_timer(GameManager.ux_delay).timeout
-	return outcome
-
-
-func _sync_combat_indicators(combatant_port: CharacterPort) -> void:
-	combatant_port.sync_combat_indicators(
-		combat_manager.statuses_for(combatant_port),
-		combat_manager.attack_modifiers_for(combatant_port),
-		combat_manager.speed_bonus_for(combatant_port)
-	)
-
-
-func _sort_cards_by_fastest() -> Array[CardData]:
+func _sort_cards_by_fastest(
+	hero_port: HeroPort,
+	villain_port: VillainPort
+) -> Array[CardData]:
 	var sorted_cards: Array[CardData]
 	if (
 		current_hero_card.speed + combat_manager.speed_bonus_for(hero_port)

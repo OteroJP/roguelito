@@ -35,10 +35,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	var text := "Villain attacks for %d damage if over %s %s, else for %s" % [damage_over_threshold, threshold, Villain.Symbol.keys()[symbol], damage_under_threshold]
 	if ignores_armor:

@@ -20,9 +20,5 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	return "Hero removes all %s statuses" % status_to_remove.name

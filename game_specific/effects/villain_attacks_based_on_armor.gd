@@ -32,10 +32,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	var amount := "the hero's max armor" if multiplier == 1 else ("%d times the hero's max armor" % multiplier)
 	var bonus_amount := "the hero's max armor" if bonus_multiplier == 1 else ("%d times the hero's max armor" % bonus_multiplier)

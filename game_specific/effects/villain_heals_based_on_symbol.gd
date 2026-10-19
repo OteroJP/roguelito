@@ -26,10 +26,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	var text := "Villain heals for %d if over %s %s, else for %s" % [heal_over_threshold, threshold, [Villain.Symbol.keys()[symbol]], heal_under_threshold]
 	return text

@@ -54,11 +54,8 @@ func restore_hero_state_from(source: Hero) -> void:
 	restore_character_state_from(source)
 
 
-func end_phase() -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func clear_immunity() -> void:
 	immune_to_damage = false
-	GameManager.is_current_hero_card_enabled =  true
-	return outcome
 
 
 func take_damage(damage: int, ignores_armor: bool = false) -> AuditOutcome:

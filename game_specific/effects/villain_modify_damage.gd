@@ -20,10 +20,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	if damage_modification < 0:
 		return "Villain's attacks deal %d less damage" % absi(damage_modification)

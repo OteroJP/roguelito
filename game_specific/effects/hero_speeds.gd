@@ -21,10 +21,6 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	if speed_modification < 0:
 		return "Hero loses %d speed" % absi(speed_modification)

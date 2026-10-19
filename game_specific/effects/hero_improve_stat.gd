@@ -32,9 +32,5 @@ func _on_clash(
 	return outcome
 
 
-func _clear_effect_data() -> void:
-	pass
-
-
 func _effect_text() -> String:
 	return "Hero improves %s by %s" % [stat_text, str(amount_to_improve)]
