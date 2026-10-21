@@ -1,8 +1,6 @@
 class_name HeroCard
 extends Card
 
-signal card_clicked(card: HeroCardData)
-
 const CARD_SCENE: PackedScene = preload("uid://yn4vjcemn7yh")
 const HOVER_UPWARD_MOVEMENT: float = 20.0 # Pixels to move up
 
@@ -54,12 +52,6 @@ func select_card() -> HeroCardData:
 
 func match_data(data: HeroCardData) -> bool:
 	return _data == data
-
-
-
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		card_clicked.emit(select_card())
 
 
 

@@ -3,9 +3,6 @@
 
 @abstract func get_character() -> Villain
 
-## Commits a working copy to the underlying character.
-@abstract func update_character(character: Villain) -> void
-
 ## Changes the current symbol and synchronizes its visual presentation.
 @abstract func set_current_symbol(symbol: Villain.Symbol) -> void
 

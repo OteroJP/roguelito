@@ -4,14 +4,29 @@
 ## Returns a working copy. Commit changes through update_character().
 @abstract func get_character() -> Character
 
+## Commits a working copy and synchronizes this character's presentation.
+@abstract func update_character(character: Character) -> void
+
+## Plays one card and returns it for phase orchestration.
+@abstract func play_card() -> CardData
+
 ## Runs the source-side preparation and synchronizes this character's presentation.
-@abstract func prepare_effect(effect: Effect) -> void
+func prepare_effect(effect: Effect) -> void:
+	var effect_owner := get_character()
+	await effect.preparation(effect_owner)
+	await update_character(effect_owner)
 
 ## Applies an effect to this character and synchronizes its presentation.
-@abstract func apply_effect(effect: Effect) -> void
+func apply_effect(effect: Effect) -> void:
+	var target := get_character()
+	await effect.apply(target)
+	await update_character(target)
 
 ## Applies an attack to this character and synchronizes its presentation.
-@abstract func take_attack(attack: Attack) -> void
+func take_attack(attack: Attack) -> void:
+	var target := get_character()
+	target.take_attack(attack)
+	await update_character(target)
 
 ## Prepares this character's presentation before the combat loop starts.
 @abstract func prepare_for_combat() -> void

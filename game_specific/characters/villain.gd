@@ -25,10 +25,12 @@ func prepare() -> void:
 
 
 func draw() -> void:
-	if not deck.may_draw(1): # Si no le quedan cartas, pierde 1 de vida, mezcla su descarte en un nuevo mazo y roba.
+	if not deck.may_draw(1):
 		deck.reshuffle()
 		take_damage(1)
-	deck.draw()
+		deck.draw()
+		return
+	super.draw()
 
 
 func create_state_copy() -> Villain:
@@ -75,11 +77,3 @@ func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	health -= incoming_damage
 
 
-func take_attack(attack: Attack) -> void:
-	if immune_to_damage:
-		return
-	take_damage(attack.damage, attack.ignores_armor)
-
-
-func heal(amount_to_heal: int) -> void:
-	health = min((health + amount_to_heal), max_health)

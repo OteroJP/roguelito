@@ -19,31 +19,15 @@ func get_character() -> Hero:
 	return _hero.create_state_copy()
 
 
-func prepare_effect(effect: Effect) -> void:
-	var effect_owner := get_character()
-	await effect.preparation(effect_owner)
-	await update_character(effect_owner)
-
-
-func apply_effect(effect: Effect) -> void:
-	var target := get_character()
-	await effect.apply(target)
-	await update_character(target)
-
-
-func take_attack(attack: Attack) -> void:
-	var target := get_character()
-	target.take_attack(attack)
-	await update_character(target)
-
-
 func prepare_for_combat() -> void:
 	# HeroVisuals initializes its presentation when it enters the scene tree.
 	pass
 
 
-func update_character(character: Hero) -> void:
-	_hero.restore_hero_state_from(character)
+func update_character(character: Character) -> void:
+	assert(character is Hero, "HeroVisualAdapter can only update from Hero state.")
+	var hero_state := character as Hero
+	_hero.restore_hero_state_from(hero_state)
 	await _synchronize_presentation()
 
 

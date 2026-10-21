@@ -23,16 +23,23 @@ func prepare() -> void:
 		deck.prepare()
 
 
-@abstract func draw() -> void
+func draw() -> void:
+	if not deck.may_draw(1):
+		deck.reshuffle()
+	deck.draw()
 
 
 @abstract func take_damage(damage: int, ignores_armor: bool) -> void
 
 
-@abstract func take_attack(attack: Attack) -> void
+func take_attack(attack: Attack) -> void:
+	if immune_to_damage:
+		return
+	take_damage(attack.damage, attack.ignores_armor)
 
 
-@abstract func heal(amount_to_heal: int) -> void
+func heal(amount_to_heal: int) -> void:
+	health = min(health + amount_to_heal, max_health)
 
 
 func clear_immunity() -> void:

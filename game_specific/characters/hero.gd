@@ -10,12 +10,6 @@ enum Stance { NONE, ATTACK, DEFEND, UPGRADE }
 
 var current_stance: Stance = Stance.NONE
 
-func draw() -> void:
-	if not deck.may_draw(1):
-		deck.reshuffle()
-	deck.draw()
-
-
 func play_card() -> HeroCardData:
 	var card := deck.pick_random_card() as HeroCardData
 	deck.play(card)
@@ -62,12 +56,6 @@ func set_health(new_health: int) -> void:
 	health = new_health
 
 
-func take_attack(attack: Attack) -> void:
-	if immune_to_damage:
-		return
-	take_damage(attack.damage, attack.ignores_armor)
-
-
 func increase_max_armor(increase: int) -> void:
 	max_armor += increase
 
@@ -78,10 +66,6 @@ func increase_max_health(increase: int) -> void:
 
 func increase_max_basic_damage(increase: int) -> void:
 	max_basic_damage += increase
-
-
-func heal(amount_to_heal: int) -> void:
-	health = min((health + amount_to_heal), max_health)
 
 
 func set_armor(new_armor: int) -> void:

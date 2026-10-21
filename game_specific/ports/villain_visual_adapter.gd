@@ -28,26 +28,10 @@ func get_character() -> Villain:
 	return _villain.create_state_copy()
 
 
-func prepare_effect(effect: Effect) -> void:
-	var effect_owner := get_character()
-	await effect.preparation(effect_owner)
-	await update_character(effect_owner)
-
-
-func apply_effect(effect: Effect) -> void:
-	var target := get_character()
-	await effect.apply(target)
-	await update_character(target)
-
-
-func take_attack(attack: Attack) -> void:
-	var target := get_character()
-	target.take_attack(attack)
-	await update_character(target)
-
-
-func update_character(character: Villain) -> void:
-	_villain.restore_villain_state_from(character)
+func update_character(character: Character) -> void:
+	assert(character is Villain, "VillainVisualAdapter can only update from Villain state.")
+	var villain_state := character as Villain
+	_villain.restore_villain_state_from(villain_state)
 	await _synchronize_presentation()
 
 

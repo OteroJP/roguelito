@@ -1,8 +1,6 @@
 class_name VillainCard
 extends Card
 
-signal card_clicked(card: VillainCardData)
-
 const CARD_SCENE: PackedScene = preload("uid://ce3fqp227u3vc")
 const HOVER_UPWARD_MOVEMENT: float = 20.0 # Pixels to move up
 
@@ -53,12 +51,6 @@ func select_card() -> VillainCardData:
 
 func match_data(data: VillainCardData) -> bool:
 	return _data == data
-
-
-
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		card_clicked.emit(select_card())
 
 
 
