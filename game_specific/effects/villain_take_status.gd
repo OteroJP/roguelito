@@ -11,12 +11,10 @@ func _on_clash(
 	villain_port: VillainPort,
 	_hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	combat_manager.add_status(villain_port, status)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

@@ -1,33 +1,25 @@
 class_name VillainVisualAdapter
 extends VillainPort
 
-signal interaction_logged(entry: AuditLogEntry)
-
 const VILLAIN_SCENE: PackedScene = preload("uid://cs4gqthniprqk")
 
 var _villain: Villain
 var _villain_visuals: VillainVisuals
-var _playing_area: PlayingArea
-var _combat_input: CombatInput
+# var _combat_input: CombatInput
 var _pending_spells: Array[VillainSpell] = []
 var _spell_selection_complete: bool = false
 
 
 func _init(
 	villain: Villain,
-	visual_parent: Node,
-	playing_area: PlayingArea,
-	combat_input: CombatInput
+	visual_parent: Node
 ) -> void:
 	_villain = villain
-	_playing_area = playing_area
-	_combat_input = combat_input
 	_villain.prepare()
 	_villain_visuals = VILLAIN_SCENE.instantiate() as VillainVisuals
 	_villain_visuals.prepare(_villain.deck, _villain)
-	_villain_visuals.set_combat_input(combat_input)
-	_villain_visuals.interaction_logged.connect(_forward_interaction_logged)
-	_villain_visuals.spell_chosen.connect(_on_spell_chosen)
+	# _villain_visuals.set_combat_input(combat_input)
+	# _villain_visuals.spell_chosen.connect(_on_spell_chosen)
 	visual_parent.add_child(_villain_visuals)
 	_villain_visuals.change_current_symbol(_villain.current_symbol)
 
@@ -36,14 +28,35 @@ func get_character() -> Villain:
 	return _villain.create_state_copy()
 
 
+func prepare_effect(effect: Effect) -> void:
+	var effect_owner := get_character()
+	await effect.preparation(effect_owner)
+	await update_character(effect_owner)
+
+
+func apply_effect(effect: Effect) -> void:
+	var target := get_character()
+	await effect.apply(target)
+	await update_character(target)
+
+
+func take_attack(attack: Attack) -> void:
+	var target := get_character()
+	target.take_attack(attack)
+	await update_character(target)
+
+
 func update_character(character: Villain) -> void:
 	_villain.restore_villain_state_from(character)
 	await _synchronize_presentation()
 
 
+func clear_immunity() -> void:
+	_villain.clear_immunity()
+
+
 func discard_played_card(card: CardData) -> void:
 	_villain.deck.discard_played_card(card)
-	_playing_area.discard_card(card)
 
 
 func set_current_symbol(symbol: Villain.Symbol) -> void:
@@ -63,15 +76,14 @@ func sync_combat_indicators(
 	)
 
 
-func draw() -> AuditOutcome:
+func draw() -> void:
 	var previous_hand_size := _villain.deck.cards_in_hand()
-	var outcome: AuditOutcome = await _villain.draw()
+	_villain.draw()
 	var current_hand := _villain.deck.display_hand()
 	_villain_visuals.refresh_stats()
 	if current_hand.size() > previous_hand_size:
 		var drawn_cards: Array[CardData] = [current_hand.back()]
 		await _villain_visuals.add_to_hand(drawn_cards)
-	return outcome
 
 
 func begin_spell_selection() -> void:
@@ -85,20 +97,20 @@ func spells_chosen() -> bool:
 
 
 func choose_spell() -> VillainSpell:
-	_villain_visuals.resume_spell_selection()
-	while true:
-		var command: int = await _combat_input.wait_for_command()
-		match command:
-			CombatInput.Command.SPELL_CHOSEN:
-				if not _pending_spells.is_empty():
-					_villain_visuals.pause_spell_selection()
-					return _pending_spells.pop_front()
-			CombatInput.Command.CONFIRM:
-				finish_spell_selection()
-				return null
-			CombatInput.Command.RESET:
-				_villain_visuals.end_spell_selection()
-				return null
+	# _villain_visuals.resume_spell_selection()
+	# while true:
+	#	var command: int = await _combat_input.wait_for_command()
+	#	match command:
+	#		CombatInput.Command.SPELL_CHOSEN:
+	#			if not _pending_spells.is_empty():
+	#				_villain_visuals.pause_spell_selection()
+	#				return _pending_spells.pop_front()
+	#		CombatInput.Command.CONFIRM:
+	#			finish_spell_selection()
+	#			return null
+	#		CombatInput.Command.RESET:
+	#			_villain_visuals.end_spell_selection()
+	#			return null
 	return null
 
 
@@ -112,14 +124,13 @@ func _on_spell_chosen(spell: VillainSpell) -> void:
 	_villain_visuals.refresh_stats()
 	_villain_visuals.refresh_spell_availability()
 	_pending_spells.append(spell)
-	_combat_input.submit_action(CombatInput.Command.SPELL_CHOSEN)
+	# _combat_input.submit_action(CombatInput.Command.SPELL_CHOSEN)
 
 
-func play_card() -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func play_card() -> VillainCardData:
 	var card: CardData = await _villain_visuals.choose_card()
 	if card == null:
-		return outcome
+		return null
 	var villain_card := card as VillainCardData
 	var matching_symbol_completed := (
 		villain_card.symbol_to_complete != Villain.Symbol.NONE
@@ -129,16 +140,13 @@ func play_card() -> AuditOutcome:
 	_villain_visuals.refresh_stats()
 	await _villain_visuals.remove_from_hand(card)
 	_villain_visuals.change_completed_symbol(villain_card.symbol_to_complete)
-	GameManager.current_villain_card = villain_card
-	await _playing_area.update()
-	await _playing_area.get_tree().create_timer(GameManager.ux_delay).timeout
+	await GameManager.get_tree().create_timer(GameManager.ux_delay).timeout
 	await _synchronize_hand_and_stats()
 	_villain_visuals.change_current_symbol(_villain.current_symbol)
 	_villain_visuals.change_completed_symbol(villain_card.symbol_to_complete)
 	if matching_symbol_completed:
 		await GameManager.get_tree().create_timer(GameManager.ux_delay).timeout
-	outcome.add(AuditEvent.Kind.CARD_PLAYED, AuditLogEntry.Source.VILLAIN, 0, card.name)
-	return outcome
+	return villain_card
 
 
 func choose_cards_from_hand(amount: int) -> Array[CardData]:
@@ -149,38 +157,33 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 	return await _villain_visuals.choose_cards_from_discard(cards, amount)
 
 
-func discard_over_hand_limit() -> AuditOutcome:
-	var outcome: AuditOutcome = await discard_from_hand(_villain.deck.cards_over_hand_limit())
+func discard_over_hand_limit() -> void:
+	await discard_from_hand(_villain.deck.cards_over_hand_limit())
 	await _synchronize_presentation()
-	return outcome
 
 
-func take_cards_from_discard(amount: int) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func take_cards_from_discard(amount: int) -> void:
 	var count := mini(maxi(amount, 0), _villain.deck.cards_in_discard())
 	if count <= 0:
-		return outcome
+		return
 	var cards: Array[CardData] = await choose_cards_from_discard(
 		_villain.deck.display_discard_pile(), count
 	)
-	outcome.append(_villain.take_cards_from_discard(cards))
+	_villain.take_cards_from_discard(cards)
 	_villain_visuals.refresh_stats()
 	if not cards.is_empty():
 		await _villain_visuals.add_to_hand(cards)
-	return outcome
 
 
-func discard_from_hand(amount: int) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func discard_from_hand(amount: int) -> void:
 	var count := mini(maxi(amount, 0), _villain.deck.cards_in_hand())
 	if count <= 0:
-		return outcome
+		return
 	var cards: Array[CardData] = await choose_cards_from_hand(count)
-	outcome.append(_villain.discard_from_hand(cards))
+	_villain.discard_from_hand(cards)
 	_villain_visuals.refresh_stats()
 	for card: CardData in cards:
 		_villain_visuals.remove_from_hand(card)
-	return outcome
 
 
 func prepare_for_combat() -> void:
@@ -195,7 +198,3 @@ func _synchronize_presentation() -> void:
 
 func _synchronize_hand_and_stats() -> void:
 	await _villain_visuals.restore_hand(_villain.deck.display_hand())
-
-
-func _forward_interaction_logged(entry: AuditLogEntry) -> void:
-	interaction_logged.emit(entry)

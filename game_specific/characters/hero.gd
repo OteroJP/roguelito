@@ -7,16 +7,13 @@ enum Stance { NONE, ATTACK, DEFEND, UPGRADE }
 @export var basic_damage: int
 @export var max_armor: int
 @export var armor: int
-@export var immune_to_damage: bool = false
 
 var current_stance: Stance = Stance.NONE
 
-func draw() -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func draw() -> void:
 	if not deck.may_draw(1):
 		deck.reshuffle()
-	var card: CardData = deck.draw()
-	return outcome
+	deck.draw()
 
 
 func play_card() -> HeroCardData:
@@ -39,7 +36,6 @@ func create_state_copy() -> Hero:
 	copy.basic_damage = basic_damage
 	copy.max_armor = max_armor
 	copy.armor = armor
-	copy.immune_to_damage = immune_to_damage
 	copy.current_stance = current_stance
 	return copy
 
@@ -49,70 +45,44 @@ func restore_hero_state_from(source: Hero) -> void:
 	basic_damage = source.basic_damage
 	max_armor = source.max_armor
 	armor = source.armor
-	immune_to_damage = source.immune_to_damage
 	current_stance = source.current_stance
 	restore_character_state_from(source)
 
 
-func clear_immunity() -> void:
-	immune_to_damage = false
-
-
-func take_damage(damage: int, ignores_armor: bool = false) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	var incoming_damage := damage
 	if not ignores_armor:
 		var absorbed_damage := mini(armor, incoming_damage)
-		outcome.add(AuditEvent.Kind.DAMAGE_ABSORBED, AuditLogEntry.Source.HERO, absorbed_damage)
 		armor -= absorbed_damage
 		incoming_damage -= absorbed_damage
 	health -= incoming_damage
-	outcome.add(AuditEvent.Kind.DAMAGE_SUFFERED, AuditLogEntry.Source.HERO, incoming_damage)
-	return outcome
 
 
 func set_health(new_health: int) -> void:
 	health = new_health
 
 
-func take_attack(attack: Attack) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func take_attack(attack: Attack) -> void:
 	if immune_to_damage:
-		outcome.add(AuditEvent.Kind.IMMUNITY_RESISTED, AuditLogEntry.Source.HERO)
-		return outcome
-	return take_damage(attack.damage, attack.ignores_armor)
+		return
+	take_damage(attack.damage, attack.ignores_armor)
 
 
-func increase_max_armor(increase: int) -> AuditOutcome:
+func increase_max_armor(increase: int) -> void:
 	max_armor += increase
-	var outcome := AuditOutcome.new()
-	outcome.add(AuditEvent.Kind.MAX_ARMOR_INCREASED, AuditLogEntry.Source.HERO, increase)
-	return outcome
 
 
-func increase_max_health(increase: int) -> AuditOutcome:
+func increase_max_health(increase: int) -> void:
 	max_health += increase
-	var outcome := AuditOutcome.new()
-	outcome.add(AuditEvent.Kind.MAX_HEALTH_INCREASED, AuditLogEntry.Source.HERO, increase)
-	return outcome
 
 
-func increase_max_basic_damage(increase: int) -> AuditOutcome:
+func increase_max_basic_damage(increase: int) -> void:
 	max_basic_damage += increase
-	var outcome := AuditOutcome.new()
-	outcome.add(AuditEvent.Kind.MAX_DAMAGE_INCREASED, AuditLogEntry.Source.HERO, increase)
-	return outcome
 
 
-func heal(amount_to_heal: int) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func heal(amount_to_heal: int) -> void:
 	health = min((health + amount_to_heal), max_health)
-	outcome.add(AuditEvent.Kind.HEALED, AuditLogEntry.Source.HERO, amount_to_heal)
-	return outcome
 
 
-func set_armor(new_armor: int) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+func set_armor(new_armor: int) -> void:
 	armor = min(new_armor, max_armor)
-	outcome.add(AuditEvent.Kind.ARMOR_CHANGED, AuditLogEntry.Source.HERO, new_armor)
-	return outcome

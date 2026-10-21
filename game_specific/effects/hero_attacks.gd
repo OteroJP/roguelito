@@ -12,11 +12,9 @@ func _on_clash(
 	_villain_port: VillainPort,
 	hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	outcome.append(combat_manager.perform_attack(hero_port, hero, villain, damage, ignores_armor))
+) -> void:
+	combat_manager.perform_attack(hero_port, villain, damage, ignores_armor)
 
-	return outcome
 
 
 func _effect_text() -> String:

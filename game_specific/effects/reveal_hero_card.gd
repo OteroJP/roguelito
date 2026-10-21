@@ -5,11 +5,10 @@ extends Effect
 
 func _ask_for_interaction(
 	_villain_port: VillainPort,
-	hero_port: HeroPort,
-	_combat_manager: CombatManager
-) -> AuditOutcome:
-	await hero_port.reveal_played_card()
-	return AuditOutcome.new()
+	_hero_port: HeroPort,
+	combat_manager: CombatManager
+) -> void:
+	combat_manager.reveal_hero_card()
 
 
 func _on_clash(
@@ -18,11 +17,10 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
+	pass
 
 
-	return outcome
 
 
 func _effect_text() -> String:

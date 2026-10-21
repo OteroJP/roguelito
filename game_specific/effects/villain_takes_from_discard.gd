@@ -12,8 +12,7 @@ func _ask_for_interaction(
 	villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	_selected_cards.clear()
 	_should_recover = false
 	var villain := villain_port.get_character()
@@ -24,7 +23,6 @@ func _ask_for_interaction(
 		_selected_cards = await villain_port.choose_cards_from_discard(
 			villain.deck.display_discard_pile(), count
 		)
-	return outcome
 
 
 func _on_clash(
@@ -33,10 +31,10 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
+) -> void:
 	if not _should_recover:
-		return AuditOutcome.new()
-	return villain.take_cards_from_discard(_selected_cards)
+		return
+	villain.take_cards_from_discard(_selected_cards)
 
 
 func _effect_text() -> String:

@@ -11,13 +11,11 @@ func _on_clash(
 	_villain_port: VillainPort,
 	hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	for status: Status in combat_manager.statuses_for(hero_port):
 		if status.name == status_to_remove.name:
 			combat_manager.remove_status(hero_port, status)
 
-	return outcome
 
 
 func _effect_text() -> String:

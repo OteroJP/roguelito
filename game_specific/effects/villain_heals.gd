@@ -13,12 +13,10 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	outcome.append(villain.heal(amount_to_heal))
+) -> void:
+	villain.heal(amount_to_heal)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

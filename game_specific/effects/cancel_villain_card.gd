@@ -8,14 +8,11 @@ func _on_clash(
 	_hero: Hero,
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
-	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
-	GameManager.is_current_villain_card_enabled = false
-	outcome.add(AuditEvent.Kind.CARD_CANCELLED, AuditLogEntry.Source.VILLAIN)
+	combat_manager: CombatManager
+) -> void:
+	combat_manager.cancel_villain_card()
 
 
-	return outcome
 
 
 func _effect_text() -> String:

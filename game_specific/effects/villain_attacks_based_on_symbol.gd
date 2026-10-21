@@ -15,24 +15,18 @@ func _on_clash(
 	villain_port: VillainPort,
 	_hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	if (symbol == Villain.Symbol.NONE or
 	villain.symbol_count[symbol] < threshold):
-		outcome.append(
-			combat_manager.perform_attack(
-				villain_port, villain, hero, damage_under_threshold, ignores_armor
-			)
+		combat_manager.perform_attack(
+			villain_port, hero, damage_under_threshold, ignores_armor
 		)
 	else:
-		outcome.append(
-			combat_manager.perform_attack(
-				villain_port, villain, hero, damage_over_threshold, ignores_armor
-			)
+		combat_manager.perform_attack(
+			villain_port, hero, damage_over_threshold, ignores_armor
 		)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

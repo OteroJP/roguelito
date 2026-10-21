@@ -11,11 +11,9 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	for i in cards_to_draw:
-		outcome.append(villain.draw())
-	return outcome
+		villain.draw()
 
 
 func _effect_text() -> String:

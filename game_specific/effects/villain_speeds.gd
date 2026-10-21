@@ -12,13 +12,10 @@ func _on_clash(
 	villain_port: VillainPort,
 	_hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	combat_manager.add_speed_bonus(villain_port, speed_modification)
-	outcome.add(AuditEvent.Kind.BONUS_SPEED_CHANGED, AuditLogEntry.Source.VILLAIN, speed_modification)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

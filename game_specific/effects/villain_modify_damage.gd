@@ -11,13 +11,11 @@ func _on_clash(
 	villain_port: VillainPort,
 	_hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	var damage_modifier: DamageModifier = DamageModifier.new(1, damage_modification)
 	combat_manager.add_attack_modifier(villain_port, damage_modifier)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

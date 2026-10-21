@@ -53,7 +53,8 @@ func run() -> void:
 		var report: AuditReport = phase.get_report()
 		for condition: EndCondition in end_conditions:
 			if condition.was_satisfied():
-				report.append(condition.get_outcome())
+				# here we should expand the report
+				pass
 		phase_ended.emit(report)
 		if reset_requested:
 			if _restore_turn_state.is_valid():

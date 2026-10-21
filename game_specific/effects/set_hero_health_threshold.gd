@@ -15,8 +15,7 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	if (hero.health <= threshold or
 		(hero.health <= bonus_threshold and
 		villain.is_in_second_phase())
@@ -24,7 +23,6 @@ func _on_clash(
 		hero.set_health(new_health)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

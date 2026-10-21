@@ -13,17 +13,13 @@ func _on_clash(
 	villain_port: VillainPort,
 	_hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	_hero_max_basic_damage = hero.max_basic_damage
-	outcome.append(
-		combat_manager.perform_attack(
-			villain_port, villain, hero, hero.max_basic_damage, ignores_armor
-		)
+	combat_manager.perform_attack(
+		villain_port, hero, hero.max_basic_damage, ignores_armor
 	)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

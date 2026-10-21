@@ -9,13 +9,11 @@ func _on_clash(
 	villain_port: VillainPort,
 	_hero_port: HeroPort,
 	combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	var pierce_modifier: PierceModifier = PierceModifier.new()
 	combat_manager.add_attack_modifier(villain_port, pierce_modifier)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

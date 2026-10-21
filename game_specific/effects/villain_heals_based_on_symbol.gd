@@ -14,16 +14,14 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	if (symbol == Villain.Symbol.NONE or
 	villain.symbol_count[symbol] < threshold):
-		outcome.append(villain.heal(heal_under_threshold))
+		villain.heal(heal_under_threshold)
 	else:
-		outcome.append(villain.heal(heal_over_threshold))
+		villain.heal(heal_over_threshold)
 
 
-	return outcome
 
 
 func _effect_text() -> String:

@@ -16,20 +16,18 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	match stat_to_improve:
 		Stat.HEALTH:
-			outcome.append(hero.increase_max_health(amount_to_improve))
+			hero.increase_max_health(amount_to_improve)
 			stat_text = "its max health"
 		Stat.ARMOR:
-			outcome.append(hero.increase_max_armor(amount_to_improve))
+			hero.increase_max_armor(amount_to_improve)
 			stat_text = "its max armor"
 		Stat.BASIC_ATTACK:
-			outcome.append(hero.increase_max_basic_damage(amount_to_improve))
+			hero.increase_max_basic_damage(amount_to_improve)
 			stat_text = "its max basic damage"
 
-	return outcome
 
 
 func _effect_text() -> String:

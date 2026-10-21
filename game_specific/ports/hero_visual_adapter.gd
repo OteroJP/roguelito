@@ -5,12 +5,10 @@ const HERO_SCENE: PackedScene = preload("uid://dsakfrfgkdj8u")
 
 var _hero: Hero
 var _hero_visuals: HeroVisuals
-var _playing_area: PlayingArea
 
 
-func _init(hero: Hero, visual_parent: Node, playing_area: PlayingArea) -> void:
+func _init(hero: Hero, visual_parent: Node) -> void:
 	_hero = hero
-	_playing_area = playing_area
 	_hero.prepare()
 	_hero_visuals = HERO_SCENE.instantiate() as HeroVisuals
 	_hero_visuals.setup(_hero)
@@ -19,6 +17,24 @@ func _init(hero: Hero, visual_parent: Node, playing_area: PlayingArea) -> void:
 
 func get_character() -> Hero:
 	return _hero.create_state_copy()
+
+
+func prepare_effect(effect: Effect) -> void:
+	var effect_owner := get_character()
+	await effect.preparation(effect_owner)
+	await update_character(effect_owner)
+
+
+func apply_effect(effect: Effect) -> void:
+	var target := get_character()
+	await effect.apply(target)
+	await update_character(target)
+
+
+func take_attack(attack: Attack) -> void:
+	var target := get_character()
+	target.take_attack(attack)
+	await update_character(target)
 
 
 func prepare_for_combat() -> void:
@@ -33,7 +49,6 @@ func update_character(character: Hero) -> void:
 
 func discard_played_card(card: CardData) -> void:
 	_hero.deck.discard_played_card(card)
-	_playing_area.discard_card(card)
 
 
 func change_stance(target_stance: Hero.Stance) -> void:
@@ -45,8 +60,8 @@ func clear_immunity() -> void:
 	_hero.clear_immunity()
 
 
-func draw() -> AuditOutcome:
-	return await _hero.draw()
+func draw() -> void:
+	_hero.draw()
 
 
 func play_card() -> HeroCardData:
@@ -64,10 +79,6 @@ func sync_combat_indicators(
 ) -> void:
 	# TODO: Add Hero modifier and speed indicators in a future macrostep.
 	_hero_visuals.restore_statuses(statuses)
-
-
-func reveal_played_card() -> void:
-	_playing_area.enable_hero_card_visibility(true)
 
 
 func _synchronize_presentation() -> void:

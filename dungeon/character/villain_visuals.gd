@@ -1,13 +1,12 @@
 class_name VillainVisuals extends HBoxContainer
 
-signal interaction_logged(entry: AuditLogEntry)
 signal spell_chosen(spell: VillainSpell)
 
 #signal hand_changed()
 
 var _deck: Deck
 var _chosen_card: CardData
-var _combat_input: CombatInput
+# var _combat_input: CombatInput
 
 @onready var _DeckContainer: MarginContainer = %DeckContainer
 @onready var _HandContainer: MarginContainer = %HandContainer
@@ -44,8 +43,8 @@ var _ignore_armor_icon: IgnoreArmorIcon
 
 func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
-	_ConfirmButton.pressed.connect(_submit_confirm_action)
-	_SpellConfirmBtn.pressed.connect(_submit_confirm_action)
+	# _ConfirmButton.pressed.connect(_submit_confirm_action)
+	# _SpellConfirmBtn.pressed.connect(_submit_confirm_action)
 	_CurrentSymbol.texture = null
 	_SymbolCompleted.texture = null
 	for bonus: SymbolBonus in _villain.symbol_bonuses:
@@ -55,7 +54,6 @@ func _ready() -> void:
 		var new_spell_btn = SpellButton.new_spell_button(spell, _villain)
 		_Spellbook.add_child(new_spell_btn)
 		new_spell_btn.spell_chosen.connect(_on_spell_chosen)
-		new_spell_btn.interaction_logged.connect(_on_interaction_logged)
 		new_spell_btn._refresh_enabled()
 	_HealthDelta.text = ""
 	_ManaDelta.text = ""
@@ -68,8 +66,8 @@ func prepare(new_deck: Deck, villain: Villain) -> void:
 	_villain = villain
 
 
-func set_combat_input(combat_input: CombatInput) -> void:
-	_combat_input = combat_input
+#func set_combat_input(combat_input: CombatInput) -> void:
+#	_combat_input = combat_input
 
 #TODO revisar esto
 
@@ -127,19 +125,16 @@ func choose_card() -> CardData:
 	_set_hand_interactable(true)
 	var confirmed := await _wait_for_confirmation()
 	if not confirmed:
-		_cancel_selection(false)
+		_cancel_selection()
 		_set_hand_interactable(false)
 		return null
 	var card_selected: CardData = _chosen_card
-	if card_selected != null:
-		_log_card_interaction("confirmed", card_selected)
-	_cancel_selection(false)
+	_cancel_selection()
 	_set_hand_interactable(false)
 	return card_selected
 
 
 func choose_cards(amount: int) -> Array[CardData]:
-	interaction_logged.emit(AuditLogEntry.new("Choosing cards to discard", AuditLogEntry.Source.VILLAIN))
 	_multi_select = true
 	_selection_limit = amount
 	_selected_cards.clear()
@@ -155,14 +150,11 @@ func choose_cards(amount: int) -> Array[CardData]:
 	var picked: Array[CardData] = []
 	if confirmed:
 		picked.assign(_selected_cards)
-		for card: CardData in picked:
-			_log_card_interaction("confirmed", card)
 	_finish_card_choice()
 	return picked
 
 
 func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[CardData]:
-	interaction_logged.emit(AuditLogEntry.new("Choosing cards from discard", AuditLogEntry.Source.VILLAIN))
 	var selected: Array[CardData] = []
 	var card_nodes: Array[VillainCard] = []
 	var layer := CanvasLayer.new()
@@ -237,13 +229,11 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 				_toggle_listed_card(clicked, selected, amount, card_nodes, confirm, prompt)
 		)
 
-	confirm.pressed.connect(_submit_confirm_action)
+	# confirm.pressed.connect(_submit_confirm_action)
 	var confirmed := await _wait_for_confirmation()
 	var picked: Array[CardData] = []
 	if confirmed:
 		picked.assign(selected)
-		for card: CardData in picked:
-			_log_card_interaction("confirmed", card)
 	layer.queue_free()
 	return picked
 
@@ -269,18 +259,20 @@ func end_spell_selection() -> void:
 
 
 func _submit_confirm_action() -> void:
-	if _combat_input != null:
-		_combat_input.submit_action(CombatInput.Command.CONFIRM)
+	# if _combat_input != null:
+	#	_combat_input.submit_action(CombatInput.Command.CONFIRM)
+	pass
 
 
 func _wait_for_confirmation() -> bool:
-	if _combat_input == null:
-		push_error("VillainVisuals: CombatInput was not assigned before waiting for input.")
-		return false
-	if _combat_input.reset_requested:
-		return false
-	var command: int = await _combat_input.wait_for_command()
-	return command == CombatInput.Command.CONFIRM
+	# if _combat_input == null:
+	#	push_error("VillainVisuals: CombatInput was not assigned before waiting for input.")
+	#	return false
+	# if _combat_input.reset_requested:
+	#	return false
+	# var command: int = await _combat_input.wait_for_command()
+	# return command == CombatInput.Command.CONFIRM
+	return false
 
 
 func _on_spell_chosen(spell: VillainSpell) -> void:
@@ -291,10 +283,6 @@ func _on_spell_chosen(spell: VillainSpell) -> void:
 func refresh_spell_availability() -> void:
 	for spell_button: SpellButton in _Spellbook.get_children():
 		spell_button._refresh_enabled()
-
-
-func _on_interaction_logged(entry: AuditLogEntry) -> void:
-	interaction_logged.emit(entry)
 
 
 #TODO revisar esto
@@ -382,10 +370,7 @@ func _chose_card(card: CardData) -> void:
 	if _multi_select:
 		_toggle_hand_card(card)
 		return
-	if _chosen_card != null and _chosen_card != card:
-		_log_card_interaction("canceled", _chosen_card)
 	_chosen_card = card
-	_log_card_interaction("selected", card)
 	_CancelButton.show()
 	_ConfirmButton.show()
 	_CancelButton.set_process_input(true)
@@ -398,11 +383,9 @@ func _toggle_hand_card(card: CardData) -> void:
 		return
 	if card in _selected_cards:
 		_selected_cards.erase(card)
-		_log_card_interaction("canceled", card)
 		node.modulate = Color.WHITE
 	elif _selected_cards.size() < _selection_limit:
 		_selected_cards.append(card)
-		_log_card_interaction("selected", card)
 		node.modulate = _SELECTED_COLOR
 	_refresh_discard_prompt()
 	var has_selection := not _selected_cards.is_empty()
@@ -426,11 +409,9 @@ func _toggle_listed_card(
 		return
 	if card in selected:
 		selected.erase(card)
-		_log_card_interaction("canceled", card)
 		node.modulate = Color.WHITE
 	elif selected.size() < limit:
 		selected.append(card)
-		_log_card_interaction("selected", card)
 		node.modulate = _SELECTED_COLOR
 	confirm.disabled = selected.size() != limit
 	prompt.text = _discard_pick_text(limit, selected.size())
@@ -463,7 +444,7 @@ func _clear_card_highlights() -> void:
 func _finish_card_choice() -> void:
 	_multi_select = false
 	_selection_limit = 1
-	_cancel_selection(false)
+	_cancel_selection()
 	if _discard_prompt:
 		_discard_prompt.queue_free()
 		_discard_prompt = null
@@ -471,12 +452,7 @@ func _finish_card_choice() -> void:
 	_set_hand_interactable(false)
 
 
-func _cancel_selection(log_canceled_cards: bool = true) -> void:
-	if log_canceled_cards and _chosen_card != null:
-		_log_card_interaction("canceled", _chosen_card)
-	if log_canceled_cards:
-		for card: CardData in _selected_cards:
-			_log_card_interaction("canceled", card)
+func _cancel_selection() -> void:
 	_chosen_card = null
 	_selected_cards.clear()
 	_clear_card_highlights()
@@ -485,13 +461,6 @@ func _cancel_selection(log_canceled_cards: bool = true) -> void:
 	_CancelButton.set_process_input(false)
 	_ConfirmButton.set_process_input(false)
 	_refresh_discard_prompt()
-
-
-func _log_card_interaction(action: String, card: CardData) -> void:
-	interaction_logged.emit(AuditLogEntry.new(
-		"Card %s: %s" % [action, card.name],
-		AuditLogEntry.Source.VILLAIN
-	))
 
 
 func change_current_symbol(new_symbol: Villain.Symbol) -> void:

@@ -1,16 +1,9 @@
 @abstract class_name AttackModifier
 extends RefCounted
 
-signal attack_modifier_depleted(attack_modifier: AttackModifier)
-
-
 var damage_modification: int
 var ignores_armor: bool
-var uses_left: int = 1:
-	set(_uses_left):
-		uses_left = _uses_left
-		if uses_left <= 0:
-			attack_modifier_depleted.emit(self)
+var uses_left: int = 1
 
 
 func _init(_uses_left: int = 1, _damage_modification: int = 0, _ignores_armor: bool = false) -> void:
@@ -20,8 +13,9 @@ func _init(_uses_left: int = 1, _damage_modification: int = 0, _ignores_armor: b
 
 @abstract func modify_attack(attack: Attack) -> void
 	
-func spend_use() -> void:
+func spend_use() -> bool:
 	uses_left -= 1
+	return uses_left <= 0
 
 
 func create_state_copy() -> AttackModifier:

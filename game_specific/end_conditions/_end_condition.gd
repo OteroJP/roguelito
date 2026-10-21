@@ -6,8 +6,6 @@ signal satisfied(condition: EndCondition)
 @abstract func was_satisfied() -> bool
 
 
-@abstract func get_outcome() -> AuditOutcome
-
 ## This should be called to know if an [EndCondition] was satisfied.
 ## It depends on an abstraction.
 

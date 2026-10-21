@@ -9,12 +9,10 @@ func _on_clash(
 	_villain_port: VillainPort,
 	_hero_port: HeroPort,
 	_combat_manager: CombatManager
-) -> AuditOutcome:
-	var outcome := AuditOutcome.new()
+) -> void:
 	hero.immune_to_damage = true
 
 
-	return outcome
 
 
 func _effect_text() -> String:

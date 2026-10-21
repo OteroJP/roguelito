@@ -18,20 +18,19 @@ signal status_ticked
 		if Engine.is_editor_hint():
 			_watch_effects()
 		return _compose_effect_text()
-	set(_value):
-		pass
 
 var _refresh_queued: bool = false
 var _refreshing: bool = false
 var _localize_enabled: bool = false
 
 
-func advance_duration() -> void:
+func advance_duration() -> bool:
 	if duration != -1:
 		duration -= 1
 		if duration <= 0:
 			status_depleted.emit(self)
 	status_ticked.emit()
+	return duration != -1 and duration <= 0
 
 
 func _init() -> void:
@@ -117,14 +116,8 @@ func _refresh_inspector() -> void:
 
 func _watch_effects() -> void:
 	for effect in status_effects:
-		_watch_effect(effect)
-
-
-func _watch_effect(effect: Effect) -> void:
-	if effect == null:
-		return
-	if not effect.changed.is_connected(_queue_refresh):
-		effect.changed.connect(_queue_refresh)
+		if effect != null and not effect.changed.is_connected(_queue_refresh):
+			effect.changed.connect(_queue_refresh)
 
 
 func _compose_effect_text() -> String:
