@@ -84,17 +84,13 @@ func selected_villain_card() -> VillainCardData:
 
 #region Card presentation
 func present_selected_card(card: CardData, face_up: bool = false) -> void:
-	if card is HeroCardData:
-		await _playing_area.add_hero_card(card as HeroCardData, face_up)
-	elif card is VillainCardData:
-		await _playing_area.add_villain_card(card as VillainCardData, face_up)
-	else:
-		assert(false, "PlayingArea can only present Hero or Villain cards.")
+	await _playing_area.add_card(card, face_up)
 	sync_card_enabled_state()
 
 
 func reveal_hero_card() -> void:
-	_playing_area.reveal_hero_card()
+	if _selected_hero_card != null:
+		_playing_area.reveal_card(_selected_hero_card)
 
 
 func reveal_cards() -> Array[CardData]:
@@ -102,7 +98,7 @@ func reveal_cards() -> Array[CardData]:
 		_selected_hero_card != null and _selected_villain_card != null,
 		"Both selected cards are required before resolution."
 	)
-	_playing_area.reveal_selected_cards()
+	_playing_area.reveal_cards()
 	await _playing_area.get_tree().process_frame
 	return _cards_by_speed()
 
@@ -112,13 +108,15 @@ func discard_presented_card(card: CardData) -> void:
 
 
 func sync_card_enabled_state() -> void:
-	_playing_area.update(_hero_card_enabled, _villain_card_enabled)
+	# PlayingArea slots follow presentation order: Hero first, then Villain.
+	var enabled_by_slot: Array[bool] = [_hero_card_enabled, _villain_card_enabled]
+	_playing_area.set_card_slots_enabled(enabled_by_slot)
 
 
 func clear_resolution_display() -> void:
 	await _playing_area.get_tree().create_timer(GameManager.ux_delay).timeout
 	await _playing_area.clear()
-	_playing_area.update(true, true)
+	sync_card_enabled_state()
 
 
 func _cards_by_speed() -> Array[CardData]:
@@ -181,7 +179,7 @@ func resolve_card(card: CardData) -> void:
 		await _playing_area.resolve_card(card)
 		await _resolve_card_effects(card)
 
-	_playing_area.update(_hero_card_enabled, _villain_card_enabled)
+	sync_card_enabled_state()
 	await _playing_area.get_tree().create_timer(GameManager.ux_delay).timeout
 
 
