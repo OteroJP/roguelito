@@ -1,5 +1,5 @@
 class_name HeroCard
-extends PanelContainer
+extends Card
 
 signal card_clicked(card: HeroCardData)
 

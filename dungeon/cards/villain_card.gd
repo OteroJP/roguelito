@@ -1,5 +1,5 @@
 class_name VillainCard
-extends PanelContainer
+extends Card
 
 signal card_clicked(card: VillainCardData)
 

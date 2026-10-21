@@ -2,7 +2,7 @@ class_name CardViewFactory
 extends RefCounted
 
 
-static func create_card_view(card_data: CardData) -> PanelContainer:
+static func create_card_view(card_data: CardData) -> Card:
 	if card_data is HeroCardData:
 		return HeroCard.new_hero_card(card_data as HeroCardData)
 	if card_data is VillainCardData:
