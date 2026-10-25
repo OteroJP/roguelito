@@ -2,45 +2,110 @@
 
 [ext_resource type="Texture2D" uid="uid://ca08w4ydmj44b" path="res://dungeon/assets/art/escenario1.png" id="1_u0cfd"]
 [ext_resource type="Texture2D" uid="uid://bnnttf6788dw7" path="res://dungeon/assets/art/escenario1_n.png" id="2_3m8dh"]
-[ext_resource type="Texture2D" uid="uid://bvujajuqnty2j" path="res://dungeon/assets/art/scenario.png" id="3_3m8dh"]
+[ext_resource type="Texture2D" uid="uid://bfdb5x80y060p" path="res://dungeon/assets/art/scenario_v2.png" id="3_eeejd"]
 [ext_resource type="PackedScene" uid="uid://c1j8410hj3ala" path="res://assets/villain/art/ref_player_card.tscn" id="4_4dvji"]
+[ext_resource type="Texture2D" uid="uid://jx41h66kbdj4" path="res://dungeon/assets/art/scenario_v3_n.png" id="4_8okc0"]
 [ext_resource type="PackedScene" uid="uid://wym2hikp8j8g" path="res://assets/villain/art/ref_villain_scepter.tscn" id="5_614m0"]
+[ext_resource type="PackedScene" uid="uid://jlo762xap7db" path="res://assets/villain/art/ref_villain_handR.tscn" id="7_8okc0"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_fo0v4"]
 diffuse_texture = ExtResource("1_u0cfd")
 normal_texture = ExtResource("2_3m8dh")
 
-[sub_resource type="Gradient" id="Gradient_u0cfd"]
+[sub_resource type="CanvasTexture" id="CanvasTexture_jitt5"]
+diffuse_texture = ExtResource("3_eeejd")
+normal_texture = ExtResource("4_8okc0")
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_u0cfd"]
-gradient = SubResource("Gradient_u0cfd")
-fill_to = Vector2(0.38737202, 0.50341296)
+[sub_resource type="Gradient" id="Gradient_wg312"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dsitt"]
+gradient = SubResource("Gradient_wg312")
+fill = 1
+fill_from = Vector2(0.46928328, 0.4761092)
+fill_to = Vector2(0.47269624, 0.005119454)
+metadata/_snap_enabled = true
 
 [node name="RefLair" type="Node2D" unique_id=1717755044]
 
 [node name="pisoide" type="Sprite2D" parent="." unique_id=1781101661]
+visible = false
 texture_filter = 1
 texture = SubResource("CanvasTexture_fo0v4")
 hframes = 2
 
 [node name="columnoides" type="Sprite2D" parent="." unique_id=1264196795]
+visible = false
 texture_filter = 1
 texture = SubResource("CanvasTexture_fo0v4")
 hframes = 2
 frame = 1
 
-[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1166991182]
-visible = false
-position = Vector2(-6.0400677, 25.231369)
-rotation = 1.5707964
-scale = Vector2(6.6235256, 10.093458)
-color = Color(1, 0.6, 0, 1)
-energy = 1.99
-texture = SubResource("GradientTexture2D_u0cfd")
-
 [node name="fonditodo" type="Sprite2D" parent="." unique_id=1723161686]
-light_mask = 0
-texture = ExtResource("3_3m8dh")
+texture_filter = 1
+texture = SubResource("CanvasTexture_jitt5")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1166991182]
+position = Vector2(220.00002, -77)
+scale = Vector2(1.1328131, 2.7656252)
+color = Color(1, 0.58933336, 0.120000005, 1)
+energy = 16.0
+range_z_max = 1529
+texture = SubResource("GradientTexture2D_dsitt")
+
+[node name="PointLight2D4" type="PointLight2D" parent="." unique_id=1888810655]
+position = Vector2(-147.00002, -109)
+scale = Vector2(0.9570314, 1.9140626)
+color = Color(1, 0.58933336, 0.120000005, 1)
+energy = 16.0
+range_z_max = 1529
+texture = SubResource("GradientTexture2D_dsitt")
+
+[node name="PointLight2D2" type="PointLight2D" parent="." unique_id=1861223534]
+position = Vector2(106.49999, -79)
+scale = Vector2(0.796875, 1.1054689)
+color = Color(1, 0.58933336, 0.120000005, 1)
+energy = 16.0
+range_z_max = 1529
+texture = SubResource("GradientTexture2D_dsitt")
+
+[node name="PointLight2D3" type="PointLight2D" parent="." unique_id=733796960]
+position = Vector2(-106.74999, -70.8125)
+scale = Vector2(0.6796874, 0.84960943)
+color = Color(1, 0.58933336, 0.120000005, 1)
+energy = 16.0
+range_z_max = 1529
+texture = SubResource("GradientTexture2D_dsitt")
+
+[node name="PointLight2D5" type="PointLight2D" parent="." unique_id=1994903069]
+position = Vector2(40, -54)
+scale = Vector2(2.1875002, 1.6875)
+color = Color(1, 0.58933336, 0.120000005, 1)
+energy = 4.91
+range_z_max = 1529
+texture = SubResource("GradientTexture2D_dsitt")
+texture_scale = 0.56
+height = 5.0
+
+[node name="PointLight2D6" type="PointLight2D" parent="." unique_id=604884153]
+position = Vector2(-47, -54)
+scale = Vector2(2.1875002, 1.6875)
+color = Color(1, 0.58933336, 0.120000005, 1)
+energy = 4.91
+range_z_max = 1529
+texture = SubResource("GradientTexture2D_dsitt")
+texture_scale = 0.56
+height = 5.0
+
+[node name="PointLight2D7" type="PointLight2D" parent="." unique_id=1219558660]
+position = Vector2(16, 55)
+scale = Vector2(10.602677, 7.6311374)
+color = Color(1, 0.58933336, 0.120000005, 1)
+energy = 4.91
+range_z_max = 1529
+texture = SubResource("GradientTexture2D_dsitt")
+texture_scale = 0.56
+height = 5.0
 
 [node name="RefPlayerCard" parent="." unique_id=1022397110 instance=ExtResource("4_4dvji")]
 offset_left = 4.0
@@ -49,4 +114,9 @@ offset_right = 4.0
 offset_bottom = 140.0
 
 [node name="RefVillainScepter" parent="." unique_id=503809519 instance=ExtResource("5_614m0")]
-position = Vector2(-247, -93)
+light_mask = 2
+visibility_layer = 2
+position = Vector2(-224, -58)
+
+[node name="RefVillainHandR" parent="." unique_id=1087944000 instance=ExtResource("7_8okc0")]
+position = Vector2(219, 97)
