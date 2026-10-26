@@ -3,17 +3,17 @@ class_name PlayerTurn extends LoopPhase
 
 var _villain: VillainPort
 var _hero: HeroPort
-var _combat_manager: CombatManager
+var _combat_port: CombatPort
 
 
 func _init(
 	villain_port: VillainPort,
 	hero_port: HeroPort,
-	combat_manager: CombatManager
+	combat_port: CombatPort
 	) -> void:
 	_villain = villain_port
 	_hero = hero_port
-	_combat_manager = combat_manager
+	_combat_port = combat_port
 
 
 func run() -> void:
@@ -44,8 +44,8 @@ func run() -> void:
 	#	return
 	if villain_card == null:
 		return
-	_combat_manager.set_selected_villain_card(villain_card)
-	await _combat_manager.present_selected_card(villain_card)
+	_combat_port.set_selected_villain_card(villain_card)
+	await _combat_port.present_selected_card(villain_card)
 	_report.add("Played %s" % villain_card.name, AuditLogEntry.Source.VILLAIN)
 
 

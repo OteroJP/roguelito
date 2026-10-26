@@ -19,7 +19,7 @@ func _on_clash(
 	combat_manager.perform_attack(
 		hero_port,
 		villain,
-		hero.basic_damage + bonus_damage,
+		hero.basic_damage * multiplier + bonus_damage,
 		ignores_armor
 	)
 	basic_damage = str(hero.basic_damage * multiplier)

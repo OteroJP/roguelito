@@ -75,6 +75,7 @@ func _validate_property(property: Dictionary) -> void:
 		property.usage &= ~PROPERTY_USAGE_STORAGE
 
 
+# review if this does something later
 func _set(property: StringName, value: Variant) -> bool:
 	if property == &"effect_text":
 		return false
@@ -85,6 +86,7 @@ func _set(property: StringName, value: Variant) -> bool:
 	return false
 
 
+# review if this does something later
 func _get(property: StringName) -> Variant:
 	if property == &"effect_text":
 		if Engine.is_editor_hint():

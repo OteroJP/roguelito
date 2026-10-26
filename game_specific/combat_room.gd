@@ -6,7 +6,7 @@ class_name CombatRoom extends Node
 
 var _combat_loop: CombatLoop
 # var _combat_input: CombatInput
-var _combat_manager: CombatManager
+var _combat_port: CombatPort
 var _logger: GameLogger
 var _hero_adapter: HeroVisualAdapter
 var _villain_adapter: VillainVisualAdapter
@@ -53,13 +53,13 @@ func _prepare_room() -> void:
 	_hero_adapter = HeroVisualAdapter.new(hero, dungeon)
 	_villain_adapter = VillainVisualAdapter.new(villain, villain_container)
 	# here we should expand the report
-	_combat_manager = CombatManager.new(
+	var combat_manager := CombatManager.new(
 		_hero_adapter,
-		_villain_adapter,
-		playing_area
+		_villain_adapter
 	)
+	_combat_port = VisualCombatAdapter.new(combat_manager, playing_area)
 	GameManager.prepare(ux_delay)
-	await _combat_manager.clear_resolution_display()
+	await _combat_port.clear_resolution_display()
 	# here we should expand the report
 
 	_combat_loop = CombatLoop.new(
@@ -76,7 +76,7 @@ func _prepare_room() -> void:
 func _save_turn_state() -> void:
 	_hero_state = hero.create_state_copy()
 	_villain_state = villain.create_state_copy()
-	_combat_manager_state = _combat_manager.create_state_copy()
+	_combat_manager_state = _combat_port.create_state_copy()
 
 
 func _restore_turn_state() -> void:
@@ -90,10 +90,8 @@ func _restore_turn_state() -> void:
 	# _combat_input.clear()
 	await _hero_adapter.update_character(_hero_state)
 	await _villain_adapter.update_character(_villain_state)
-	_combat_manager.restore_state_from(_combat_manager_state)
-	_combat_manager.sync_combat_indicators(_hero_adapter)
-	_combat_manager.sync_combat_indicators(_villain_adapter)
-	await _combat_manager.clear_resolution_display()
+	_combat_port.restore_state_from(_combat_manager_state)
+	await _combat_port.clear_resolution_display()
 	_logger.erase_last_turn()
 
 
@@ -113,8 +111,8 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 
 func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
-		UpkeepLoop.new(_hero_adapter, _villain_adapter, _combat_manager),
-		PlayerTurn.new(_villain_adapter, _hero_adapter, _combat_manager),
-		Resolution.new(_hero_adapter, _villain_adapter, _combat_manager)
+		UpkeepLoop.new(_hero_adapter, _villain_adapter, _combat_port),
+		PlayerTurn.new(_villain_adapter, _hero_adapter, _combat_port),
+		Resolution.new(_hero_adapter, _villain_adapter, _combat_port)
 		]
 	return phases

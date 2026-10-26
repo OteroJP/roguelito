@@ -3,6 +3,14 @@
 extends Resource
 
 enum TargetSide { OWNER, OPPONENT }
+enum Capability {
+	CHARACTER_DATA = 1,
+	COMBAT_STATE = 2,
+	ATTACK_GENERATOR = 4,
+}
+
+@export_flags("Character data", "Combat state", "Attack generator")
+var capabilities: int = 0
 
 @export_multiline() var effect_text: String:
 	get:
@@ -85,9 +93,34 @@ func preparation(_effect_owner: Character) -> void:
 	pass
 
 
+func has_capability(capability: int) -> bool:
+	return (capabilities & capability) != 0
+
+
 ## Applies this effect to the character selected by target_side.
 func apply(_target: Character) -> void:
-	pass
+	assert(
+		not has_capability(Capability.CHARACTER_DATA),
+		"An effect with the CHARACTER_DATA capability must override apply()."
+	)
+
+
+## Returns typed requests for changes to combat-owned state.
+func combat_state_changes() -> Array[CombatStateChange]:
+	assert(
+		not has_capability(Capability.COMBAT_STATE),
+		"An effect with the COMBAT_STATE capability must override combat_state_changes()."
+	)
+	return []
+
+
+## Builds an attack using the prepared owner and the chosen target.
+func build_attack(_owner: Character, _target: Character) -> Attack:
+	assert(
+		not has_capability(Capability.ATTACK_GENERATOR),
+		"An effect with the ATTACK_GENERATOR capability must override build_attack()."
+	)
+	return null
 
 
 func text() -> String:

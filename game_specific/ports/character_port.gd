@@ -16,11 +16,8 @@ func prepare_effect(effect: Effect) -> void:
 	await effect.preparation(effect_owner)
 	await update_character(effect_owner)
 
-## Applies an effect to this character and synchronizes its presentation.
-func apply_effect(effect: Effect) -> void:
-	var target := get_character()
-	await effect.apply(target)
-	await update_character(target)
+## Applies an effect to the owned character and synchronizes its presentation.
+@abstract func apply_effect(effect: Effect) -> void
 
 ## Applies an attack to this character and synchronizes its presentation.
 func take_attack(attack: Attack) -> void:

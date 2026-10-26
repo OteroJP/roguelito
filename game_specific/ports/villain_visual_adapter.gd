@@ -35,6 +35,11 @@ func update_character(character: Character) -> void:
 	await _synchronize_presentation()
 
 
+func apply_effect(effect: Effect) -> void:
+	effect.apply(_villain)
+	await _synchronize_presentation()
+
+
 func clear_immunity() -> void:
 	_villain.clear_immunity()
 

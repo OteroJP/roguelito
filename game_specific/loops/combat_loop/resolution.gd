@@ -2,31 +2,32 @@ class_name Resolution extends LoopPhase
 
 var _hero_port: HeroPort
 var _villain_port: VillainPort
-var _combat_manager: CombatManager
+var _combat_port: CombatPort
 
 
 func _init(
 	hero_port: HeroPort,
 	villain_port: VillainPort,
-	combat_manager: CombatManager
+	combat_port: CombatPort
 ) -> void:
 	_hero_port = hero_port
 	_villain_port = villain_port
-	_combat_manager = combat_manager
+	_combat_port = combat_port
 
 
 func run() -> void:
 	start_report()
 	await _resolve_symbol_completion()
 	var ordered_cards: Array[CardData] = (
-		await _combat_manager.reveal_cards()
+		await _combat_port.reveal_cards()
 	)
 
 	for card: CardData in ordered_cards:
-		await _combat_manager.resolve_card(card)
+		await _combat_port.resolve_card(card)
 		# here we should expand the report
 		if _have_loop_ended.call():
-			_combat_manager.clear_selected_cards()
+			_combat_port.clear_selected_cards()
+			_combat_port.clear_speed_bonuses()
 			return
 
 	for card: CardData in ordered_cards:
@@ -38,15 +39,15 @@ func run() -> void:
 			var villain_card := card as VillainCardData
 			_villain_port.set_current_symbol(villain_card.symbol_to_spawn)
 			_villain_port.discard_played_card(villain_card)
-		_combat_manager.discard_presented_card(card)
-	_combat_manager.clear_selected_cards()
+		_combat_port.discard_presented_card(card)
+	_combat_port.clear_selected_cards()
 
 	_hero_port.clear_immunity()
 	_villain_port.clear_immunity()
-	_combat_manager.clear_round_modifiers()
 	await _villain_port.discard_over_hand_limit()
 	# here we should expand the report
-	await _combat_manager.clear_resolution_display()
+	await _combat_port.clear_resolution_display()
+	_combat_port.clear_speed_bonuses()
 
 
 func get_report() -> AuditReport:
@@ -58,7 +59,7 @@ func get_audit_header() -> String:
 
 
 func _resolve_symbol_completion() -> void:
-	var villain_card := _combat_manager.selected_villain_card()
+	var villain_card := _combat_port.selected_villain_card()
 	if villain_card == null:
 		return
 
@@ -74,7 +75,7 @@ func _resolve_symbol_completion() -> void:
 			"Resolves %s bonus effect" % Villain.Symbol.keys()[symbol],
 			AuditLogEntry.Source.VILLAIN
 		)
-		await _combat_manager.run_effect_batch(
+		await _combat_port.run_effect_batch(
 			symbol_bonus.bonuses,
 			_villain_port
 		)

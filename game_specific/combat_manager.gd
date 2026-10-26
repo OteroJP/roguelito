@@ -1,15 +1,13 @@
 class_name CombatManager extends RefCounted
 
-# refactor:
-# CombatPort.
-# VisualCombatAdapter and HeadlessCombatAdapter
+signal card_enabled_state_changed
+signal hero_card_reveal_requested
 
 #region State and reset snapshots
 # Keep each combatant's port instance stable for this combat; state is keyed by port identity.
 var _combatant_states: Dictionary[CharacterPort, CombatantState] = {}
 var _hero_port: HeroPort
 var _villain_port: VillainPort
-var _playing_area: PlayingArea
 # Selected cards are cycle decisions and are intentionally excluded from state copies.
 var _selected_hero_card: HeroCardData
 var _selected_villain_card: VillainCardData
@@ -19,20 +17,22 @@ var _villain_card_enabled: bool = true
 
 func _init(
 	hero_port: HeroPort,
-	villain_port: VillainPort,
-	playing_area: PlayingArea
+	villain_port: VillainPort
 ) -> void:
 	_hero_port = hero_port
 	_villain_port = villain_port
-	_playing_area = playing_area
-	_combatant_states[hero_port] = CombatantState.new()
-	_combatant_states[villain_port] = CombatantState.new()
+	_combatant_states[hero_port as CharacterPort] = CombatantState.new()
+	_combatant_states[villain_port as CharacterPort] = CombatantState.new()
 
 
 func create_state_copy() -> CombatManager:
-	var copy := CombatManager.new(_hero_port, _villain_port, _playing_area)
-	copy._combatant_states[_hero_port] = _combatant_states[_hero_port].create_state_copy()
-	copy._combatant_states[_villain_port] = _combatant_states[_villain_port].create_state_copy()
+	var copy := CombatManager.new(_hero_port, _villain_port)
+	copy._combatant_states[_hero_port as CharacterPort] = (
+		_combatant_states[_hero_port as CharacterPort].create_state_copy()
+	)
+	copy._combatant_states[_villain_port as CharacterPort] = (
+		_combatant_states[_villain_port as CharacterPort].create_state_copy()
+	)
 	return copy
 
 
@@ -42,9 +42,15 @@ func restore_state_from(source: CombatManager) -> void:
 		source._hero_port == _hero_port and source._villain_port == _villain_port,
 		"CombatManager state belongs to different character ports."
 	)
-	_combatant_states[_hero_port] = source._combatant_states[_hero_port].create_state_copy()
-	_combatant_states[_villain_port] = source._combatant_states[_villain_port].create_state_copy()
+	_combatant_states[_hero_port as CharacterPort] = (
+		source._combatant_states[_hero_port as CharacterPort].create_state_copy()
+	)
+	_combatant_states[_villain_port as CharacterPort] = (
+		source._combatant_states[_villain_port as CharacterPort].create_state_copy()
+	)
 	clear_selected_cards()
+	sync_combat_indicators(_hero_port)
+	sync_combat_indicators(_villain_port)
 
 
 #endregion
@@ -60,12 +66,12 @@ func set_selected_villain_card(card: VillainCardData) -> void:
 
 func cancel_hero_card() -> void:
 	_hero_card_enabled = false
-	sync_card_enabled_state()
+	card_enabled_state_changed.emit()
 
 
 func cancel_villain_card() -> void:
 	_villain_card_enabled = false
-	sync_card_enabled_state()
+	card_enabled_state_changed.emit()
 
 
 func clear_selected_cards() -> void:
@@ -73,50 +79,37 @@ func clear_selected_cards() -> void:
 	_selected_villain_card = null
 	_hero_card_enabled = true
 	_villain_card_enabled = true
-	sync_card_enabled_state()
+	card_enabled_state_changed.emit()
+
+
+func card_enabled_state() -> Array[bool]:
+	return [_hero_card_enabled, _villain_card_enabled]
+
+
+func card_is_enabled(card: CardData) -> bool:
+	if card is HeroCardData:
+		return _hero_card_enabled
+	return _villain_card_enabled
 
 
 func selected_villain_card() -> VillainCardData:
 	return _selected_villain_card
 
 
-#endregion
-
-#region Card presentation
-func present_selected_card(card: CardData, face_up: bool = false) -> void:
-	await _playing_area.add_card(card, face_up)
-	sync_card_enabled_state()
+func selected_hero_card() -> HeroCardData:
+	return _selected_hero_card
 
 
 func reveal_hero_card() -> void:
-	if _selected_hero_card != null:
-		_playing_area.reveal_card(_selected_hero_card)
+	hero_card_reveal_requested.emit()
 
 
-func reveal_cards() -> Array[CardData]:
+func cards_in_resolution_order() -> Array[CardData]:
 	assert(
 		_selected_hero_card != null and _selected_villain_card != null,
 		"Both selected cards are required before resolution."
 	)
-	_playing_area.reveal_cards()
-	await _playing_area.get_tree().process_frame
 	return _cards_by_speed()
-
-
-func discard_presented_card(card: CardData) -> void:
-	_playing_area.discard_card(card)
-
-
-func sync_card_enabled_state() -> void:
-	# PlayingArea slots follow presentation order: Hero first, then Villain.
-	var enabled_by_slot: Array[bool] = [_hero_card_enabled, _villain_card_enabled]
-	_playing_area.set_card_slots_enabled(enabled_by_slot)
-
-
-func clear_resolution_display() -> void:
-	await _playing_area.get_tree().create_timer(GameManager.ux_delay).timeout
-	await _playing_area.clear()
-	sync_card_enabled_state()
 
 
 func _cards_by_speed() -> Array[CardData]:
@@ -137,14 +130,22 @@ func run_effect_copies(
 ) -> void:
 	for execution_effect: Effect in execution_effects:
 		await effect_owner.prepare_effect(execution_effect)
-		var target_port := _target_port_for(effect_owner, execution_effect)
-		if execution_effect is AttackEffect:
-			var attack_effect := execution_effect as AttackEffect
-			var attack := attack_effect.build_attack(_create_combat_context())
+		var target_port:CharacterPort = _target_port_for(effect_owner, execution_effect)
+
+		if execution_effect.has_capability(Effect.Capability.CHARACTER_DATA):
+			await target_port.apply_effect(execution_effect)
+
+		if execution_effect.has_capability(Effect.Capability.COMBAT_STATE):
+			var changes := execution_effect.combat_state_changes()
+			_apply_combat_state_changes(changes, effect_owner)
+
+		if execution_effect.has_capability(Effect.Capability.ATTACK_GENERATOR):
+			var attack: Attack = execution_effect.build_attack(
+				effect_owner.get_character(),
+				target_port.get_character()
+			)
 			_apply_attack_modifiers(effect_owner, attack)
 			await target_port.take_attack(attack)
-		else:
-			await target_port.apply_effect(execution_effect)
 
 
 func run_effect_batch(
@@ -155,35 +156,70 @@ func run_effect_batch(
 	await run_effect_copies(execution_effects, effect_owner)
 
 
+func _apply_combat_state_changes(
+	changes: Array[CombatStateChange],
+	effect_owner: CharacterPort
+) -> void:
+	for change: CombatStateChange in changes:
+		var recipient_port := _port_for_relative_side(effect_owner, change.recipient)
+
+		if change is CombatStateChange.AddStatus:
+			add_status(recipient_port, change.status)
+			sync_combat_indicators(recipient_port)
+		elif change is CombatStateChange.RemoveStatuses:
+			var removed_status := false
+			for status: Status in statuses_for(recipient_port):
+				if status.name == change.status_name:
+					remove_status(recipient_port, status)
+					removed_status = true
+			if removed_status:
+				sync_combat_indicators(recipient_port)
+		elif change is CombatStateChange.AddSpeedBonus:
+			add_speed_bonus(recipient_port, change.amount)
+			sync_combat_indicators(recipient_port)
+		elif change is CombatStateChange.ClearSpeedBonus:
+			clear_speed_bonus(recipient_port)
+			sync_combat_indicators(recipient_port)
+		elif change is CombatStateChange.AddAttackModifier:
+			add_attack_modifier(recipient_port, change.modifier)
+			sync_combat_indicators(recipient_port)
+		elif change is CombatStateChange.RemoveAttackModifier:
+			if change.modifier in attack_modifiers_for(recipient_port):
+				remove_attack_modifier(recipient_port, change.modifier)
+				sync_combat_indicators(recipient_port)
+		elif change is CombatStateChange.CancelSelectedCard:
+			if recipient_port == _hero_port:
+				cancel_hero_card()
+			else:
+				assert(recipient_port == _villain_port)
+				cancel_villain_card()
+		else:
+			assert(false, "Unsupported combat state change: %s" % change.get_class())
+
+
 func _target_port_for(effect_owner: CharacterPort, effect: Effect) -> CharacterPort:
+	return _port_for_relative_side(effect_owner, effect.target_side)
+
+
+func _port_for_relative_side(effect_owner: CharacterPort, side: int) -> CharacterPort:
 	assert(
 		effect_owner == _hero_port or effect_owner == _villain_port,
 		"Effect owner must be one of the combatant ports."
 	)
-	if effect.target_side == Effect.TargetSide.OWNER:
+	if side == CombatStateChange.Recipient.OWNER:
 		return effect_owner
+	assert(side == CombatStateChange.Recipient.OPPONENT, "Unknown combatant side.")
 	if effect_owner == _hero_port:
 		return _villain_port
 	return _hero_port
 
 
-func _create_combat_context() -> CombatContext:
-	return CombatContext.new(
-		_hero_port.get_character(),
-		_villain_port.get_character()
-	)
-
-
 func resolve_card(card: CardData) -> void:
-	if _card_is_enabled(card):
-		await _playing_area.resolve_card(card)
+	if card_is_enabled(card):
 		await _resolve_card_effects(card)
 
-	sync_card_enabled_state()
-	await _playing_area.get_tree().create_timer(GameManager.ux_delay).timeout
 
-
-# part of subsystem that would be inside the port
+# Card-specific rule execution; presentation is handled by CombatPort adapters.
 func _resolve_card_effects(card: CardData) -> void:
 	if card is HeroCardData:
 		var hero_card := card as HeroCardData
@@ -204,12 +240,6 @@ func _run_card_effect_batch(
 	configured_effects: Array[Effect]
 ) -> void:
 	await run_effect_batch(configured_effects, owner_port)
-
-
-func _card_is_enabled(card: CardData) -> bool:
-	if card is HeroCardData:
-		return _hero_card_enabled
-	return _villain_card_enabled
 
 
 #endregion
@@ -244,12 +274,16 @@ func remove_status(combatant_port: CharacterPort, status: Status) -> void:
 
 func tick_statuses(combatant_port: CharacterPort) -> void:
 	var active_statuses := statuses_for(combatant_port)
+	var removed_status := false
 	for status: Status in active_statuses:
 		if not _combatant_states[combatant_port].statuses.has(status):
 			continue
 		await run_effect_batch(status.status_effects, combatant_port)
 		if status.advance_duration():
 			remove_status(combatant_port, status)
+			removed_status = true
+	if removed_status:
+		sync_combat_indicators(combatant_port)
 
 
 func add_attack_modifier(combatant_port: CharacterPort, modifier: AttackModifier) -> void:
@@ -281,42 +315,30 @@ func clear_speed_bonus(combatant_port: CharacterPort) -> void:
 	_combatant_states[combatant_port].speed_bonus = 0
 
 
-# is this necesary? Because I think it shouldn't exist... round?
-func clear_round_modifiers() -> void:
-	_clear_round_modifiers_for(_hero_port)
-	_clear_round_modifiers_for(_villain_port)
-
-
-func _clear_round_modifiers_for(combatant_port: CharacterPort) -> void:
-	var state := _combatant_states[combatant_port]
-	clear_speed_bonus(combatant_port)
-	for modifier: AttackModifier in state.attack_modifiers.duplicate():
-		if modifier.spend_use():
-			remove_attack_modifier(combatant_port, modifier)
-	sync_combat_indicators(combatant_port)
+func clear_speed_bonuses() -> void:
+	for combatant_port: CharacterPort in _combatant_states:
+		var state := _combatant_states[combatant_port]
+		if state.speed_bonus == 0:
+			continue
+		state.speed_bonus = 0
+		sync_combat_indicators(combatant_port)
 
 
 #endregion
 
 #region Attack execution
 func _apply_attack_modifiers(attacker_port: CharacterPort, attack: Attack) -> void:
-	for modifier: AttackModifier in attack_modifiers_for(attacker_port):
+	var modifiers := attack_modifiers_for(attacker_port)
+	if modifiers.is_empty():
+		return
+
+	for modifier: AttackModifier in modifiers:
 		modifier.modify_attack(attack)
+		if modifier.spend_use():
+			remove_attack_modifier(attacker_port, modifier)
+	sync_combat_indicators(attacker_port)
 
 #endregion
-
-
-class CombatContext:
-	extends RefCounted
-
-	## Both values are character copies supplied by their ports, for read-only calculations.
-	var hero: Hero
-	var villain: Villain
-
-
-	func _init(hero_copy: Hero, villain_copy: Villain) -> void:
-		hero = hero_copy
-		villain = villain_copy
 
 
 class CombatantState:
