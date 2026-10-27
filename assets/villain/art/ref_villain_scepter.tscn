@@ -29,17 +29,23 @@ vframes = 8
 
 [node name="vidrioback5" type="Sprite2D" parent="vidrioback" unique_id=505587273]
 texture_filter = 1
-position = Vector2(0, 72)
+position = Vector2(0.5, 84)
 texture = ExtResource("1_vn00p")
 vframes = 8
 
 [node name="vidrioback6" type="Sprite2D" parent="vidrioback" unique_id=1728473292]
 texture_filter = 1
-position = Vector2(0, 84)
+position = Vector2(0.5, 96)
 texture = ExtResource("1_vn00p")
 vframes = 8
 
 [node name="vidrioback7" type="Sprite2D" parent="vidrioback" unique_id=860874151]
+texture_filter = 1
+position = Vector2(0.5, 72)
+texture = ExtResource("1_vn00p")
+vframes = 8
+
+[node name="vidrioback10" type="Sprite2D" parent="vidrioback" unique_id=9131979]
 texture_filter = 1
 position = Vector2(0, 60)
 texture = ExtResource("1_vn00p")
@@ -47,13 +53,13 @@ vframes = 8
 
 [node name="vidrioback8" type="Sprite2D" parent="vidrioback" unique_id=1824469340]
 texture_filter = 1
-position = Vector2(0, 96)
+position = Vector2(0.5, 108)
 texture = ExtResource("1_vn00p")
 vframes = 8
 
 [node name="vidrioback9" type="Sprite2D" parent="vidrioback" unique_id=1961357363]
 texture_filter = 1
-position = Vector2(0, 108)
+position = Vector2(0.5, 120)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 4
@@ -66,15 +72,15 @@ vframes = 8
 
 [node name="bloodsection" type="Sprite2D" parent="." unique_id=1779986437]
 texture_filter = 1
-position = Vector2(0, 54)
-scale = Vector2(1, 8)
+position = Vector2(0, 60)
+scale = Vector2(1, 9)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 1
 
 [node name="bloodtop2" type="Sprite2D" parent="." unique_id=719157534]
 texture_filter = 1
-position = Vector2(0.25, 108)
+position = Vector2(0.75, 120)
 scale = Vector2(0.9864865, 1)
 texture = ExtResource("1_vn00p")
 vframes = 8
@@ -108,14 +114,21 @@ frame = 3
 
 [node name="sector6" type="Sprite2D" parent="sector3" unique_id=1527097889]
 texture_filter = 1
-position = Vector2(0, 60)
+position = Vector2(0, 72)
+texture = ExtResource("1_vn00p")
+vframes = 8
+frame = 3
+
+[node name="sector10" type="Sprite2D" parent="sector3" unique_id=1556260963]
+texture_filter = 1
+position = Vector2(0, 48)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 3
 
 [node name="sector4" type="Sprite2D" parent="sector3" unique_id=370039073]
 texture_filter = 1
-position = Vector2(0, 48)
+position = Vector2(0, 60)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 7
@@ -129,28 +142,28 @@ frame = 3
 
 [node name="sector7" type="Sprite2D" parent="sector3" unique_id=1021106896]
 texture_filter = 1
-position = Vector2(0, 84)
+position = Vector2(0.5, 96)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 3
 
 [node name="sector8" type="Sprite2D" parent="sector3" unique_id=1056551761]
 texture_filter = 1
-position = Vector2(0, 96)
+position = Vector2(0.5, 108)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 3
 
 [node name="sector9" type="Sprite2D" parent="sector3" unique_id=1507268281]
 texture_filter = 1
-position = Vector2(0, 72)
+position = Vector2(0.5, 84)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 3
 
 [node name="sector5" type="Sprite2D" parent="sector3" unique_id=733329695]
 texture_filter = 1
-position = Vector2(0, 108)
+position = Vector2(0.5, 120)
 texture = ExtResource("1_vn00p")
 vframes = 8
 frame = 5

@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://cxlpf1txtmg7x"]
+
+[ext_resource type="Texture2D" uid="uid://2d8kyfockeeu" path="res://assets/villain/art/villain_handL.png" id="1_wj03r"]
+[ext_resource type="Texture2D" uid="uid://dg0ba225gtjo0" path="res://assets/villain/art/villain_handL_n.png" id="2_43608"]
+[ext_resource type="PackedScene" uid="uid://wym2hikp8j8g" path="res://assets/villain/art/ref_villain_scepter.tscn" id="3_43608"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_i4s4l"]
+diffuse_texture = ExtResource("1_wj03r")
+normal_texture = ExtResource("2_43608")
+
+[node name="RefVillainHandL" type="Node2D" unique_id=1500564363]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1308526950]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 3
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1470366112]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 3
+frame = 2
+
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=1459386309]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 3
+frame = 3
+
+[node name="RefVillainScepter" parent="." unique_id=503809519 instance=ExtResource("3_43608")]
+position = Vector2(10, -79)
+
+[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=11083846]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 3
+frame = 5
+
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=1787072123]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 3
+frame = 6
+
+[node name="Sprite2D6" type="Sprite2D" parent="." unique_id=816249841]
+texture_filter = 1
+position = Vector2(0, -27)
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 3
+frame = 8
