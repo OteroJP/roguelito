@@ -55,8 +55,8 @@ range_z_max = 1529
 texture = SubResource("GradientTexture2D_dsitt")
 
 [node name="PointLight2D4" type="PointLight2D" parent="." unique_id=1888810655]
-position = Vector2(-147.00002, -109)
-scale = Vector2(0.9570314, 1.9140626)
+position = Vector2(-179, -146.00002)
+scale = Vector2(2.7812495, 2.3007813)
 color = Color(1, 0.58933336, 0.120000005, 1)
 energy = 16.0
 range_z_max = 1529
@@ -118,7 +118,7 @@ offset_bottom = 172.0
 position = Vector2(219, 97)
 
 [node name="RefVillainHandL" parent="." unique_id=1500564363 instance=ExtResource("7_wg312")]
-position = Vector2(-246, 25)
+position = Vector2(-259, 37)
 
 [node name="RefHeroe" parent="." unique_id=63091300 instance=ExtResource("8_wg312")]
 position = Vector2(61, -25)
