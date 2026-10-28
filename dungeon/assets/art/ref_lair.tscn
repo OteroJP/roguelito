@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://jx41h66kbdj4" path="res://dungeon/assets/art/scenario_v3_n.png" id="4_8okc0"]
 [ext_resource type="PackedScene" uid="uid://jlo762xap7db" path="res://assets/villain/art/ref_villain_handR.tscn" id="7_8okc0"]
 [ext_resource type="PackedScene" uid="uid://cxlpf1txtmg7x" path="res://assets/villain/art/ref_villain_handL.tscn" id="7_wg312"]
+[ext_resource type="PackedScene" uid="uid://on0uax0jt44o" path="res://assets/hero/art/ref_heroe.tscn" id="8_wg312"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_fo0v4"]
 diffuse_texture = ExtResource("1_u0cfd")
@@ -118,3 +119,6 @@ position = Vector2(219, 97)
 
 [node name="RefVillainHandL" parent="." unique_id=1500564363 instance=ExtResource("7_wg312")]
 position = Vector2(-246, 25)
+
+[node name="RefHeroe" parent="." unique_id=63091300 instance=ExtResource("8_wg312")]
+position = Vector2(61, -25)

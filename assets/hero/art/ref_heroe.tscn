@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://on0uax0jt44o"]
+
+[ext_resource type="Texture2D" uid="uid://dhpp13t2qt6nj" path="res://assets/hero/art/heroe_v01.png" id="1_s5g0j"]
+[ext_resource type="Texture2D" uid="uid://cypv6wf36u77l" path="res://assets/hero/art/heroe_v01_n.png" id="2_1xdj4"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_2mj85"]
+diffuse_texture = ExtResource("1_s5g0j")
+normal_texture = ExtResource("2_1xdj4")
+
+[node name="RefHeroe" type="Node2D" unique_id=63091300]
+
+[node name="HeroeV01" type="Sprite2D" parent="." unique_id=704360936]
+texture_filter = 1
+texture = SubResource("CanvasTexture_2mj85")
+hframes = 2
+vframes = 2
+frame = 3
