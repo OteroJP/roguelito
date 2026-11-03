@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://5e31f4ehjbf1"]
+
+[ext_resource type="Texture2D" uid="uid://l2weku46gv8d" path="res://assets/hero/art/hero_card1.png" id="1_wso0a"]
+[ext_resource type="Texture2D" uid="uid://cauwryc5imrch" path="res://assets/hero/art/card_hero_art.png" id="2_jxdqh"]
+[ext_resource type="Texture2D" uid="uid://eflkwvmml04m" path="res://assets/hero/art/card_hero_symbol.png" id="3_jxdqh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8sfx6"]
+texture = ExtResource("1_wso0a")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_62xbp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8sfx6"]
+atlas = ExtResource("3_jxdqh")
+region = Rect2(0, 10, 0, 10)
+
+[node name="RefHeroCard" type="Control" unique_id=1234464578]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1767300423]
+z_index = 1
+texture_filter = 1
+layout_mode = 0
+offset_right = 74.0
+offset_bottom = 124.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_8sfx6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=507290865]
+layout_mode = 2
+theme_override_constants/separation = -20
+
+[node name="card_speed" type="Label" parent="PanelContainer/VBoxContainer" unique_id=2134896139]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7647059, 0.6862745, 0.68235296, 1)
+theme_override_font_sizes/font_size = 17
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer" unique_id=1045668739]
+z_index = -1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.73
+texture = ExtResource("2_jxdqh")
+stretch_mode = 2
+
+[node name="HSeparator4" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=1154109758]
+layout_mode = 2
+theme_override_constants/separation = 42
+theme_override_styles/separator = SubResource("StyleBoxEmpty_62xbp")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=340587063]
+custom_minimum_size = Vector2(58, 25)
+custom_maximum_size = Vector2(58, 31.085)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "cuando efecto 1 entonces coso"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=2091920549]
+layout_mode = 2
+theme_override_constants/separation = 34
+theme_override_styles/separator = SubResource("StyleBoxEmpty_62xbp")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/VBoxContainer" unique_id=1991163486]
+modulate = Color(0.75, 0.75, 0.75, 1)
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_8sfx6")
+stretch_mode = 2
+
+[node name="HSeparator5" type="HSeparator" parent="PanelContainer/VBoxContainer" unique_id=140208966]
+layout_mode = 2
+theme_override_constants/separation = 34
+theme_override_styles/separator = SubResource("StyleBoxEmpty_62xbp")
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer" unique_id=2040312077]
+custom_minimum_size = Vector2(58, 25)
+custom_maximum_size = Vector2(58, 31.085)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_colors/font_color = Color(0.27058825, 0.15686275, 0.23529412, 1)
+theme_override_constants/line_spacing = -4
+theme_override_font_sizes/font_size = 8
+text = "cuando efecto 2 entonces coso"
+horizontal_alignment = 1
+autowrap_mode = 2
