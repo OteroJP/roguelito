@@ -34,7 +34,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if key_event.pressed and not key_event.echo and key_event.ctrl_pressed and key_event.keycode == KEY_R:
 		if _combat_loop.request_reset():
 			_logger.log("RESET REQUESTED")
-			# _combat_input.request_reset()
+			_villain_adapter.cancel_active_wait()
 			get_viewport().set_input_as_handled()
 
 
@@ -87,7 +87,6 @@ func _restore_turn_state() -> void:
 	):
 		push_warning("CombatRoom: no saved turn state to restore.")
 		return
-	# _combat_input.clear()
 	await _hero_adapter.update_character(_hero_state)
 	await _villain_adapter.update_character(_villain_state)
 	_combat_port.restore_state_from(_combat_manager_state)

@@ -63,7 +63,11 @@ The ordered card list lives only for the duration of `Resolution.run()`. Reset c
 
 This combines removing the shared command queue with completing reset synchronization, avoiding an intermediate reset implementation that still depends on `CombatInput`.
 
-## 4. Move effect resolution to commands
+## 4. Move effect resolution to commands (superseded)
+
+> **Superseded** by the prepare/apply effect lifecycle introduced in `what-have-i-done.md`.
+> Effects now declare changes via `prepare`/`apply`/`build_attack` and `CombatStateChange`;
+> the command layer is no longer needed.
 
 - Keep phase ownership of effect timing and ordering. Effects may request player interaction through the ports, then return typed combat-state commands for their requested changes instead of applying those changes directly or depending on `CombatManager` to apply them.
 - Have `CombatManager` apply each effect's commands before running the next effect in the batch. It owns shared combat rules and keeps port/domain state synchronized as commands are applied.

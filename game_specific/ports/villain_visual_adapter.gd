@@ -7,6 +7,17 @@ var _villain: Villain
 var _villain_visuals: VillainVisuals
 # var _combat_input: CombatInput
 
+const CMD_SPELL_CHOSEN := 0
+const CMD_CONFIRM := 1
+const CMD_RESET := 2
+
+var _pending_spell: VillainSpell = null
+var _command_queue: Array[int] = []
+var _reset_requested: bool = false
+var _spell_selection_active: bool = false
+
+signal command_submitted(command: int)
+
 
 func _init(
 	villain: Villain,
@@ -16,9 +27,9 @@ func _init(
 	_villain.prepare()
 	_villain_visuals = VILLAIN_SCENE.instantiate() as VillainVisuals
 	_villain_visuals.prepare(_villain.deck, _villain)
-	# _villain_visuals.set_combat_input(combat_input)
-	# _villain_visuals.spell_chosen.connect(_on_spell_chosen)
 	visual_parent.add_child(_villain_visuals)
+	_villain_visuals.spell_chosen.connect(_on_spell_chosen)
+	_villain_visuals._SpellConfirmBtn.pressed.connect(func(): submit_command(CMD_CONFIRM))
 	_villain_visuals.change_current_symbol(_villain.current_symbol)
 
 
@@ -73,7 +84,57 @@ func draw() -> void:
 		await _villain_visuals.add_to_hand(drawn_cards)
 
 
+func submit_command(command: int) -> void:
+	_command_queue.append(command)
+	command_submitted.emit(command)
+
+
+func request_reset() -> void:
+	_reset_requested = true
+	submit_command(CMD_RESET)
+
+
+func cancel_active_wait() -> void:
+	request_reset()
+	_villain_visuals.cancel_selection()
+
+
+func _on_spell_chosen(spell: VillainSpell) -> void:
+	_pending_spell = spell
+	submit_command(CMD_SPELL_CHOSEN)
+
+
+func _end_spell_selection() -> void:
+	_spell_selection_active = false
+	_villain_visuals.end_spell_selection()
+
+
 func choose_spell() -> VillainSpell:
+	if not _spell_selection_active:
+		_spell_selection_active = true
+		_villain_visuals.begin_spell_selection()
+	while true:
+		if _reset_requested:
+			_end_spell_selection()
+			_reset_requested = false
+			return null
+		if _command_queue.is_empty():
+			await command_submitted
+			continue
+		var command: int = _command_queue.pop_front()
+		match command:
+			CMD_SPELL_CHOSEN:
+				if _pending_spell != null:
+					var spell := _pending_spell
+					_pending_spell = null
+					_villain_visuals.pause_spell_selection()
+					return spell
+			CMD_CONFIRM, CMD_RESET:
+				_end_spell_selection()
+				_reset_requested = (command == CMD_RESET)
+				return null
+			_:
+				pass
 	return null
 
 

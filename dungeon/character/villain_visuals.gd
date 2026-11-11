@@ -1,11 +1,13 @@
 class_name VillainVisuals extends HBoxContainer
 
 signal spell_chosen(spell: VillainSpell)
+signal selection_finished(confirmed: bool)
 
 #signal hand_changed()
 
 var _deck: Deck
 var _chosen_card: CardData
+var _reset_requested: bool = false
 # var _combat_input: CombatInput
 
 @onready var _DeckContainer: MarginContainer = %DeckContainer
@@ -42,9 +44,13 @@ var _ignore_armor_icon: IgnoreArmorIcon
 
 
 func _ready() -> void:
-	_CancelButton.pressed.connect(_cancel_selection)
-	# _ConfirmButton.pressed.connect(_submit_confirm_action)
-	# _SpellConfirmBtn.pressed.connect(_submit_confirm_action)
+	_CancelButton.pressed.connect(func() -> void:
+		selection_finished.emit(false)
+		_cancel_selection()
+	)
+	_ConfirmButton.pressed.connect(func() -> void:
+		selection_finished.emit(true)
+	)
 	_CurrentSymbol.texture = null
 	_SymbolCompleted.texture = null
 	for bonus: SymbolBonus in _villain.symbol_bonuses:
@@ -121,6 +127,7 @@ func refresh_stats() -> void:
 
 
 func choose_card() -> CardData:
+	_reset_requested = false
 	_multi_select = false
 	_set_hand_interactable(true)
 	var confirmed := await _wait_for_confirmation()
@@ -135,6 +142,7 @@ func choose_card() -> CardData:
 
 
 func choose_cards(amount: int) -> Array[CardData]:
+	_reset_requested = false
 	_multi_select = true
 	_selection_limit = amount
 	_selected_cards.clear()
@@ -155,6 +163,7 @@ func choose_cards(amount: int) -> Array[CardData]:
 
 
 func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[CardData]:
+	_reset_requested = false
 	var selected: Array[CardData] = []
 	var card_nodes: Array[VillainCard] = []
 	var layer := CanvasLayer.new()
@@ -265,14 +274,10 @@ func _submit_confirm_action() -> void:
 
 
 func _wait_for_confirmation() -> bool:
-	# if _combat_input == null:
-	#	push_error("VillainVisuals: CombatInput was not assigned before waiting for input.")
-	#	return false
-	# if _combat_input.reset_requested:
-	#	return false
-	# var command: int = await _combat_input.wait_for_command()
-	# return command == CombatInput.Command.CONFIRM
-	return false
+	if _reset_requested:
+		return false
+	var args: Array = await selection_finished
+	return bool(args[0]) if args.size() > 0 else false
 
 
 func _on_spell_chosen(spell: VillainSpell) -> void:
@@ -450,6 +455,11 @@ func _finish_card_choice() -> void:
 		_discard_prompt = null
 	_ConfirmButton.text = "CONFIRM"
 	_set_hand_interactable(false)
+
+
+func cancel_selection() -> void:
+	_reset_requested = true
+	selection_finished.emit(false)
 
 
 func _cancel_selection() -> void:
