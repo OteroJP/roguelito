@@ -28,7 +28,7 @@ func run() -> void:
 		if spell == null:
 			break
 		var spell_effects: Array[Effect] = _villain.cast_spell(spell)
-		await _combat_port.run_effect_batch(spell_effects, _villain)
+		await _combat_port.run_effect_batch(spell_effects, _villain, _report)
 		# here we should expand the report
 		if _have_loop_ended.call():
 			break

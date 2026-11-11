@@ -77,7 +77,8 @@ func _resolve_symbol_completion() -> void:
 		)
 		await _combat_port.run_effect_batch(
 			symbol_bonus.bonuses,
-			_villain_port
+			_villain_port,
+			_report
 		)
 		# here we should expand the report
 

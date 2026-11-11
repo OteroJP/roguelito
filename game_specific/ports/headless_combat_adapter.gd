@@ -54,9 +54,10 @@ func clear_resolution_display() -> void:
 
 func run_effect_batch(
 	configured_effects: Array[Effect],
-	effect_owner: CharacterPort
+	effect_owner: CharacterPort,
+	report: AuditReport = null
 ) -> void:
-	await _combat_manager.run_effect_batch(configured_effects, effect_owner)
+	await _combat_manager.run_effect_batch(configured_effects, effect_owner, report)
 
 
 func tick_statuses(combatant_port: CharacterPort) -> void:
@@ -65,3 +66,4 @@ func tick_statuses(combatant_port: CharacterPort) -> void:
 
 func clear_speed_bonuses() -> void:
 	_combat_manager.clear_speed_bonuses()
+

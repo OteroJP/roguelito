@@ -121,9 +121,17 @@ func _port_for_selected_card(card: CardData) -> CharacterPort:
 #region Card and effect resolution
 func run_effect_copies(
 	execution_effects: Array[Effect],
-	effect_owner: CharacterPort
+	effect_owner: CharacterPort,
+	report: AuditReport = null
 ) -> void:
 	for execution_effect: Effect in execution_effects:
+		if report != null:
+			var source := (
+				AuditLogEntry.Source.HERO
+				if effect_owner is HeroPort
+				else AuditLogEntry.Source.VILLAIN
+			)
+			report.add(execution_effect.text(), source)
 		await effect_owner.prepare_effect(execution_effect)
 		if execution_effect.requests_hero_card_reveal():
 			reveal_hero_card()
@@ -145,12 +153,13 @@ func run_effect_copies(
 
 func run_effect_batch(
 	configured_effects: Array[Effect],
-	effect_owner: CharacterPort
+	effect_owner: CharacterPort,
+	report: AuditReport = null
 ) -> void:
 	var execution_effects: Array[Effect] = []
 	for effect: Effect in configured_effects:
 		execution_effects.append(effect.duplicate() as Effect)
-	await run_effect_copies(execution_effects, effect_owner)
+	await run_effect_copies(execution_effects, effect_owner, report)
 
 
 func _apply_combat_state_changes(

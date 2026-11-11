@@ -26,7 +26,8 @@ extends RefCounted
 
 @abstract func run_effect_batch(
 	configured_effects: Array[Effect],
-	effect_owner: CharacterPort
+	effect_owner: CharacterPort,
+	report: AuditReport = null
 ) -> void
 
 @abstract func tick_statuses(combatant_port: CharacterPort) -> void
