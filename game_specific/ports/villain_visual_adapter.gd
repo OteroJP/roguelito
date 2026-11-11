@@ -119,6 +119,7 @@ func choose_spell() -> VillainSpell:
 			_reset_requested = false
 			return null
 		if _command_queue.is_empty():
+			_villain_visuals.resume_spell_selection()
 			await command_submitted
 			continue
 		var command: int = _command_queue.pop_front()
@@ -215,6 +216,7 @@ func prepare_for_combat() -> void:
 
 
 func _synchronize_presentation() -> void:
+	_villain_visuals.refresh_stats()
 	await _synchronize_hand_and_stats()
 	_villain_visuals.change_current_symbol(_villain.current_symbol)
 

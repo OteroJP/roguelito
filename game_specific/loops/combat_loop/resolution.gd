@@ -26,6 +26,7 @@ func run() -> void:
 		await _combat_port.resolve_card(card)
 		# here we should expand the report
 		if _have_loop_ended.call():
+			await _villain_port.discard_over_hand_limit()
 			_combat_port.clear_selected_cards()
 			_combat_port.clear_speed_bonuses()
 			return

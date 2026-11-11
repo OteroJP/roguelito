@@ -18,30 +18,22 @@ func _init(
 func run() -> void:
 	start_report()
 	await _villain.draw()
-	# here we should expand the report
-	# if _combat_input.reset_requested or _have_loop_ended.call():
-	# 	return
-	while true:
+	# TODO: expand the report, have player taken damage? draw should tell
+	# _report.add("Played %s" % villain_card.name, AuditLogEntry.Source.VILLAIN)
+	while not _have_loop_ended.call():
 		var spell: VillainSpell = await _villain.choose_spell()
-		# if _combat_input.reset_requested:
-		# 	return
 		if spell == null:
+			# TODO: expand the report, player will select no more spells
+			# _report.add("Player pass to card selection", AuditLogEntry.Source.VILLAIN)
 			break
 		var spell_effects: Array[Effect] = _villain.cast_spell(spell)
 		await _combat_port.run_effect_batch(spell_effects, _villain, _report)
 		# here we should expand the report
-		if _have_loop_ended.call():
-			break
-	if _have_loop_ended.call(): # WIN-LOSS CHECK
-		return
-	var villain_card: VillainCardData = await _villain.play_card()
-	# if _combat_input.reset_requested:
-	#	return
-	if villain_card == null:
-		return
-	_combat_port.set_selected_card(_villain, villain_card)
-	await _combat_port.present_selected_card(villain_card)
-	_report.add("Played %s" % villain_card.name, AuditLogEntry.Source.VILLAIN)
+	if not _have_loop_ended.call(): 
+		var villain_card: VillainCardData = await _villain.play_card()
+		_combat_port.set_selected_card(_villain, villain_card)
+		await _combat_port.present_selected_card(villain_card)
+		_report.add("Played %s" % villain_card.name, AuditLogEntry.Source.VILLAIN)
 
 
 func get_report() -> AuditReport:

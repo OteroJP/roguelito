@@ -44,10 +44,7 @@ var _ignore_armor_icon: IgnoreArmorIcon
 
 
 func _ready() -> void:
-	_CancelButton.pressed.connect(func() -> void:
-		selection_finished.emit(false)
-		_cancel_selection()
-	)
+	_CancelButton.pressed.connect(_cancel_selection)
 	_ConfirmButton.pressed.connect(func() -> void:
 		selection_finished.emit(true)
 	)
@@ -249,7 +246,7 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 
 func begin_spell_selection() -> void:
 	_set_spells_interactable(true)
-	pause_spell_selection()
+	resume_spell_selection()
 
 
 func resume_spell_selection() -> void:

@@ -44,6 +44,3 @@ func take_attack(attack: Attack) -> void:
 ## Starts effect preparation. Preparation is read-only; it must not mutate character state.
 func prepare_effect(effect: Effect) -> void:
 	await effect.prepare(self)
-
-
-
