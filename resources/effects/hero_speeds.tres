@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="HeroSpeeds" format=3 uid="uid://cwyyw308crds0"]
+[gd_resource type="Resource" script_class="CharacterSpeedBonus" format=3 uid="uid://cwyyw308crds0"]
 
-[ext_resource type="Script" uid="uid://75idusarf2yl" path="res://game_specific/effects/hero_speeds.gd" id="1_q0qss"]
+[ext_resource type="Script" uid="uid://75idusarf2yl" path="res://game_specific/effects/character_speed_bonus.gd" id="1_q0qss"]
 
 [resource]
 script = ExtResource("1_q0qss")
+target_side = 0
 speed_modification = 2
 metadata/_custom_type_script = "uid://75idusarf2yl"

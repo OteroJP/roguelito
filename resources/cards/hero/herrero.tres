@@ -8,6 +8,7 @@
 
 [sub_resource type="Resource" id="Resource_x478u"]
 script = ExtResource("2_l6s43")
+target_side = 0
 metadata/_custom_type_script = "uid://q0qolf0cd6lj"
 
 [sub_resource type="Resource" id="Resource_n228x"]
@@ -16,6 +17,7 @@ metadata/_custom_type_script = "uid://biptpxhw0tg43"
 
 [sub_resource type="Resource" id="Resource_k3m6h"]
 script = ExtResource("4_rpqcb")
+target_side = 0
 stat_to_improve = 1
 amount_to_improve = 1
 metadata/_custom_type_script = "uid://cu1qv12btinag"

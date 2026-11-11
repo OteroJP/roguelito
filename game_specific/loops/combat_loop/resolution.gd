@@ -6,8 +6,8 @@ var _combat_port: CombatPort
 
 
 func _init(
-	hero_port: HeroPort,
 	villain_port: VillainPort,
+	hero_port: HeroPort,
 	combat_port: CombatPort
 ) -> void:
 	_hero_port = hero_port
@@ -59,7 +59,7 @@ func get_audit_header() -> String:
 
 
 func _resolve_symbol_completion() -> void:
-	var villain_card := _combat_port.selected_villain_card()
+	var villain_card := _combat_port.selected_card(_villain_port) as VillainCardData
 	if villain_card == null:
 		return
 

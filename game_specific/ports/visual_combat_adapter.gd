@@ -21,16 +21,12 @@ func restore_state_from(source: CombatManager) -> void:
 	_combat_manager.restore_state_from(source)
 
 
-func set_selected_hero_card(card: HeroCardData) -> void:
-	_combat_manager.set_selected_hero_card(card)
+func set_selected_card(combatant_port: CharacterPort, card: CardData) -> void:
+	_combat_manager.set_selected_card(combatant_port, card)
 
 
-func set_selected_villain_card(card: VillainCardData) -> void:
-	_combat_manager.set_selected_villain_card(card)
-
-
-func selected_villain_card() -> VillainCardData:
-	return _combat_manager.selected_villain_card()
+func selected_card(combatant_port: CharacterPort) -> CardData:
+	return _combat_manager.selected_card(combatant_port)
 
 
 func clear_selected_cards() -> void:
@@ -43,12 +39,11 @@ func present_selected_card(card: CardData, face_up: bool = false) -> void:
 
 
 func reveal_hero_card() -> void:
-	_reveal_selected_hero_card()
+	_combat_manager.reveal_hero_card()
 
 
 func reveal_cards() -> Array[CardData]:
-	_playing_area.reveal_cards()
-	await _playing_area.get_tree().process_frame
+	await _playing_area.reveal_cards()
 	return _combat_manager.cards_in_resolution_order()
 
 
@@ -88,7 +83,5 @@ func _sync_card_enabled_state() -> void:
 	_playing_area.set_card_slots_enabled(_combat_manager.card_enabled_state())
 
 
-func _reveal_selected_hero_card() -> void:
-	var hero_card := _combat_manager.selected_hero_card()
-	if hero_card != null:
-		_playing_area.reveal_card(hero_card)
+func _reveal_selected_hero_card(hero_card: CardData) -> void:
+	_playing_area.reveal_card(hero_card)

@@ -4,4 +4,5 @@
 
 [resource]
 script = ExtResource("1_0obtq")
+target_side = 0
 metadata/_custom_type_script = "uid://dxfnni4lwgray"

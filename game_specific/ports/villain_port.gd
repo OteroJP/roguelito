@@ -9,17 +9,11 @@
 ## Lets the player choose a Villain card and returns it for phase orchestration.
 @abstract func play_card() -> VillainCardData
 
-## Starts a new spell-selection session for this PlayerTurn.
-@abstract func begin_spell_selection() -> void
-
-## True after the player confirms that they have chosen all desired spells.
-@abstract func spells_chosen() -> bool
-
 ## Waits for and returns one chosen spell. Returns null when the session ends.
 @abstract func choose_spell() -> VillainSpell
 
-## Ends spell selection early, for example when a combat end condition is met.
-@abstract func finish_spell_selection() -> void
+## Commits a chosen spell: pays its mana cost, updates presentation, and returns its effects.
+@abstract func cast_spell(spell: VillainSpell) -> Array[Effect]
 
 ## Requests a selection from the Villain's hand.
 @abstract func choose_cards_from_hand(amount: int) -> Array[CardData]

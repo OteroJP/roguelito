@@ -7,5 +7,10 @@ extends CardData
 @export var removable: bool = true
 
 
+func bonus_condition_met(character: Character) -> bool:
+	assert(character is Hero, "HeroCardData requires a Hero character.")
+	return (character as Hero).is_in_stance(stance_for_bonus)
+
+
 func _bonus_color() -> Color:
 	return UIAssets.HERO_BONUS_STANCE_COLOR

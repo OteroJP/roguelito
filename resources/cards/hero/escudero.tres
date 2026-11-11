@@ -7,17 +7,20 @@
 
 [sub_resource type="Resource" id="Resource_mho73"]
 script = ExtResource("2_eq7ss")
+target_side = 0
 amount_to_armor = 2
 metadata/_custom_type_script = "uid://q0qolf0cd6lj"
 
 [sub_resource type="Resource" id="Resource_o672i"]
 script = ExtResource("3_m23lo")
+target_side = 0
 stat_to_improve = 1
 amount_to_improve = 1
 metadata/_custom_type_script = "uid://cu1qv12btinag"
 
 [sub_resource type="Resource" id="Resource_kll4b"]
 script = ExtResource("3_m23lo")
+target_side = 0
 stat_to_improve = 2
 amount_to_improve = 1
 metadata/_custom_type_script = "uid://cu1qv12btinag"

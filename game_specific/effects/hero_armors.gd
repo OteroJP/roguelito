@@ -5,16 +5,14 @@ extends Effect
 @export var amount_to_armor: int
 
 
-func _on_clash(
-	_villain: Villain,
-	hero: Hero,
-	_villain_port: VillainPort,
-	_hero_port: HeroPort,
-	_combat_manager: CombatManager
-) -> void:
-	hero.set_armor(hero.armor + amount_to_armor)
 
+func apply(target: Character) -> bool:
+    var hero := target as Hero
+    assert(hero != null, "HeroArmors requires a Hero target.")
+    var previous_armor := hero.armor
+    hero.set_armor(hero.armor + amount_to_armor)
+    return hero.armor != previous_armor
 
 
 func _effect_text() -> String:
-	return "Hero gets %d armor" % amount_to_armor
+    return "Hero gets %d armor" % amount_to_armor

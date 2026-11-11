@@ -4,26 +4,16 @@ extends Effect
 
 @export var ignores_armor: bool = false
 
-var _hero_max_basic_damage: int = 0
 
 
-func _on_clash(
-	villain: Villain,
-	hero: Hero,
-	villain_port: VillainPort,
-	_hero_port: HeroPort,
-	combat_manager: CombatManager
-) -> void:
-	_hero_max_basic_damage = hero.max_basic_damage
-	combat_manager.perform_attack(
-		villain_port, hero, hero.max_basic_damage, ignores_armor
-	)
-
-
+func build_attack(_owner: Character, target: Character) -> Attack:
+    var hero := target as Hero
+    assert(hero != null, "VillainAttackHeroDamage requires a Hero target.")
+    return Attack.new(hero.max_basic_damage, ignores_armor)
 
 
 func _effect_text() -> String:
-	var text := "Villain attacks for the hero's max damage (%s)" % _hero_max_basic_damage
-	if ignores_armor:
-		text += ", ignoring armor"
-	return text
+    var text := "Villain attacks for the hero's max basic damage"
+    if ignores_armor:
+        text += ", ignoring armor"
+    return text

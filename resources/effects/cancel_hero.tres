@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="CancelHero" format=3 uid="uid://bro7fi5rx3suy"]
+[gd_resource type="Resource" script_class="CancelSelectedCard" format=3 uid="uid://bro7fi5rx3suy"]
 
-[ext_resource type="Script" uid="uid://b7urfk5cebngg" path="res://game_specific/effects/cancel_hero_card.gd" id="1_t7plq"]
+[ext_resource type="Script" uid="uid://b7urfk5cebngg" path="res://game_specific/effects/cancel_selected_card.gd" id="1_t7plq"]
 
 [resource]
 script = ExtResource("1_t7plq")

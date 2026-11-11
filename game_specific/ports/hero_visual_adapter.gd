@@ -32,8 +32,8 @@ func update_character(character: Character) -> void:
 
 
 func apply_effect(effect: Effect) -> void:
-	effect.apply(_hero)
-	await _synchronize_presentation()
+	if effect.apply(_hero):
+		await _synchronize_presentation()
 
 
 func discard_played_card(card: CardData) -> void:

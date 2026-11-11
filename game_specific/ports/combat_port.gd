@@ -6,11 +6,9 @@ extends RefCounted
 
 @abstract func restore_state_from(source: CombatManager) -> void
 
-@abstract func set_selected_hero_card(card: HeroCardData) -> void
+@abstract func set_selected_card(combatant_port: CharacterPort, card: CardData) -> void
 
-@abstract func set_selected_villain_card(card: VillainCardData) -> void
-
-@abstract func selected_villain_card() -> VillainCardData
+@abstract func selected_card(combatant_port: CharacterPort) -> CardData
 
 @abstract func clear_selected_cards() -> void
 

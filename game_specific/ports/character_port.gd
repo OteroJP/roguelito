@@ -10,20 +10,8 @@
 ## Plays one card and returns it for phase orchestration.
 @abstract func play_card() -> CardData
 
-## Runs the source-side preparation and synchronizes this character's presentation.
-func prepare_effect(effect: Effect) -> void:
-	var effect_owner := get_character()
-	await effect.preparation(effect_owner)
-	await update_character(effect_owner)
-
-## Applies an effect to the owned character and synchronizes its presentation.
+## Applies an effect and synchronizes presentation if its character data changed.
 @abstract func apply_effect(effect: Effect) -> void
-
-## Applies an attack to this character and synchronizes its presentation.
-func take_attack(attack: Attack) -> void:
-	var target := get_character()
-	target.take_attack(attack)
-	await update_character(target)
 
 ## Prepares this character's presentation before the combat loop starts.
 @abstract func prepare_for_combat() -> void
@@ -44,9 +32,18 @@ func take_attack(attack: Attack) -> void:
 ## Moves a resolved card out of this character's domain deck.
 @abstract func discard_played_card(card: CardData) -> void
 
-## Creates execution instances while preserving the configured effect order.
-func create_effect_copies(configured_effects: Array[Effect]) -> Array[Effect]:
-	var copies: Array[Effect] = []
-	for effect: Effect in configured_effects:
-		copies.append(effect.create_execution_copy())
-	return copies
+
+
+## Applies an attack to this character and synchronizes its presentation.
+func take_attack(attack: Attack) -> void:
+	var target := get_character()
+	target.take_attack(attack)
+	await update_character(target)
+
+
+## Starts effect preparation. Preparation is read-only; it must not mutate character state.
+func prepare_effect(effect: Effect) -> void:
+	await effect.prepare(self)
+
+
+

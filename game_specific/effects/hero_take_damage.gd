@@ -2,25 +2,20 @@
 class_name HeroTakesDamage
 extends Effect
 
-
 @export var damage: int
 @export var ignores_armor: bool = false
 
 
-func _on_clash(
-	_villain: Villain,
-	hero: Hero,
-	_villain_port: VillainPort,
-	_hero_port: HeroPort,
-	_combat_manager: CombatManager
-) -> void:
-	hero.take_damage(damage, ignores_armor)
 
-
+func apply(target: Character) -> bool:
+    if damage == 0:
+        return false
+    target.take_damage(damage, ignores_armor)
+    return true
 
 
 func _effect_text() -> String:
-	var text := "Hero takes %d damage" % damage
-	if ignores_armor:
-		text += ", ignoring armor"
-	return text
+    var text := "Hero takes %d damage" % damage
+    if ignores_armor:
+        text += ", ignoring armor"
+    return text

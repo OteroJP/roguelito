@@ -3,14 +3,6 @@
 extends Resource
 
 enum TargetSide { OWNER, OPPONENT }
-enum Capability {
-	CHARACTER_DATA = 1,
-	COMBAT_STATE = 2,
-	ATTACK_GENERATOR = 4,
-}
-
-@export_flags("Character data", "Combat state", "Attack generator")
-var capabilities: int = 0
 
 @export_multiline() var effect_text: String:
 	get:
@@ -22,6 +14,44 @@ var capabilities: int = 0
 
 var _refresh_queued: bool = false
 var _refreshing: bool = false
+
+
+@abstract func _effect_text() -> String
+
+
+## Prepares an effect using its owner's port.
+## Read-only: must not mutate character state. Interaction requests and character
+## access go through the port (use port.get_character() for a working copy).
+func prepare(_effect_owner_port: CharacterPort) -> void:
+	pass
+
+
+## Requests that the selected Hero card be revealed through the combat presentation.
+func requests_hero_card_reveal() -> bool:
+	return false
+
+
+func target_label() -> String:
+	return "owner" if target_side == TargetSide.OWNER else "opponent"
+
+
+## Applies this effect to the selected character. Return true when its data changed.
+func apply(_target: Character) -> bool:
+	return false
+
+
+## Returns typed requests for changes to combat-owned state.
+func combat_state_changes(_effect_owner: Character) -> Array[CombatStateChange]:
+	return []
+
+
+## Builds an attack using the prepared owner and the chosen target.
+func build_attack(_owner: Character, _target: Character) -> Attack:
+	return null
+
+
+func text() -> String:
+	return effect_text
 
 
 func _validate_property(property: Dictionary) -> void:
@@ -65,63 +95,3 @@ func _refresh_inspector() -> void:
 	notify_property_list_changed()
 	emit_changed()
 	_refreshing = false
-
-
-func create_execution_copy() -> Effect:
-	var execution_copy := get_script().new() as Effect
-	for property: Dictionary in get_property_list():
-		var usage: int = property.usage
-		if (usage & PROPERTY_USAGE_SCRIPT_VARIABLE) == 0:
-			continue
-		if (usage & PROPERTY_USAGE_STORAGE) == 0:
-			continue
-
-		var property_name: StringName = property.name
-		var configured_value: Variant = get(property_name)
-		if configured_value is Array or configured_value is Dictionary:
-			configured_value = configured_value.duplicate(true)
-		execution_copy.set(property_name, configured_value)
-	return execution_copy
-
-
-@abstract func _effect_text() -> String
-
-
-## Runs against the character that owns this effect's source.
-## Subclasses may await player input before returning.
-func preparation(_effect_owner: Character) -> void:
-	pass
-
-
-func has_capability(capability: int) -> bool:
-	return (capabilities & capability) != 0
-
-
-## Applies this effect to the character selected by target_side.
-func apply(_target: Character) -> void:
-	assert(
-		not has_capability(Capability.CHARACTER_DATA),
-		"An effect with the CHARACTER_DATA capability must override apply()."
-	)
-
-
-## Returns typed requests for changes to combat-owned state.
-func combat_state_changes() -> Array[CombatStateChange]:
-	assert(
-		not has_capability(Capability.COMBAT_STATE),
-		"An effect with the COMBAT_STATE capability must override combat_state_changes()."
-	)
-	return []
-
-
-## Builds an attack using the prepared owner and the chosen target.
-func build_attack(_owner: Character, _target: Character) -> Attack:
-	assert(
-		not has_capability(Capability.ATTACK_GENERATOR),
-		"An effect with the ATTACK_GENERATOR capability must override build_attack()."
-	)
-	return null
-
-
-func text() -> String:
-	return effect_text

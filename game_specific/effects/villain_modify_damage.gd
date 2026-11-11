@@ -5,20 +5,15 @@ extends Effect
 @export var damage_modification: int = 1
 
 
-func _on_clash(
-	_villain: Villain,
-	_hero: Hero,
-	villain_port: VillainPort,
-	_hero_port: HeroPort,
-	combat_manager: CombatManager
-) -> void:
-	var damage_modifier: DamageModifier = DamageModifier.new(1, damage_modification)
-	combat_manager.add_attack_modifier(villain_port, damage_modifier)
 
-
+func combat_state_changes(_effect_owner: Character) -> Array[CombatStateChange]:
+	var change := CombatStateChange.new(target_side)
+    var modifier := DamageModifier.new(1, damage_modification)
+	change.modifiers_to_add.append(modifier)
+	return [change]
 
 
 func _effect_text() -> String:
-	if damage_modification < 0:
-		return "Villain's attacks deal %d less damage" % absi(damage_modification)
-	return "Villain's attacks deal %d more damage" % damage_modification
+    if damage_modification < 0:
+        return "Villain's attacks deal %d less damage" % absi(damage_modification)
+    return "Villain's attacks deal %d more damage" % damage_modification

@@ -5,18 +5,16 @@ extends Effect
 @export var status_to_remove: Status
 
 
-func _on_clash(
-	_villain: Villain,
-	_hero: Hero,
-	_villain_port: VillainPort,
-	hero_port: HeroPort,
-	combat_manager: CombatManager
-) -> void:
-	for status: Status in combat_manager.statuses_for(hero_port):
-		if status.name == status_to_remove.name:
-			combat_manager.remove_status(hero_port, status)
 
+func combat_state_changes(_effect_owner: Character) -> Array[CombatStateChange]:
+	if status_to_remove == null:
+		return []
+	var change := CombatStateChange.new(target_side)
+	change.statuses_to_remove.append(status_to_remove.name)
+	return [change]
 
 
 func _effect_text() -> String:
-	return "Hero removes all %s statuses" % status_to_remove.name
+    if status_to_remove == null:
+        return "Hero removes a status"
+    return "Hero removes all %s statuses" % status_to_remove.name

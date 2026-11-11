@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_dmq6r"]
 [ext_resource type="Resource" uid="uid://cdpydypp70qb2" path="res://resources/effects/villain_speeds.tres" id="2_obyou"]
-[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/effects/villain_attacks.gd" id="3_2i3aq"]
+[ext_resource type="Script" uid="uid://dex2jmcgp44cv" path="res://game_specific/effects/attack_for_damage.gd" id="3_2i3aq"]
 [ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="4_k15np"]
 
 [sub_resource type="Resource" id="Resource_iopix"]
 script = ExtResource("3_2i3aq")
 damage = 2
 ignores_armor = true
-metadata/_custom_type_script = "uid://bdmeoqu23atu8"
+metadata/_custom_type_script = "uid://dex2jmcgp44cv"
 
 [resource]
 script = ExtResource("4_k15np")

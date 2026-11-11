@@ -75,5 +75,3 @@ func discard_from_hand(cards: Array[CardData]) -> void:
 func take_damage(damage: int, ignores_armor: bool = false) -> void:
 	var incoming_damage := damage
 	health -= incoming_damage
-
-

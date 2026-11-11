@@ -1,6 +1,5 @@
 class_name PlayerTurn extends LoopPhase
 
-
 var _villain: VillainPort
 var _hero: HeroPort
 var _combat_port: CombatPort
@@ -20,23 +19,19 @@ func run() -> void:
 	start_report()
 	await _villain.draw()
 	# here we should expand the report
-	# if _combat_input.reset_requested:
-	#	return
-	if _have_loop_ended.call():
-		return
-	# _villain.begin_spell_selection()
-	# while not _villain.spells_chosen():
-	#	var spell: VillainSpell = await _villain.choose_spell()
-	#	if spell == null:
-	#		if _combat_input.reset_requested:
-	#			return
-	#		continue
-	#	# here we should expand the report
-	#	if _combat_input.reset_requested:
-	#		return
-	#	if _have_loop_ended.call():
-	#		_villain.finish_spell_selection()
-	#		break
+	# if _combat_input.reset_requested or _have_loop_ended.call():
+	# 	return
+	while true:
+		var spell: VillainSpell = await _villain.choose_spell()
+		# if _combat_input.reset_requested:
+		# 	return
+		if spell == null:
+			break
+		var spell_effects: Array[Effect] = _villain.cast_spell(spell)
+		await _combat_port.run_effect_batch(spell_effects, _villain)
+		# here we should expand the report
+		if _have_loop_ended.call():
+			break
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
 	var villain_card: VillainCardData = await _villain.play_card()
@@ -44,7 +39,7 @@ func run() -> void:
 	#	return
 	if villain_card == null:
 		return
-	_combat_port.set_selected_villain_card(villain_card)
+	_combat_port.set_selected_card(_villain, villain_card)
 	await _combat_port.present_selected_card(villain_card)
 	_report.add("Played %s" % villain_card.name, AuditLogEntry.Source.VILLAIN)
 

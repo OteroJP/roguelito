@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_noxtv"]
 [ext_resource type="Resource" uid="uid://bro7fi5rx3suy" path="res://resources/effects/cancel_hero.tres" id="2_12d4n"]
-[ext_resource type="Script" uid="uid://db3snuwsh6hor" path="res://game_specific/effects/villain_heals.gd" id="3_tedii"]
+[ext_resource type="Script" uid="uid://dsn81nnd0sen4" path="res://game_specific/effects/character_heals.gd" id="3_tedii"]
 [ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="4_datiy"]
 
 [sub_resource type="Resource" id="Resource_d4r0p"]
 script = ExtResource("3_tedii")
+target_side = 0
 amount_to_heal = 2
-metadata/_custom_type_script = "uid://db3snuwsh6hor"
+metadata/_custom_type_script = "uid://dsn81nnd0sen4"
 
 [resource]
 script = ExtResource("4_datiy")

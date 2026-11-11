@@ -7,6 +7,7 @@
 
 [sub_resource type="Resource" id="Resource_nf1ow"]
 script = ExtResource("2_052my")
+target_side = 0
 metadata/_custom_type_script = "uid://cquyxx8sd2av2"
 
 [sub_resource type="Resource" id="Resource_d6nc6"]
@@ -14,6 +15,7 @@ script = ExtResource("3_v7eax")
 symbol = 3
 threshold = 2
 heal_over_threshold = 2
+target_side = 0
 metadata/_custom_type_script = "uid://btsgcljagx5ra"
 
 [resource]

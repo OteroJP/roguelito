@@ -111,8 +111,8 @@ func _prepare_end_conditions() -> Array[EndCondition]:
 
 func _prepare_phases() -> Array[LoopPhase]:
 	var phases: Array[LoopPhase] = [
-		UpkeepLoop.new(_hero_adapter, _villain_adapter, _combat_port),
+		UpkeepLoop.new(_villain_adapter, _hero_adapter, _combat_port),
 		PlayerTurn.new(_villain_adapter, _hero_adapter, _combat_port),
-		Resolution.new(_hero_adapter, _villain_adapter, _combat_port)
+		Resolution.new(_villain_adapter, _hero_adapter, _combat_port)
 		]
 	return phases

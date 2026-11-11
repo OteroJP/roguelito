@@ -5,16 +5,13 @@ extends Effect
 @export var cards_to_draw: int = 1
 
 
-func _on_clash(
-	villain: Villain,
-	_hero: Hero,
-	_villain_port: VillainPort,
-	_hero_port: HeroPort,
-	_combat_manager: CombatManager
-) -> void:
-	for i in cards_to_draw:
-		villain.draw()
+
+func apply(target: Character) -> bool:
+    var previous_hand_size := target.deck.cards_in_hand()
+    for _index in cards_to_draw:
+        target.draw()
+    return target.deck.cards_in_hand() != previous_hand_size
 
 
 func _effect_text() -> String:
-	return "Villain draws %d cards" % cards_to_draw
+    return "Villain draws %d cards" % cards_to_draw

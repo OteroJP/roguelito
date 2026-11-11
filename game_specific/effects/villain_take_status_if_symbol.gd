@@ -6,18 +6,33 @@ extends Effect
 @export var symbol: Villain.Symbol = Villain.Symbol.NONE
 @export var threshold: int = 1
 
+var _applies: bool = false
 
-func _on_clash(
-	_villain: Villain,
-	_hero: Hero,
-	villain_port: VillainPort,
-	_hero_port: HeroPort,
-	combat_manager: CombatManager
-) -> void:
-	combat_manager.add_status(villain_port, status)
 
+func prepare(effect_owner_port: CharacterPort) -> void:
+	_applies = false
+	if status == null:
+		return
+	var villain := effect_owner_port.get_character() as Villain
+	if villain == null or symbol == Villain.Symbol.NONE:
+		return
+	_applies = villain.symbol_count[symbol] >= threshold
+
+
+func combat_state_changes(_effect_owner: Character) -> Array[CombatStateChange]:
+	if status == null or not _applies:
+		return []
+	var change := CombatStateChange.new(target_side)
+	change.statuses_to_add.append(status)
+	return [change]
 
 
 func _effect_text() -> String:
-	var duration_text := "ever" if status.duration == -1 else ("%s ticks" % status.duration)
-	return "If Villain has at least %s %s, they take a %d status (%s for %s)." % [threshold, str(symbol), status.name, status.effect_text, status.duration]
+	if status == null:
+		return "If Villain has enough symbols, they take a status"
+	return "If Villain has at least %s %s, they take %s (%s)." % [
+		threshold,
+		Villain.Symbol.keys()[symbol],
+		status.name,
+		status.effect_text
+	]

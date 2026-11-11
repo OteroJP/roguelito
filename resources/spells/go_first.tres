@@ -4,12 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://2qlfpxs0qelj" path="res://assets/villain/hud/first_disabled.png" id="2_8ns3l"]
 [ext_resource type="Script" uid="uid://w8lt376mqa5p" path="res://game_specific/spell.gd" id="2_tgw0o"]
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="3_l6jp2"]
-[ext_resource type="Script" uid="uid://c3sjwk5s36yda" path="res://game_specific/effects/villain_speeds.gd" id="4_mko4f"]
+[ext_resource type="Script" uid="uid://75idusarf2yl" path="res://game_specific/effects/character_speed_bonus.gd" id="4_mko4f"]
 
 [sub_resource type="Resource" id="Resource_8ns3l"]
 script = ExtResource("4_mko4f")
+target_side = 0
 speed_modification = 100
-metadata/_custom_type_script = "uid://c3sjwk5s36yda"
+metadata/_custom_type_script = "uid://75idusarf2yl"
 
 [resource]
 script = ExtResource("2_tgw0o")

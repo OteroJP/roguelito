@@ -25,6 +25,9 @@ var _refreshing: bool = false
 var _localize_enabled: bool = false
 
 
+@abstract func bonus_condition_met(character: Character) -> bool
+
+
 func _init() -> void:
 	if Engine.is_editor_hint():
 		_enable_effect_localization.call_deferred()

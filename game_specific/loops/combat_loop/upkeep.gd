@@ -6,8 +6,8 @@ var _combat_port: CombatPort
 
 
 func _init(
-	hero_port: HeroPort,
 	villain_port: VillainPort,
+	hero_port: HeroPort,
 	combat_port: CombatPort
 	) -> void:
 	_hero_port = hero_port
@@ -30,7 +30,7 @@ func run() -> void:
 	if _have_loop_ended.call(): # WIN-LOSS CHECK
 		return
 	var hero_card: HeroCardData = await _hero_port.play_card()
-	_combat_port.set_selected_hero_card(hero_card)
+	_combat_port.set_selected_card(_hero_port, hero_card)
 	_report.add("Played a hidden card", AuditLogEntry.Source.HERO)
 	await _combat_port.present_selected_card(hero_card)
 	if _have_loop_ended.call():

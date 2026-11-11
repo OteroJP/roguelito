@@ -3,17 +3,11 @@ class_name VillainPierce
 extends Effect
 
 
-func _on_clash(
-	_villain: Villain,
-	_hero: Hero,
-	villain_port: VillainPort,
-	_hero_port: HeroPort,
-	combat_manager: CombatManager
-) -> void:
-	var pierce_modifier: PierceModifier = PierceModifier.new()
-	combat_manager.add_attack_modifier(villain_port, pierce_modifier)
 
-
+func combat_state_changes(_effect_owner: Character) -> Array[CombatStateChange]:
+	var change := CombatStateChange.new(target_side)
+	change.modifiers_to_add.append(PierceModifier.new())
+	return [change]
 
 
 func _effect_text() -> String:

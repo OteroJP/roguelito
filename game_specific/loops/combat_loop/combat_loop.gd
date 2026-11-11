@@ -49,6 +49,7 @@ func run() -> void:
 		_current_phase = (_current_phase + 1) % phases.size()
 		var phase: LoopPhase = phases[_current_phase]
 		phase_started.emit(phase.get_audit_header())
+		await GameManager.get_tree().process_frame
 		await phase.run()
 		var report: AuditReport = phase.get_report()
 		for condition: EndCondition in end_conditions:

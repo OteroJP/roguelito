@@ -6,8 +6,6 @@ const VILLAIN_SCENE: PackedScene = preload("uid://cs4gqthniprqk")
 var _villain: Villain
 var _villain_visuals: VillainVisuals
 # var _combat_input: CombatInput
-var _pending_spells: Array[VillainSpell] = []
-var _spell_selection_complete: bool = false
 
 
 func _init(
@@ -36,8 +34,8 @@ func update_character(character: Character) -> void:
 
 
 func apply_effect(effect: Effect) -> void:
-	effect.apply(_villain)
-	await _synchronize_presentation()
+	if effect.apply(_villain):
+		await _synchronize_presentation()
 
 
 func clear_immunity() -> void:
@@ -75,45 +73,20 @@ func draw() -> void:
 		await _villain_visuals.add_to_hand(drawn_cards)
 
 
-func begin_spell_selection() -> void:
-	_spell_selection_complete = false
-	_pending_spells.clear()
-	_villain_visuals.begin_spell_selection()
-
-
-func spells_chosen() -> bool:
-	return _spell_selection_complete
-
-
 func choose_spell() -> VillainSpell:
-	# _villain_visuals.resume_spell_selection()
-	# while true:
-	#	var command: int = await _combat_input.wait_for_command()
-	#	match command:
-	#		CombatInput.Command.SPELL_CHOSEN:
-	#			if not _pending_spells.is_empty():
-	#				_villain_visuals.pause_spell_selection()
-	#				return _pending_spells.pop_front()
-	#		CombatInput.Command.CONFIRM:
-	#			finish_spell_selection()
-	#			return null
-	#		CombatInput.Command.RESET:
-	#			_villain_visuals.end_spell_selection()
-	#			return null
 	return null
 
 
-func finish_spell_selection() -> void:
-	_spell_selection_complete = true
-	_villain_visuals.end_spell_selection()
-
-
-func _on_spell_chosen(spell: VillainSpell) -> void:
+func cast_spell(spell: VillainSpell) -> Array[Effect]:
 	_villain.spend_mana(spell.mana_cost)
 	_villain_visuals.refresh_stats()
 	_villain_visuals.refresh_spell_availability()
-	_pending_spells.append(spell)
-	# _combat_input.submit_action(CombatInput.Command.SPELL_CHOSEN)
+	return spell.effects
+
+
+
+
+
 
 
 func play_card() -> VillainCardData:

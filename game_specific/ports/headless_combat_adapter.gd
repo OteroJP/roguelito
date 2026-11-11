@@ -16,16 +16,12 @@ func restore_state_from(source: CombatManager) -> void:
 	_combat_manager.restore_state_from(source)
 
 
-func set_selected_hero_card(card: HeroCardData) -> void:
-	_combat_manager.set_selected_hero_card(card)
+func set_selected_card(combatant_port: CharacterPort, card: CardData) -> void:
+	_combat_manager.set_selected_card(combatant_port, card)
 
 
-func set_selected_villain_card(card: VillainCardData) -> void:
-	_combat_manager.set_selected_villain_card(card)
-
-
-func selected_villain_card() -> VillainCardData:
-	return _combat_manager.selected_villain_card()
+func selected_card(combatant_port: CharacterPort) -> CardData:
+	return _combat_manager.selected_card(combatant_port)
 
 
 func clear_selected_cards() -> void:

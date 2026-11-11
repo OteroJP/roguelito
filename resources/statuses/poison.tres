@@ -7,6 +7,7 @@
 
 [sub_resource type="Resource" id="Resource_qpike"]
 script = ExtResource("3_moyce")
+target_side = 0
 damage = 1
 ignores_armor = true
 metadata/_custom_type_script = "uid://cy1lsxih34f7a"

@@ -3,17 +3,18 @@
 [ext_resource type="Script" uid="uid://xfgl0yagpvod" path="res://game_specific/effects/_effect.gd" id="1_0bdh2"]
 [ext_resource type="Script" uid="uid://dxfnni4lwgray" path="res://game_specific/effects/villain_modify_damage.gd" id="2_ns1m3"]
 [ext_resource type="Script" uid="uid://bu1fmnrw82i6q" path="res://game_specific/cards/villain_card_data.gd" id="3_1b02l"]
-[ext_resource type="Script" uid="uid://bdmeoqu23atu8" path="res://game_specific/effects/villain_attacks.gd" id="3_h46lr"]
+[ext_resource type="Script" uid="uid://dex2jmcgp44cv" path="res://game_specific/effects/attack_for_damage.gd" id="3_h46lr"]
 
 [sub_resource type="Resource" id="Resource_ubg51"]
 script = ExtResource("2_ns1m3")
+target_side = 0
 damage_modification = 5
 metadata/_custom_type_script = "uid://dxfnni4lwgray"
 
 [sub_resource type="Resource" id="Resource_yy5s2"]
 script = ExtResource("3_h46lr")
 damage = 1
-metadata/_custom_type_script = "uid://bdmeoqu23atu8"
+metadata/_custom_type_script = "uid://dex2jmcgp44cv"
 
 [resource]
 script = ExtResource("3_1b02l")

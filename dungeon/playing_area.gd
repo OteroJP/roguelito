@@ -32,6 +32,7 @@ func reveal_card(card_data: CardData) -> void:
 func reveal_cards() -> void:
 	for slot in _card_slots:
 		slot.reveal_card()
+		await get_tree().process_frame
 
 
 func clear() -> void:
