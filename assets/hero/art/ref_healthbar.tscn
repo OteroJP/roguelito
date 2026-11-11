@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bpaos5dn6fn28"]
+
+[ext_resource type="Texture2D" uid="uid://bsv85o12q8wgs" path="res://assets/hero/art/escudito1.png" id="1_vh3ed"]
+[ext_resource type="Texture2D" uid="uid://b7sy55xs26nhx" path="res://assets/hero/art/vialheroe.png" id="2_bqhf1"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i4s4l"]
+texture = ExtResource("1_vh3ed")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqhf1"]
+atlas = ExtResource("2_bqhf1")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fyvoq"]
+load_path = "res://.godot/imported/vialheroe.png-8c564d2766b24412f68fda4ef733c811.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twyl6"]
+atlas = SubResource("CompressedTexture2D_fyvoq")
+region = Rect2(0, 18, 18, 18)
+
+[node name="RefHealthbar" type="Control" unique_id=1651142802]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1243561042]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=470162621]
+texture_filter = 1
+custom_minimum_size = Vector2(25, 32)
+custom_maximum_size = Vector2(25, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_i4s4l")
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HBoxContainer" unique_id=512423944]
+texture_filter = 1
+custom_minimum_size = Vector2(50.575, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 7.0
+value = 7.0
+nine_patch_stretch = true
+stretch_margin_top = 18
+texture_under = SubResource("AtlasTexture_bqhf1")
+texture_progress = SubResource("AtlasTexture_twyl6")

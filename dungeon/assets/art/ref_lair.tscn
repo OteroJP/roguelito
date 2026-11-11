@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://jlo762xap7db" path="res://assets/villain/art/ref_villain_handR.tscn" id="7_8okc0"]
 [ext_resource type="PackedScene" uid="uid://cxlpf1txtmg7x" path="res://assets/villain/art/ref_villain_handL.tscn" id="7_wg312"]
 [ext_resource type="PackedScene" uid="uid://on0uax0jt44o" path="res://assets/hero/art/ref_heroe.tscn" id="8_wg312"]
+[ext_resource type="Texture2D" uid="uid://djmfys3hv7ax0" path="res://dungeon/assets/art/estados_v01.png" id="9_2mj85"]
+[ext_resource type="PackedScene" uid="uid://bpaos5dn6fn28" path="res://assets/hero/art/ref_healthbar.tscn" id="10_mse41"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_fo0v4"]
 diffuse_texture = ExtResource("1_u0cfd")
@@ -122,3 +124,13 @@ position = Vector2(-259, 37)
 
 [node name="RefHeroe" parent="." unique_id=63091300 instance=ExtResource("8_wg312")]
 position = Vector2(61, -25)
+
+[node name="EstadosV01" type="Sprite2D" parent="." unique_id=1816705626]
+texture_filter = 1
+position = Vector2(-214, -38)
+texture = ExtResource("9_2mj85")
+vframes = 6
+
+[node name="RefHealthbar" parent="." unique_id=1651142802 instance=ExtResource("10_mse41")]
+offset_top = -115.0
+offset_bottom = -115.0
