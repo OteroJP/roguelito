@@ -16,7 +16,9 @@ var _command_queue: Array[int] = []
 var _reset_requested: bool = false
 var _spell_selection_active: bool = false
 
+var _pending_choice: Choice = null
 signal command_submitted(command: int)
+signal choice_submitted(choice: Choice)
 
 
 func _init(
@@ -29,6 +31,7 @@ func _init(
 	_villain_visuals.prepare(_villain.deck, _villain)
 	visual_parent.add_child(_villain_visuals)
 	_villain_visuals.spell_chosen.connect(_on_spell_chosen)
+	_villain_visuals.cards_selected.connect(_on_cards_selected)
 	_villain_visuals._SpellConfirmBtn.pressed.connect(func(): submit_command(CMD_CONFIRM))
 	_villain_visuals.change_current_symbol(_villain.current_symbol)
 
@@ -89,6 +92,19 @@ func submit_command(command: int) -> void:
 	command_submitted.emit(command)
 
 
+func submit_choice(choice: Choice) -> void:
+	_pending_choice = choice
+	choice_submitted.emit(choice)
+
+
+func await_choice() -> Choice:
+	if _pending_choice == null:
+		await choice_submitted
+	var choice: Choice = _pending_choice
+	_pending_choice = null
+	return choice
+
+
 func request_reset() -> void:
 	_reset_requested = true
 	submit_command(CMD_RESET)
@@ -102,6 +118,12 @@ func cancel_active_wait() -> void:
 func _on_spell_chosen(spell: VillainSpell) -> void:
 	_pending_spell = spell
 	submit_command(CMD_SPELL_CHOSEN)
+
+
+func _on_cards_selected(cards: Array[CardData]) -> void:
+	var cc := CardsChoice.new()
+	cc.cards = cards
+	submit_choice(cc)
 
 
 func _end_spell_selection() -> void:
@@ -152,7 +174,14 @@ func cast_spell(spell: VillainSpell) -> Array[Effect]:
 
 
 func play_card() -> VillainCardData:
-	var card: CardData = await _villain_visuals.choose_card()
+	_villain_visuals.begin_card_selection()
+	var choice: Choice = await await_choice()
+	_villain_visuals._finish_card_choice()
+	var card: CardData = null
+	if choice is CardsChoice:
+		var cards: Array[CardData] = (choice as CardsChoice).cards
+		if cards.size() > 0:
+			card = cards[0]
 	if card == null:
 		return null
 	var villain_card := card as VillainCardData
@@ -174,7 +203,13 @@ func play_card() -> VillainCardData:
 
 
 func choose_cards_from_hand(amount: int) -> Array[CardData]:
-	return await _villain_visuals.choose_cards(amount)
+	_villain_visuals.begin_card_selection(amount)
+	var choice: Choice = await await_choice()
+	_villain_visuals._finish_card_choice()
+	var picked: Array[CardData] = []
+	if choice is CardsChoice:
+		picked.assign((choice as CardsChoice).cards)
+	return picked
 
 
 func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[CardData]:

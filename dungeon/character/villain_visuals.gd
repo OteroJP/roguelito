@@ -1,13 +1,12 @@
 class_name VillainVisuals extends HBoxContainer
 
 signal spell_chosen(spell: VillainSpell)
-signal selection_finished(confirmed: bool)
+signal cards_selected(cards: Array[CardData])
 
 #signal hand_changed()
 
 var _deck: Deck
 var _chosen_card: CardData
-var _reset_requested: bool = false
 # var _combat_input: CombatInput
 
 @onready var _DeckContainer: MarginContainer = %DeckContainer
@@ -36,7 +35,7 @@ const _SELECTED_COLOR := Color(1, 0.86, 0.45)
 var _villain: Villain
 var _selected_cards: Array[CardData] = []
 var _selection_limit: int = 1
-var _multi_select: bool = false
+var _selection_index: int = 0
 var _discard_prompt: Label
 var _damage_modification_icon: DamageModificationIcon
 var _bonus_speed_icon: BonusSpeedIcon
@@ -46,7 +45,8 @@ var _ignore_armor_icon: IgnoreArmorIcon
 func _ready() -> void:
 	_CancelButton.pressed.connect(_cancel_selection)
 	_ConfirmButton.pressed.connect(func() -> void:
-		selection_finished.emit(true)
+		_ConfirmButton.disabled = true
+		cards_selected.emit(_selected_cards.duplicate())
 	)
 	_CurrentSymbol.texture = null
 	_SymbolCompleted.texture = null
@@ -103,7 +103,6 @@ func restore_hand(cards: Array[CardData]) -> void:
 		_discard_prompt = null
 	_chosen_card = null
 	_selected_cards.clear()
-	_multi_select = false
 	_selection_limit = 1
 	_CancelButton.hide()
 	_ConfirmButton.hide()
@@ -123,44 +122,28 @@ func refresh_stats() -> void:
 	_update_counters()
 
 
-func choose_card() -> CardData:
-	_reset_requested = false
-	_multi_select = false
-	_set_hand_interactable(true)
-	var confirmed := await _wait_for_confirmation()
-	if not confirmed:
-		_cancel_selection()
-		_set_hand_interactable(false)
-		return null
-	var card_selected: CardData = _chosen_card
-	_cancel_selection()
-	_set_hand_interactable(false)
-	return card_selected
-
-
-func choose_cards(amount: int) -> Array[CardData]:
-	_reset_requested = false
-	_multi_select = true
+func begin_card_selection(amount: int = 1) -> void:
 	_selection_limit = amount
+	_selection_index = 0
 	_selected_cards.clear()
 	_discard_prompt = Label.new()
 	_discard_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_discard_prompt.add_theme_font_size_override("font_size", 20)
-	_refresh_discard_prompt()
 	_Hand.get_parent().add_child(_discard_prompt)
 	_Hand.get_parent().move_child(_discard_prompt, 0)
-	_ConfirmButton.text = "DISCARD"
+	if amount > 1:
+		_ConfirmButton.text = "DISCARD"
+	else:
+		_ConfirmButton.text = "CONFIRM"
+		_discard_prompt.hide()
+	_refresh_discard_prompt()
 	_set_hand_interactable(true)
-	var confirmed := await _wait_for_confirmation()
-	var picked: Array[CardData] = []
-	if confirmed:
-		picked.assign(_selected_cards)
-	_finish_card_choice()
-	return picked
+	_CancelButton.hide()
+	_ConfirmButton.hide()
+	_ConfirmButton.disabled = false
 
 
 func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[CardData]:
-	_reset_requested = false
 	var selected: Array[CardData] = []
 	var card_nodes: Array[VillainCard] = []
 	var layer := CanvasLayer.new()
@@ -235,11 +218,9 @@ func choose_cards_from_discard(cards: Array[CardData], amount: int) -> Array[Car
 				_toggle_listed_card(clicked, selected, amount, card_nodes, confirm, prompt)
 		)
 
-	# confirm.pressed.connect(_submit_confirm_action)
-	var confirmed := await _wait_for_confirmation()
+	await confirm.pressed
 	var picked: Array[CardData] = []
-	if confirmed:
-		picked.assign(selected)
+	picked.assign(selected)
 	layer.queue_free()
 	return picked
 
@@ -268,13 +249,6 @@ func _submit_confirm_action() -> void:
 	# if _combat_input != null:
 	#	_combat_input.submit_action(CombatInput.Command.CONFIRM)
 	pass
-
-
-func _wait_for_confirmation() -> bool:
-	if _reset_requested:
-		return false
-	var args: Array = await selection_finished
-	return bool(args[0]) if args.size() > 0 else false
 
 
 func _on_spell_chosen(spell: VillainSpell) -> void:
@@ -369,14 +343,7 @@ func _set_hand_interactable(enabled: bool) -> void:
 
 
 func _chose_card(card: CardData) -> void:
-	if _multi_select:
-		_toggle_hand_card(card)
-		return
-	_chosen_card = card
-	_CancelButton.show()
-	_ConfirmButton.show()
-	_CancelButton.set_process_input(true)
-	_ConfirmButton.set_process_input(true)
+	_toggle_hand_card(card)
 
 
 func _toggle_hand_card(card: CardData) -> void:
@@ -389,6 +356,15 @@ func _toggle_hand_card(card: CardData) -> void:
 	elif _selected_cards.size() < _selection_limit:
 		_selected_cards.append(card)
 		node.modulate = _SELECTED_COLOR
+	else:
+		var idx := _selection_index % _selection_limit
+		var old: CardData = _selected_cards[idx]
+		var old_node := _find_card_in_hand(old)
+		if old_node != null:
+			old_node.modulate = Color.WHITE
+		_selected_cards[idx] = card
+		node.modulate = _SELECTED_COLOR
+		_selection_index += 1
 	_refresh_discard_prompt()
 	var has_selection := not _selected_cards.is_empty()
 	_CancelButton.visible = has_selection
@@ -431,7 +407,7 @@ func _discard_pick_text(limit: int, selected_count: int) -> String:
 
 
 func _refresh_discard_prompt() -> void:
-	if _discard_prompt == null:
+	if _discard_prompt == null or not _discard_prompt.visible:
 		return
 	_discard_prompt.text = "Choose %d cards to discard (%d/%d)" % [
 		_selection_limit, _selected_cards.size(), _selection_limit
@@ -444,8 +420,8 @@ func _clear_card_highlights() -> void:
 
 
 func _finish_card_choice() -> void:
-	_multi_select = false
 	_selection_limit = 1
+	_selection_index = 0
 	_cancel_selection()
 	if _discard_prompt:
 		_discard_prompt.queue_free()
@@ -455,8 +431,7 @@ func _finish_card_choice() -> void:
 
 
 func cancel_selection() -> void:
-	_reset_requested = true
-	selection_finished.emit(false)
+	_cancel_selection()
 
 
 func _cancel_selection() -> void:
