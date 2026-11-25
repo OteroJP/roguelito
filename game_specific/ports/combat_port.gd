@@ -32,4 +32,4 @@ extends RefCounted
 
 @abstract func tick_statuses(combatant_port: CharacterPort) -> void
 
-@abstract func clear_speed_bonuses() -> void
+

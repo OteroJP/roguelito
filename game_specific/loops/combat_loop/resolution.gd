@@ -28,7 +28,6 @@ func run() -> void:
 		if _have_loop_ended.call():
 			await _villain_port.discard_over_hand_limit()
 			_combat_port.clear_selected_cards()
-			_combat_port.clear_speed_bonuses()
 			return
 
 	for card: CardData in ordered_cards:
@@ -48,7 +47,6 @@ func run() -> void:
 	await _villain_port.discard_over_hand_limit()
 	# here we should expand the report
 	await _combat_port.clear_resolution_display()
-	_combat_port.clear_speed_bonuses()
 
 
 func get_report() -> AuditReport:

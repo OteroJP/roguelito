@@ -100,12 +100,20 @@ func cards_in_resolution_order() -> Array[CardData]:
 
 
 func _cards_by_speed(hero_card: CardData, villain_card: CardData) -> Array[CardData]:
-	if (
-		hero_card.speed + speed_bonus_for(_hero_port)
-		> villain_card.speed + speed_bonus_for(_villain_port)
-	):
-		return [hero_card, villain_card]
-	return [villain_card, hero_card]
+	var hero_bonus := _get_state(_hero_port).speed_bonus
+	var villain_bonus := _get_state(_villain_port).speed_bonus
+	var result: Array[CardData]
+	if hero_card.speed + hero_bonus > villain_card.speed + villain_bonus:
+		result = [hero_card, villain_card]
+	else:
+		result = [villain_card, hero_card]
+	# Consume the speed bonuses used for this ordering.
+	# Bonuses added later (during resolution effects) survive for the next sort.
+	if hero_bonus != 0:
+		consume_speed_bonus(_hero_port)
+	if villain_bonus != 0:
+		consume_speed_bonus(_villain_port)
+	return result
 
 
 func _port_for_selected_card(card: CardData) -> CharacterPort:
@@ -188,10 +196,7 @@ func _apply_combat_state_changes(
 				remove_attack_modifier(recipient_port, modifier)
 				combat_state_changed = true
 
-		if change.clear_speed_bonuses:
-			if speed_bonus_for(recipient_port) != 0:
-				clear_speed_bonus(recipient_port)
-				combat_state_changed = true
+
 		if change.speed_bonus_to_add != 0:
 			add_speed_bonus(recipient_port, change.speed_bonus_to_add)
 			combat_state_changed = true
@@ -246,7 +251,7 @@ func sync_combat_indicators(combatant_port: CharacterPort) -> void:
 	combatant_port.sync_combat_indicators(
 		statuses_for(combatant_port),
 		attack_modifiers_for(combatant_port),
-		speed_bonus_for(combatant_port)
+		_get_state(combatant_port).speed_bonus
 	)
 
 
@@ -304,22 +309,12 @@ func add_speed_bonus(combatant_port: CharacterPort, amount: int) -> void:
 
 
 # is this necesary?
-func speed_bonus_for(combatant_port: CharacterPort) -> int:
-	return _get_state(combatant_port).speed_bonus
-
-
-func clear_speed_bonus(combatant_port: CharacterPort) -> void:
-	_get_state(combatant_port).speed_bonus = 0
-
-
-func clear_speed_bonuses() -> void:
-	for combatant_port: CharacterPort in _combatant_states:
-		var state := _get_state(combatant_port)
-		if state.speed_bonus == 0:
-			continue
-		state.speed_bonus = 0
-		sync_combat_indicators(combatant_port)
-
+func consume_speed_bonus(combatant_port: CharacterPort) -> void:
+	var state := _get_state(combatant_port)
+	if state.speed_bonus == 0:
+		return
+	state.speed_bonus = 0
+	sync_combat_indicators(combatant_port)
 
 
 func _get_state(combatant_port: CharacterPort) -> CombatantState:

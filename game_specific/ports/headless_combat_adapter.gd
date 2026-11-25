@@ -64,5 +64,4 @@ func tick_statuses(combatant_port: CharacterPort) -> void:
 	await _combat_manager.tick_statuses(combatant_port)
 
 
-func clear_speed_bonuses() -> void:
-	_combat_manager.clear_speed_bonuses()
+
