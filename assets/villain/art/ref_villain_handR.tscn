@@ -1,0 +1,325 @@
+[gd_scene format=3 uid="uid://jlo762xap7db"]
+
+[ext_resource type="Texture2D" uid="uid://c7gnandyr0nuh" path="res://assets/villain/art/villain_handR.png" id="1_vc7df"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_i4s4l"]
+diffuse_texture = ExtResource("1_vc7df")
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_046i7"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vc7df"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wfq4g"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_35pt4"]
+states/idle/node = SubResource("AnimationNodeAnimation_046i7")
+states/idle/position = Vector2(422.8, 104.8)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vc7df"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_wfq4g")]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_046i7"]
+graph_offset = Vector2(-568.31604, 201.86526)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_35pt4")
+nodes/StateMachine/position = Vector2(-80, 112)
+node_connections = [&"output", 0, &"StateMachine"]
+
+[sub_resource type="Animation" id="Animation_046i7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spritecontadores:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [48]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Spriteanillos:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [44]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Spritededos:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [40]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite_pulgar:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [38]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite_palma:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [34]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite_brazo:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprite_orbegoo2:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprite_orbegoo1:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+
+[sub_resource type="Animation" id="Animation_vc7df"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spritecontadores:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.56666666, 0.8333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [48, 49, 50, 49]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Spriteanillos:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.56666666, 0.8333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [44, 45, 46, 45]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Spritededos:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.56666666, 0.8333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [40, 41, 42, 41]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite_pulgar:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.53333336, 0.76666665),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [36, 37, 38, 37]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite_palma:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.53333336, 0.76666665),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [32, 33, 34, 33]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Sprite_brazo:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Sprite_orbegoo1:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = false
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.93333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [11, 8]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Sprite_orbegoo2:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = false
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [19, 16]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wfq4g"]
+_data = {
+&"RESET": SubResource("Animation_046i7"),
+&"idle": SubResource("Animation_vc7df")
+}
+
+[node name="RefVillainHandR" type="Node2D" unique_id=1087944000]
+
+[node name="Sprite_brazo" type="Sprite2D" parent="." unique_id=1392228972]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+
+[node name="Sprite_orbebase" type="Sprite2D" parent="." unique_id=504770364]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 4
+
+[node name="Sprite_orbegoo1" type="Sprite2D" parent="." unique_id=35126687]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 11
+
+[node name="Sprite_orbegoo2" type="Sprite2D" parent="." unique_id=649167019]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 16
+
+[node name="Sprite_orbevidrio" type="Sprite2D" parent="." unique_id=21599480]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 20
+
+[node name="Sprite_orbecontorno" type="Sprite2D" parent="." unique_id=2134770435]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 24
+
+[node name="Sprite_spells" type="Sprite2D" parent="." unique_id=1273545666]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 28
+
+[node name="Sprite_palma" type="Sprite2D" parent="." unique_id=1526454222]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 34
+
+[node name="Sprite_pulgar" type="Sprite2D" parent="." unique_id=423808775]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 38
+
+[node name="Spritededos" type="Sprite2D" parent="." unique_id=362344619]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 40
+
+[node name="Spriteanillos" type="Sprite2D" parent="." unique_id=831716474]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 44
+
+[node name="Spritecontadores" type="Sprite2D" parent="." unique_id=1664412322]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 48
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=764285159]
+tree_root = SubResource("AnimationNodeBlendTree_046i7")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1717223447]
+libraries/ = SubResource("AnimationLibrary_wfq4g")
+autoplay = &"idle"

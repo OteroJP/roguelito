@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://ccytcnnxx1m7g"]
+
+[ext_resource type="Texture2D" uid="uid://dietla56wdalo" path="res://assets/villain/art/card_villain_front.png" id="1_0hvww"]
+[ext_resource type="Texture2D" uid="uid://bi5w816eus4xq" path="res://assets/villain/art/card_villain_symbol.png" id="2_2npbi"]
+
+[sub_resource type="DrawableTexture2D" id="DrawableTexture2D_lfwqu"]
+
+[node name="RefVillainCard" type="Node2D" unique_id=28326467]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=632355148]
+modulate = Color(0.21960784, 0.14117648, 0.2509804, 1)
+position = Vector2(0, -9.536743e-07)
+scale = Vector2(1, 1.75)
+texture = SubResource("DrawableTexture2D_lfwqu")
+
+[node name="CardVillainFront" type="Sprite2D" parent="." unique_id=1972271971]
+texture_filter = 1
+texture = ExtResource("1_0hvww")
+
+[node name="CardVillainSymbol" type="Sprite2D" parent="." unique_id=1580575508]
+texture_filter = 1
+position = Vector2(-24, -50)
+texture = ExtResource("2_2npbi")
+vframes = 3
+
+[node name="CardVillainSymbol2" type="Sprite2D" parent="." unique_id=835532013]
+texture_filter = 1
+position = Vector2(24, -50)
+texture = ExtResource("2_2npbi")
+vframes = 3
