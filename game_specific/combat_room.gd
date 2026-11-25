@@ -14,6 +14,10 @@ var _hero_state: Hero
 var _villain_state: Villain
 var _combat_manager_state: CombatManager
 
+## Characters and end conditions of the combat. Comes from the active run, or
+## from the exported characters when the scene is run on its own.
+var options: RunOptions
+
 @onready var villain_container: MarginContainer = %InteractiveContainer
 @onready var dungeon: Node2D = %DungeonRoom
 @onready var playing_area: PlayingArea = %PlayingArea
@@ -23,6 +27,7 @@ func _ready() -> void:
 	_logger = GameLogger.new()
 	add_child(_logger)
 	# _combat_input = CombatInput.new()
+	options = _resolve_options()
 	await _prepare_room()
 	await start_combat()
 
@@ -50,20 +55,23 @@ func start_combat() -> void:
 
 func _prepare_room() -> void:
 	_logger.log("Preparing hero, decks and villain")
-	_hero_adapter = HeroVisualAdapter.new(hero, dungeon)
-	_villain_adapter = VillainVisualAdapter.new(villain, villain_container)
+	_hero_adapter = HeroVisualAdapter.new(options.hero, dungeon)
+	_villain_adapter = VillainVisualAdapter.new(options.villain, villain_container)
 	# here we should expand the report
 	var combat_manager := CombatManager.new(
 		_hero_adapter,
 		_villain_adapter
 	)
-	_combat_port = VisualCombatAdapter.new(combat_manager, playing_area)
+	_combat_port = (
+		HeadlessCombatAdapter.new(combat_manager) if options.headless
+		else VisualCombatAdapter.new(combat_manager, playing_area)
+	)
 	GameManager.prepare(ux_delay)
 	await _combat_port.clear_resolution_display()
 	# here we should expand the report
 
 	_combat_loop = CombatLoop.new(
-		_prepare_end_conditions(),
+		options.end_conditions,
 		_prepare_phases(),
 		_save_turn_state,
 		_restore_turn_state
@@ -95,17 +103,22 @@ func _restore_turn_state() -> void:
 
 
 func _end_combat() -> void:
-	# TBD
-	pass
+	RunController.finish_combat()
 
 
-func _prepare_end_conditions() -> Array[EndCondition]:
-	var villain_defeated = CharacterDefeated.new(villain)
-	var hero_defeated = CharacterDefeated.new(hero)
-	return [
-		villain_defeated,
-		hero_defeated
+func _resolve_options() -> RunOptions:
+	if RunController.has_active_run():
+		return RunController.current_options
+	# Standalone run: use the characters exported by this scene.
+	var standalone := RunOptions.new()
+	standalone.hero = hero
+	standalone.villain = villain
+	var conditions: Array[EndCondition] = [
+		CharacterDefeated.new(hero),
+		CharacterDefeated.new(villain)
 	]
+	standalone.end_conditions = conditions
+	return standalone
 
 
 func _prepare_phases() -> Array[LoopPhase]:

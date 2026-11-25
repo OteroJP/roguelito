@@ -3,8 +3,8 @@
 ## Objective
 
 Separate the run loop from the combat scene. The game starts in a main menu, and a run is
-an endless sequence of combat → rest → combat until the hero is defeated in combat. The
-combat room is only the active scene while a combat is running.
+an endless sequence of combat → rest → combat until the villain (the player) is defeated.
+The combat room is only the active scene while a combat is running.
 
 Current state: [`project.godot`](project.godot) runs [`main.tscn`](main.tscn) directly, and
 [`game_specific/combat_room.gd`](game_specific/combat_room.gd) starts a combat as soon as the
@@ -21,10 +21,10 @@ main_menu ──"Nueva partida"──▶ RunController.start_run()
                        hero defeated │ villain defeated
                             │        │
                             ▼        ▼
-                     main_menu     rest_room (full heal)
-                                     │ "Continuar"
-                                     ▼
-                               next combat_room
+                     rest_room      main_menu (run ends)
+                            │ "Continuar"
+                            ▼
+                      next combat_room
 ```
 
 ## Pieces
@@ -46,12 +46,16 @@ main_menu ──"Nueva partida"──▶ RunController.start_run()
 ## Decisions
 
 - **Menu:** only "Nueva partida" and a quit button. No other options yet.
+- **Player:** the player controls the villain. The hero is the opponent.
+- **Hero:** defeated hero ends the combat and the run continues through the rest room.
+  The same hero instance is restored to the run baseline at rest, then fully healed; the
+  template resource is never edited.
 - **Villain:** the same villain for the whole run, and it is not healed between combats.
-  When it is defeated it starts the next combat at full health (otherwise the next combat
-  would end immediately).
-- **Rest:** fully heals the hero. Upgrades are not implemented yet; the rest is the place
-  where they will happen.
-- **Run end:** endless. The run ends only when the hero is defeated, which returns to the
+  When it is defeated the run ends and the game returns to the main menu.
+- **Rest:** restores the hero from the run baseline (damage, stance) and fully heals it
+  (health and armor to their maximum). Upgrades are not implemented yet; they will be
+  applied to the run's baseline instance, not to the template.
+- **Run end:** endless. The run ends only when the villain is defeated, which returns to the
   main menu.
 - **Headless:** `RunOptions.headless` selects the headless resolution port
   ([`game_specific/ports/headless_combat_adapter.gd`](game_specific/ports/headless_combat_adapter.gd))

@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Roguelito"
-run/main_scene="uid://c6a2ffow874yf"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 GameManager="*uid://pq6w8aw27i4k"
+RunController="*res://game_specific/run/run_controller.gd"
 
 [display]
 
