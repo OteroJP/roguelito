@@ -2,10 +2,10 @@ class_name UIAssets
 extends Object
 
 const STANCE_LIBRARY: Dictionary[Hero.Stance, Texture2D] = {
-	Hero.Stance.NONE: preload("uid://4q335xxs2p"),
-	Hero.Stance.ATTACK: preload("uid://dk7fn6p2sy1xp"),
-	Hero.Stance.DEFEND: preload("uid://dlrnwhe76u7ke"),
-	Hero.Stance.UPGRADE: preload("uid://dlkhk201xuk2q"),
+	Hero.Stance.NONE: preload("uid://dirq6mmb6s0s1"),
+	Hero.Stance.ATTACK: preload("uid://drg4la3eywc0y"),
+	Hero.Stance.DEFEND: preload("uid://dbll7ut6biyro"),
+	Hero.Stance.UPGRADE: preload("uid://bsj5e23814nxb"),
 }
 
 const SYMBOL_LIBRARY: Dictionary[Villain.Symbol, Texture2D] = {

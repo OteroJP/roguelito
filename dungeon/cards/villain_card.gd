@@ -1,19 +1,19 @@
 class_name VillainCard
 extends Card
 
-const CARD_SCENE: PackedScene = preload("uid://ce3fqp227u3vc")
+const CARD_SCENE: PackedScene = preload("uid://c6pnj4405qqg7")
 const HOVER_UPWARD_MOVEMENT: float = 20.0 # Pixels to move up
 
 @onready var _art_frame: TextureRect = %Ilustration
 @onready var _effect_label: RichTextLabel = %Effect
+@onready var _bonus_effect_label: RichTextLabel = %BonusEffect
 @onready var _name_tag: Label = %Title
-@onready var _back: ColorRect = %CardBack
-@onready var _speed_label: Label = $%SpeedLabel
+@onready var _speed_label: Label = %SpeedLabel
 @onready var _symbol_to_complete: TextureRect = %SymbolToComplete
 @onready var _symbol_to_spawn: TextureRect = %SymbolToSpawn
 
 var _data: VillainCardData
-var _bonus_effect_label: Label
+
 var _tween: Tween
 var _is_hovered: bool = false
 
@@ -26,13 +26,14 @@ func _ready() -> void:
 	
 	# Set the container holding your UI items to completely ignore mouse events
 	# This automatically bypasses all of its internal children!
-	$MarginContainer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	%Content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	if _data:
 		_art_frame.texture = _data.art
 		_name_tag.text = _data.name
 		_speed_label.text = str(_data.speed)
-		_effect_label.text = _data.card_text
+		_effect_label.text = _data.effect_text()
+		_bonus_effect_label.text = _data.bonus_effect_text()
 		_symbol_to_complete.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_complete]
 		_symbol_to_spawn.texture = UIAssets.SYMBOL_LIBRARY[_data.symbol_to_spawn]
 

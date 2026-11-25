@@ -1,6 +1,6 @@
 @abstract
 class_name Card
-extends PanelContainer
+extends Control
 
 signal card_clicked(card: CardData)
 

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://0j5g2uf2l0e5" path="res://game_specific/combat_room.gd" id="1_7mycd"]
 [ext_resource type="Resource" uid="uid://dalgani72u8cv" path="res://resources/villain.tres" id="2_272bh"]
 [ext_resource type="Resource" uid="uid://cxa0xfdjgfaer" path="res://resources/hero.tres" id="3_lquwl"]
-[ext_resource type="PackedScene" uid="uid://cojufkmft2yab" path="res://scenes/dungeon_room.tscn" id="5_4c57u"]
+[ext_resource type="PackedScene" uid="uid://cpjj8ygh6gt0d" path="res://dungeon/assets/art/ref_lair.tscn" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://xicrwm38hrf1" path="res://scenes/playing_area.tscn" id="6_efxa6"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc3ap"]
@@ -38,16 +38,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch = true
 mouse_target = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=684047473]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(640, 360)
+size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="DungeonRoom" parent="SubViewportContainer/SubViewport" unique_id=1410852599 instance=ExtResource("5_4c57u")]
+[node name="DungeonRoom" parent="SubViewportContainer/SubViewport" unique_id=1717755044 instance=ExtResource("4_lquwl")]
 unique_name_in_owner = true
+
+[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport" unique_id=1136126676]
 
 [node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=2087657242]
 layout_mode = 1

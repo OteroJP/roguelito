@@ -34,9 +34,19 @@ func _ready() -> void:
 		_art_frame.texture = _data.art
 		_speed_label.text = str(_data.speed)
 		_name_tag.text = _data.name
-		_effect_label.text = _data.card_text
+		_effect_label.text = _compose_text()
 		_bonus_stance.texture = UIAssets.STANCE_LIBRARY[_data.stance_for_bonus]
 		
+
+
+func _compose_text() -> String:
+	var text := _data.effect_text()
+	var bonus := _data.bonus_effect_text()
+	if bonus.is_empty():
+		return text
+	return "[color=#%s]%s[/color]\n%s" % [
+		UIAssets.HERO_BONUS_STANCE_COLOR.to_html(false), bonus, text
+	]
 
 
 static func new_hero_card(data: HeroCardData) -> HeroCard:

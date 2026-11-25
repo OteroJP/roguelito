@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://ca08w4ydmj44b" path="res://dungeon/assets/art/escenario1.png" id="1_u0cfd"]
 [ext_resource type="Texture2D" uid="uid://bnnttf6788dw7" path="res://dungeon/assets/art/escenario1_n.png" id="2_3m8dh"]
 [ext_resource type="Texture2D" uid="uid://bfdb5x80y060p" path="res://dungeon/assets/art/scenario_v2.png" id="3_eeejd"]
-[ext_resource type="PackedScene" uid="uid://c1j8410hj3ala" path="res://assets/villain/art/ref_player_card.tscn" id="4_4dvji"]
+[ext_resource type="PackedScene" uid="uid://c1j8410hj3ala" path="res://assets/villain/art/ref_villain_card.tscn" id="4_4dvji"]
 [ext_resource type="Texture2D" uid="uid://jx41h66kbdj4" path="res://dungeon/assets/art/scenario_v3_n.png" id="4_8okc0"]
 [ext_resource type="PackedScene" uid="uid://jlo762xap7db" path="res://assets/villain/art/ref_villain_handR.tscn" id="7_8okc0"]
 [ext_resource type="PackedScene" uid="uid://cxlpf1txtmg7x" path="res://assets/villain/art/ref_villain_handL.tscn" id="7_wg312"]

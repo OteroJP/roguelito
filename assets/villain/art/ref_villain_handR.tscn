@@ -21,7 +21,6 @@ states/idle/position = Vector2(422.8, 104.8)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vc7df"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_wfq4g")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_046i7"]
-graph_offset = Vector2(-568.31604, 201.86526)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_35pt4")
 nodes/StateMachine/position = Vector2(-80, 112)
 node_connections = [&"output", 0, &"StateMachine"]
@@ -31,7 +30,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Spritecontadores:frame")
+tracks/0/path = NodePath("VillainArm/Fingers/Rings/ManaCounters:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -43,7 +42,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Spriteanillos:frame")
+tracks/1/path = NodePath("VillainArm/Fingers/Rings:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -55,7 +54,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Spritededos:frame")
+tracks/2/path = NodePath("VillainArm/Fingers:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -67,7 +66,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite_pulgar:frame")
+tracks/3/path = NodePath("VillainArm/Thumb:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -79,7 +78,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite_palma:frame")
+tracks/4/path = NodePath("VillainArm/HandPalm:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -91,7 +90,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Sprite_brazo:frame")
+tracks/5/path = NodePath("VillainArm/Forearm:frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -103,7 +102,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Sprite_orbegoo2:frame")
+tracks/6/path = NodePath("Orb/Sprite_orbegoo2:frame")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -115,7 +114,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Sprite_orbegoo1:frame")
+tracks/7/path = NodePath("Orb/Sprite_orbegoo1:frame")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -131,7 +130,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Spritecontadores:frame")
+tracks/0/path = NodePath("VillainArm/Fingers/Rings/ManaCounters:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
@@ -143,7 +142,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Spriteanillos:frame")
+tracks/1/path = NodePath("VillainArm/Fingers/Rings:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
@@ -155,7 +154,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Spritededos:frame")
+tracks/2/path = NodePath("VillainArm/Fingers:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = false
 tracks/2/keys = {
@@ -167,7 +166,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite_pulgar:frame")
+tracks/3/path = NodePath("VillainArm/Thumb:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = false
 tracks/3/keys = {
@@ -179,7 +178,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite_palma:frame")
+tracks/4/path = NodePath("VillainArm/HandPalm:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = false
 tracks/4/keys = {
@@ -191,7 +190,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Sprite_brazo:frame")
+tracks/5/path = NodePath("VillainArm/Forearm:frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -203,7 +202,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Sprite_orbegoo1:frame")
+tracks/6/path = NodePath("Orb/Sprite_orbegoo1:frame")
 tracks/6/interp = 1
 tracks/6/loop_wrap = false
 tracks/6/keys = {
@@ -215,7 +214,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Sprite_orbegoo2:frame")
+tracks/7/path = NodePath("Orb/Sprite_orbegoo2:frame")
 tracks/7/interp = 1
 tracks/7/loop_wrap = false
 tracks/7/keys = {
@@ -233,83 +232,99 @@ _data = {
 
 [node name="RefVillainHandR" type="Node2D" unique_id=1087944000]
 
-[node name="Sprite_brazo" type="Sprite2D" parent="." unique_id=1392228972]
-texture_filter = 1
-texture = SubResource("CanvasTexture_i4s4l")
-hframes = 4
-vframes = 13
+[node name="Orb" type="Node2D" parent="." unique_id=150478936]
 
-[node name="Sprite_orbebase" type="Sprite2D" parent="." unique_id=504770364]
+[node name="Sprite_orbebase" type="Sprite2D" parent="Orb" unique_id=504770364]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 4
 
-[node name="Sprite_orbegoo1" type="Sprite2D" parent="." unique_id=35126687]
+[node name="Sprite_orbegoo1" type="Sprite2D" parent="Orb" unique_id=35126687]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 11
 
-[node name="Sprite_orbegoo2" type="Sprite2D" parent="." unique_id=649167019]
+[node name="Sprite_orbegoo2" type="Sprite2D" parent="Orb" unique_id=649167019]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 16
 
-[node name="Sprite_orbevidrio" type="Sprite2D" parent="." unique_id=21599480]
+[node name="Sprite_orbevidrio" type="Sprite2D" parent="Orb" unique_id=21599480]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 20
 
-[node name="Sprite_orbecontorno" type="Sprite2D" parent="." unique_id=2134770435]
+[node name="Sprite_orbecontorno" type="Sprite2D" parent="Orb" unique_id=2134770435]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 24
 
-[node name="Sprite_spells" type="Sprite2D" parent="." unique_id=1273545666]
+[node name="Spells" type="Node2D" parent="Orb" unique_id=1621911796]
+
+[node name="SpellSprites" type="Sprite2D" parent="Orb/Spells" unique_id=1273545666]
+unique_name_in_owner = true
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 28
 
-[node name="Sprite_palma" type="Sprite2D" parent="." unique_id=1526454222]
+[node name="VillainArm" type="Node2D" parent="." unique_id=1841049922]
+
+[node name="Forearm" type="Sprite2D" parent="VillainArm" unique_id=1392228972]
+texture_filter = 1
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+
+[node name="HandPalm" type="Sprite2D" parent="VillainArm" unique_id=1526454222]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 34
 
-[node name="Sprite_pulgar" type="Sprite2D" parent="." unique_id=423808775]
+[node name="HandPalmDemo" type="Sprite2D" parent="VillainArm" unique_id=1496453151]
+z_index = -1
+texture_filter = 1
+position = Vector2(-40, 0)
+texture = SubResource("CanvasTexture_i4s4l")
+hframes = 4
+vframes = 13
+frame = 38
+
+[node name="Thumb" type="Sprite2D" parent="VillainArm" unique_id=423808775]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 38
 
-[node name="Spritededos" type="Sprite2D" parent="." unique_id=362344619]
+[node name="Fingers" type="Sprite2D" parent="VillainArm" unique_id=362344619]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 40
 
-[node name="Spriteanillos" type="Sprite2D" parent="." unique_id=831716474]
+[node name="Rings" type="Sprite2D" parent="VillainArm/Fingers" unique_id=831716474]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
 vframes = 13
 frame = 44
 
-[node name="Spritecontadores" type="Sprite2D" parent="." unique_id=1664412322]
+[node name="ManaCounters" type="Sprite2D" parent="VillainArm/Fingers/Rings" unique_id=1664412322]
 texture_filter = 1
 texture = SubResource("CanvasTexture_i4s4l")
 hframes = 4
