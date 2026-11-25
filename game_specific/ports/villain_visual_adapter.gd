@@ -7,17 +7,10 @@ var _villain: Villain
 var _villain_visuals: VillainVisuals
 # var _combat_input: CombatInput
 
-const CMD_SPELL_CHOSEN := 0
-const CMD_CONFIRM := 1
-const CMD_RESET := 2
-
-var _pending_spell: VillainSpell = null
-var _command_queue: Array[int] = []
+var _pending_choice: Choice = null
 var _reset_requested: bool = false
 var _spell_selection_active: bool = false
 
-var _pending_choice: Choice = null
-signal command_submitted(command: int)
 signal choice_submitted(choice: Choice)
 
 
@@ -32,7 +25,7 @@ func _init(
 	visual_parent.add_child(_villain_visuals)
 	_villain_visuals.spell_chosen.connect(_on_spell_chosen)
 	_villain_visuals.cards_selected.connect(_on_cards_selected)
-	_villain_visuals._SpellConfirmBtn.pressed.connect(func(): submit_command(CMD_CONFIRM))
+	_villain_visuals._SpellConfirmBtn.pressed.connect(func(): submit_choice(EndChoice.new()))
 	_villain_visuals.change_current_symbol(_villain.current_symbol)
 
 
@@ -87,11 +80,6 @@ func draw() -> void:
 		await _villain_visuals.add_to_hand(drawn_cards)
 
 
-func submit_command(command: int) -> void:
-	_command_queue.append(command)
-	command_submitted.emit(command)
-
-
 func submit_choice(choice: Choice) -> void:
 	_pending_choice = choice
 	choice_submitted.emit(choice)
@@ -107,7 +95,7 @@ func await_choice() -> Choice:
 
 func request_reset() -> void:
 	_reset_requested = true
-	submit_command(CMD_RESET)
+	submit_choice(ResetChoice.new())
 
 
 func cancel_active_wait() -> void:
@@ -116,8 +104,9 @@ func cancel_active_wait() -> void:
 
 
 func _on_spell_chosen(spell: VillainSpell) -> void:
-	_pending_spell = spell
-	submit_command(CMD_SPELL_CHOSEN)
+	var sc: SpellChoice = SpellChoice.new()
+	sc.spell = spell
+	submit_choice(sc)
 
 
 func _on_cards_selected(cards: Array[CardData]) -> void:
@@ -140,24 +129,15 @@ func choose_spell() -> VillainSpell:
 			_end_spell_selection()
 			_reset_requested = false
 			return null
-		if _command_queue.is_empty():
-			_villain_visuals.resume_spell_selection()
-			await command_submitted
-			continue
-		var command: int = _command_queue.pop_front()
-		match command:
-			CMD_SPELL_CHOSEN:
-				if _pending_spell != null:
-					var spell := _pending_spell
-					_pending_spell = null
-					_villain_visuals.pause_spell_selection()
-					return spell
-			CMD_CONFIRM, CMD_RESET:
-				_end_spell_selection()
-				_reset_requested = (command == CMD_RESET)
-				return null
-			_:
-				pass
+		_villain_visuals.resume_spell_selection()
+		var choice: Choice = await await_choice()
+		if choice is SpellChoice:
+			var spell_choice: SpellChoice = choice as SpellChoice
+			_villain_visuals.pause_spell_selection()
+			return spell_choice.spell
+		_end_spell_selection()
+		_reset_requested = choice is ResetChoice
+		return null
 	return null
 
 
