@@ -1,11 +1,21 @@
 [gd_scene format=3 uid="uid://cojufkmft2yab"]
 
 [ext_resource type="Texture2D" uid="uid://bgrfbby3npnja" path="res://assets/dungeon_bk.jpg" id="1_uaakf"]
+[ext_resource type="Texture2D" uid="uid://bfdb5x80y060p" path="res://dungeon/assets/art/scenario_v2.png" id="2_6166o"]
+[ext_resource type="Texture2D" uid="uid://jx41h66kbdj4" path="res://dungeon/assets/art/scenario_v3_n.png" id="3_d41s6"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_egc48"]
+diffuse_texture = ExtResource("2_6166o")
+normal_texture = ExtResource("3_d41s6")
 
 [node name="DungeonRoom" type="Node2D" unique_id=1410852599]
 
 [node name="DungeonBk" type="Sprite2D" parent="." unique_id=248478251]
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("1_uaakf")
+
+[node name="fonditodo" type="Sprite2D" parent="." unique_id=1904698195]
+texture_filter = 1
+texture = SubResource("CanvasTexture_egc48")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=330094688]
