@@ -1,7 +1,7 @@
 [gd_resource type="AtlasTexture" format=3 uid="uid://0jvbhqxnah1c"]
 
-[ext_resource type="Texture2D" uid="uid://eflkwvmml04m" path="res://assets/hero/art/card_hero_symbol.png" id="1_4x2dr"]
+[ext_resource type="Texture2D" uid="uid://bi5w816eus4xq" path="res://assets/villain/art/card_villain_symbol.png" id="1_lh5j4"]
 
 [resource]
-atlas = ExtResource("1_4x2dr")
-region = Rect2(0, 10, 10, 10)
+atlas = ExtResource("1_lh5j4")
+region = Rect2(0, 0, 15, 15)
