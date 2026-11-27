@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://cudeisk6hyc1f"]
+
+[ext_resource type="Texture2D" uid="uid://bmv63wby7svyk" path="res://assets/villain/art/spells.png" id="1_hl7te"]
+
+[resource]
+atlas = ExtResource("1_hl7te")
+region = Rect2(47, 80, 47, 40)

@@ -1,13 +1,21 @@
 [gd_scene format=3 uid="uid://b8557o2sefgot"]
 
 [ext_resource type="Script" uid="uid://b23sa10vsyabe" path="res://dungeon/character/spell_button.gd" id="1_6qy5m"]
+[ext_resource type="Texture2D" uid="uid://mx6ekdf7846i" path="res://assets/villain/spell_speed.tres" id="1_w2jb8"]
+[ext_resource type="Texture2D" uid="uid://pe8ik0detegj" path="res://assets/villain/spell_speed_active.tres" id="2_3ts4b"]
 
 [node name="Button" type="TextureButton" unique_id=1165962404]
+texture_filter = 1
 custom_minimum_size = Vector2(50, 50)
 offset_right = 30.0
 offset_bottom = 110.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+texture_normal = ExtResource("1_w2jb8")
+texture_pressed = ExtResource("2_3ts4b")
+texture_hover = ExtResource("1_w2jb8")
+texture_disabled = ExtResource("1_w2jb8")
+texture_focused = ExtResource("1_w2jb8")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("1_6qy5m")

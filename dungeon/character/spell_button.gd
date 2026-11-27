@@ -58,4 +58,3 @@ static func new_spell_button(data: VillainSpell, villain: Villain) -> SpellButto
 	button._villain = villain
 	button.name = "%s Spell" % str(button._data.name)
 	return button
-

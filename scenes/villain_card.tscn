@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c6pnj4405qqg7"]
 
+[ext_resource type="Script" uid="uid://dj7q4ijsy01wc" path="res://dungeon/cards/villain_card.gd" id="1_exp8s"]
 [ext_resource type="Texture2D" uid="uid://dietla56wdalo" path="res://assets/villain/art/card_villain_front.png" id="2_0e0l3"]
 [ext_resource type="Texture2D" uid="uid://bi5w816eus4xq" path="res://assets/villain/art/card_villain_symbol.png" id="3_wfhh8"]
 [ext_resource type="Texture2D" uid="uid://b4mexaxh6bru4" path="res://assets/villain/art/card_villain_art.png" id="4_ppkgg"]
-[ext_resource type="Script" uid="uid://dj7q4ijsy01wc" path="res://dungeon/cards/villain_card.gd" id="1_exp8s"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fo0v4"]
 texture = ExtResource("2_0e0l3")
@@ -25,9 +25,9 @@ region = Rect2(0, 15, 0, 15)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lfwqu"]
 
 [node name="VillainCard" type="Control" unique_id=1022397110]
-custom_minimum_size = Vector2(74, 124)
 light_mask = 0
 z_index = 1
+custom_minimum_size = Vector2(74, 124)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -138,8 +138,8 @@ size_flags_vertical = 2
 theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
 text = "cuando efecto 1 entonces coso"
-horizontal_alignment = 1
 autowrap_mode = 2
+horizontal_alignment = 1
 
 [node name="HSeparator3" type="HSeparator" parent="Content/VBoxContainer" unique_id=1133434785]
 layout_mode = 2
@@ -157,8 +157,8 @@ theme_override_colors/default_color = Color(0.27058825, 0.15686275, 0.23529412, 
 theme_override_font_sizes/normal_font_size = 8
 bbcode_enabled = true
 text = "cuando efecto 2 entonces coso"
-horizontal_alignment = 1
 autowrap_mode = 2
+horizontal_alignment = 1
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cspdmodvisual"]
 
 [ext_resource type="Script" uid="uid://bspdmodvisual" path="res://dungeon/bonus_speed_visual.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://i76vgcpfi8jd" path="res://assets/speed.png" id="2_texture"]
+[ext_resource type="Texture2D" uid="uid://bwbjyuveupnr1" path="res://assets/villain/status_speed.tres" id="2_q3dns"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
 content_margin_left = 4.0
@@ -14,7 +14,7 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[node name="BonusSpeed" type="Control"]
+[node name="BonusSpeed" type="Control" unique_id=892071950]
 visible = false
 custom_minimum_size = Vector2(40, 80)
 layout_mode = 3
@@ -23,12 +23,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_script")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=708952594]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Value" type="Label" parent="VBoxContainer"]
+[node name="Value" type="Label" parent="VBoxContainer" unique_id=1459057548]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 32)
 layout_mode = 2
@@ -40,16 +40,16 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=1326274410]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("2_texture")
+texture = ExtResource("2_q3dns")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="EffectOverlay" type="PanelContainer" parent="."]
+[node name="EffectOverlay" type="PanelContainer" parent="." unique_id=1142484154]
 unique_name_in_owner = true
 visible = false
 z_index = 100
@@ -57,7 +57,7 @@ layout_mode = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
 
-[node name="EffectText" type="Label" parent="EffectOverlay"]
+[node name="EffectText" type="Label" parent="EffectOverlay" unique_id=1925158239]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
